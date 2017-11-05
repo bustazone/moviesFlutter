@@ -1,0 +1,179 @@
+name: pelis_busta
+description: Pelis Busta Flutter Project
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: ^0.1.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+
+# For information on the generic Dart part of this file, see the
+# following page: https://www.dartlang.org/tools/pub/pubspec
+
+# The following section is specific to Flutter.
+flutter:
+
+  # The following line ensures that the Material Icons font is
+  # included with your application, so that you can use the icons in
+  # the material Icons class.
+  uses-material-design: true
+
+  # To add assets to your application, add an assets section, like this:
+  # assets:
+  #  - images/a_dot_burr.jpeg
+  #  - images/a_dot_ham.jpeg
+
+  assets:
+   - assets/icons/icon_audio.png
+   - assets/icons/icon_subs.png
+   - assets/icons/icon_location.png
+   - assets/icons/icon_punc.png
+   - assets/icons/icon_time.png
+   - assets/imgs/pressedIcon.png
+   - assets/imgs/backFilmRow.png
+   - assets/imgs/gear.png
+   - assets/imgs/search.png
+   - assets/imgs/search_selected.png
+   - assets/imgs/random.png
+   - assets/imgs/random_selected.png
+   - assets/imgs/return.png
+   - assets/imgs/return_selected.png
+   - assets/imgs/foto_carnet_2012_2.jpg
+   - assets/imgs/action.png
+   - assets/imgs/fantastic.png
+   - assets/imgs/noir.png
+   - assets/imgs/adventure.png
+   - assets/imgs/romance.png
+   - assets/imgs/animation.png
+   - assets/imgs/scifi.png
+   - assets/imgs/belic.png
+   - assets/imgs/horror.png
+   - assets/imgs/suspense.png
+   - assets/imgs/comedy.png
+   - assets/imgs/kids.png
+   - assets/imgs/thriller.png
+   - assets/imgs/docu.png
+   - assets/imgs/more.png
+   - assets/imgs/western.png
+   - assets/imgs/drama.png
+   - assets/imgs/musical.png
+   - assets/imgs/action_selected.png
+   - assets/imgs/fantastic_selected.png
+   - assets/imgs/noir_selected.png
+   - assets/imgs/adventure_selected.png
+   - assets/imgs/romance_selected.png
+   - assets/imgs/animation_selected.png
+   - assets/imgs/scifi_selected.png
+   - assets/imgs/belic_selected.png
+   - assets/imgs/horror_selected.png
+   - assets/imgs/suspense_selected.png
+   - assets/imgs/comedy_selected.png
+   - assets/imgs/kids_selected.png
+   - assets/imgs/thriller_selected.png
+   - assets/imgs/docu_selected.png
+   - assets/imgs/more_selected.png
+   - assets/imgs/western_selected.png
+   - assets/imgs/drama_selected.png
+   - assets/imgs/musical_selected.png
+   - assets/genderIcon/genderIcon_2.png
+   - assets/genderIcon/genderIcon_3.png
+   - assets/genderIcon/genderIcon_4.png
+   - assets/genderIcon/genderIcon_8.png
+   - assets/genderIcon/genderIcon_9.png
+   - assets/genderIcon/genderIcon_14.png
+   - assets/genderIcon/genderIcon_15.png
+   - assets/genderIcon/genderIcon_20.png
+   - assets/genderIcon/genderIcon_24.png
+   - assets/genderIcon/genderIcon_30.png
+   - assets/genderIcon/genderIcon_45.png
+   - assets/genderIcon/genderIcon_49.png
+   - assets/genderIcon/genderIcon_74.png
+   - assets/genderIcon/genderIcon_109.png
+   - assets/genderIcon/genderIcon_129.png
+   - assets/genderIcon/genderIcon_186.png
+   - assets/genderIcon/genderIcon_188.png
+   - assets/genderIcon/Stroke1.png
+   - assets/genderIcon/Stroke2.png
+   - assets/genderIcon/Stroke3.png
+   - assets/genderIcon/Stroke4.png
+   - assets/languages/--.png
+   - assets/languages/el.png
+   - assets/languages/en.png
+   - assets/languages/fake.png
+   - assets/languages/ja.png
+   - assets/languages/ru.png
+   - assets/languages/ca.png
+   - assets/languages/fr.png
+   - assets/languages/ko.png
+   - assets/languages/th.png
+   - assets/languages/cs.png
+   - assets/languages/eo.png
+   - assets/languages/he.png
+   - assets/languages/nb.png
+   - assets/languages/tr.png
+   - assets/languages/de.png
+   - assets/languages/es.png
+   - assets/languages/id.png
+   - assets/languages/pl.png
+   - assets/languages/zh.png
+   - assets/languages/du.png
+   - assets/languages/fa.png
+   - assets/languages/it.png
+   - assets/languages/pt.png
+   - assets/filterIcons/cast.png
+   - assets/filterIcons/location.png
+   - assets/filterIcons/languages.png
+   - assets/filterIcons/series.png
+   - assets/filterIcons/title.png
+   - assets/filterIcons/director.png
+   - assets/filterIcons/year.png
+   - assets/filterIcons/gender.png
+   - assets/filterIcons/reset.png
+   - assets/filterIcons/languages_selected.png
+   - assets/filterIcons/series_selected.png
+   - assets/filterIcons/cast_selected.png
+   - assets/filterIcons/location_selected.png
+   - assets/filterIcons/title_selected.png
+   - assets/filterIcons/director_selected.png
+   - assets/filterIcons/year_selected.png
+   - assets/filterIcons/gender_selected.png
+   - assets/filterIcons/reset_selected.png
+
+  # An image asset can refer to one or more resolution-specific "variants", see
+  # https://flutter.io/assets-and-images/#resolution-aware.
+
+  # For details regarding adding assets from package dependencies, see
+  # https://flutter.io/assets-and-images/#from-packages
+
+  # To add custom fonts to your application, add a fonts section here,
+  # in this "flutter" section. Each entry in this list should have a
+  # "family" key with the font family name, and a "fonts" key with a
+  # list giving the asset and other descriptors for the font. For
+  # example:
+  fonts:
+      - family: Marion
+        fonts:
+          - asset: assets/fonts/Marion_Regular.ttf
+          - asset: assets/fonts/Marion_Bold.ttf
+            weight: 700
+  # fonts:
+  #   - family: Schyler
+  #     fonts:
+  #       - asset: fonts/Schyler-Regular.ttf
+  #       - asset: fonts/Schyler-Italic.ttf
+  #         style: italic
+  #   - family: Trajan Pro
+  #     fonts:
+  #       - asset: fonts/TrajanPro.ttf
+  #       - asset: fonts/TrajanPro_Bold.ttf
+  #         weight: 700
+  #
+  # For details regarding fonts from package dependencies, 
+  # see https://flutter.io/custom-fonts/#from-packages
