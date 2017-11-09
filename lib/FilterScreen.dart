@@ -1,17 +1,25 @@
 import 'dart:async';
-import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/src/cupertino/nav_bar.dart';
 import 'package:pelis_busta/DesignConstants.dart';
 import 'package:pelis_busta/FilmModel.dart';
 import 'package:pelis_busta/GearInnerIcon.dart';
 import 'package:pelis_busta/ListScreen.dart';
 import 'package:pelis_busta/MainFilter.dart';
-import 'dart:math';
 import 'package:pelis_busta/PressingButton.dart';
 import 'package:pelis_busta/Utils.dart';
 
-enum FilterStates { FilterSelector, GenderFilter, None }
+enum FilterStates {
+  FilterSelector,
+  GenderFilter,
+  TitleFilter,
+  CastFilter,
+  LocationFilter,
+  DirectorFilter,
+  None
+}
 
 class FilterScreen extends StatefulWidget {
   final String title;
@@ -32,8 +40,13 @@ class FilterScreen extends StatefulWidget {
 
 class FilterScreenState extends State<FilterScreen>
     with TickerProviderStateMixin {
+
+  final TextEditingController _textController = new TextEditingController();
+
   List<GearInnerIcon> listIcons = <GearInnerIcon>[];
   var iconsStack;
+  var screenWidth;
+  var screenHeight;
   var gearWidth;
   var gearHeight;
 
@@ -41,7 +54,6 @@ class FilterScreenState extends State<FilterScreen>
   Animation<double> animationIcons;
   AnimationController controller;
   AnimationController controllerIcons;
-
 
   initState() {
     super.initState();
@@ -54,9 +66,9 @@ class FilterScreenState extends State<FilterScreen>
         setState(() {});
       })
       ..addStatusListener((status) {
-        if ( status == AnimationStatus.completed) {
+        if (status == AnimationStatus.completed) {
           controller.reverse();
-        } else if ( status == AnimationStatus.dismissed) {
+        } else if (status == AnimationStatus.dismissed) {
           controllerIcons.forward();
         }
       });
@@ -74,8 +86,6 @@ class FilterScreenState extends State<FilterScreen>
 //    final Animation curveIcons =
 //    new CurvedAnimation(parent: controllerIcons, curve: curIcons);
 //    animationIcons = new Tween(begin: 0.0, end: 1.0).animate(curveIcons);
-
-
   }
 
   Widget _buildFiltersMain(animation, gearWidth, gearHeight, context, vsync) {
@@ -90,10 +100,9 @@ class FilterScreenState extends State<FilterScreen>
         gearWidth,
         controllerIcons,
         () {
-          Dialog sb = new Dialog(child: new Text("Tapped CAST!!!"));
-          showDialog(context: context, child: sb);
+          goToTextFilter("CAST", FilterStates.CastFilter, context);
         },
-        false,
+        !isNullOrEmpty(new MainFilter().filter.casts),
       ));
       listIconsp.add(new GearInnerIcon.mainButton(
         animationIcons,
@@ -104,10 +113,9 @@ class FilterScreenState extends State<FilterScreen>
         gearWidth,
         controllerIcons,
         () {
-          Dialog sb = new Dialog(child: new Text("Tapped DIRECTOR!!!"));
-          showDialog(context: context, child: sb);
+          goToTextFilter("DIRECTOR", FilterStates.DirectorFilter, context);
         },
-        false,
+        !isNullOrEmpty(new MainFilter().filter.director),
       ));
 
       listIconsp.add(new GearInnerIcon.mainButton(
@@ -119,8 +127,7 @@ class FilterScreenState extends State<FilterScreen>
         gearWidth,
         controllerIcons,
         () {
-          print("to genders");
-          ssssssss(context);
+          goToGenderFilter(context);
         },
         !isNullOrEmpty(new MainFilter().filter.generos),
       ));
@@ -133,10 +140,9 @@ class FilterScreenState extends State<FilterScreen>
         gearWidth,
         controllerIcons,
         () {
-          Dialog sb = new Dialog(child: new Text("Tapped TITLE!!!"));
-          showDialog(context: context, child: sb);
+          goToTextFilter("TITLE", FilterStates.TitleFilter, context);
         },
-        false,
+        !isNullOrEmpty(new MainFilter().filter.tituloFilter),
       ));
       listIconsp.add(new GearInnerIcon.mainButton(
         animationIcons,
@@ -161,8 +167,8 @@ class FilterScreenState extends State<FilterScreen>
         gearWidth,
         controllerIcons,
         (selected) {
-          Dialog sb = new Dialog(child: new Text("Tapped RESET!!!"));
-          showDialog(context: context, child: sb);
+          new MainFilter().resetFilter();
+          setState((){});
         },
         false,
       ));
@@ -192,10 +198,9 @@ class FilterScreenState extends State<FilterScreen>
         gearWidth,
         controllerIcons,
         () {
-          Dialog sb = new Dialog(child: new Text("Tapped LOCATION!!!"));
-          showDialog(context: context, child: sb);
+          goToTextFilter("LOCATION", FilterStates.LocationFilter, context);
         },
-        false,
+        !isNullOrEmpty(new MainFilter().filter.location),
       ));
       listIconsp.add(new GearInnerIcon.mainButton(
         animationIcons,
@@ -225,7 +230,7 @@ class FilterScreenState extends State<FilterScreen>
         ));
   }
 
-  Future ssssssss(context) async {
+  Future goToGenderFilter(context) async {
 //    Navigator
 //        .of(context)
 //        .push(new MaterialPageRoute<Null>(builder: (BuildContext context) {
@@ -244,8 +249,7 @@ class FilterScreenState extends State<FilterScreen>
             opacity: animation,
             child: child,
           );
-        }
-    ));
+        }));
 
 //    print("baaaaaaaaack!!!!!");
 //    Curve curIcons = new Cubic(.87, .75, .88, 1.6);
@@ -257,6 +261,35 @@ class FilterScreenState extends State<FilterScreen>
     controllerIcons.forward();
   }
 
+  Future goToTextFilter(title, filterState, context) async {
+//    Navigator
+//        .of(context)
+//        .push(new MaterialPageRoute<Null>(builder: (BuildContext context) {
+//      return new FilterScreen(
+//          title: widget.title, currentState: FilterStates.GenderFilter);
+//    }));
+
+    await Navigator.of(context).push(new PageRouteBuilder(
+        opaque: false,
+        pageBuilder: (BuildContext context, _, __) {
+          return new FilterScreen(title: title, currentState: filterState);
+        },
+        transitionsBuilder: (_, Animation<double> animation, __, Widget child) {
+          return new FadeTransition(
+            opacity: animation,
+            child: child,
+          );
+        }));
+
+//    print("baaaaaaaaack!!!!!");
+//    Curve curIcons = new Cubic(.87, .75, .88, 1.6);
+//    final Animation curveIcons =
+//    new CurvedAnimation(parent: controllerIcons, curve: curIcons);
+//    animationIcons = new Tween(begin: 0.0, end: 1.0).animate(curveIcons);
+    //controller.forward();
+    setState(() {});
+    controllerIcons.forward();
+  }
 
   Future ssssssss111(context) async {
 //    Navigator
@@ -277,8 +310,7 @@ class FilterScreenState extends State<FilterScreen>
             opacity: animation,
             child: child,
           );
-        }
-    ));
+        }));
 
 //    print("baaaaaaaaack!!!!!");
 //    Curve curIcons = new Cubic(.87, .75, .88, 1.6);
@@ -292,7 +324,6 @@ class FilterScreenState extends State<FilterScreen>
 
   Widget _buildGenderFilter(animation, gearWidth, gearHeight, context, vsync) {
     List<GearInnerIcon> createGenderIconsList() {
-
       List<GearInnerIcon> listIconsp = <GearInnerIcon>[];
       listIconsp.add(new GearInnerIcon.selectableIcon(
           animationIcons,
@@ -421,11 +452,9 @@ class FilterScreenState extends State<FilterScreen>
           128.0,
           240.0,
           gearWidth,
-          controllerIcons,
-          () {
-            ssssssss111(context);
-          },
-          false));
+          controllerIcons, () {
+        ssssssss111(context);
+      }, false));
       listIconsp.add(new GearInnerIcon.selectableIcon(
           animationIcons,
           'assets/imgs/kids.png',
@@ -526,8 +555,6 @@ class FilterScreenState extends State<FilterScreen>
 //      }
 //    });
 
-
-
     return new Container(
         //color: const Color(0xFFFF0000),
         width: gearWidth,
@@ -562,12 +589,13 @@ class FilterScreenState extends State<FilterScreen>
 
   @override
   Widget build(BuildContext context) {
+    screenWidth = MediaQuery.of(context).size.width;
+    screenHeight = MediaQuery.of(context).size.height;
     gearWidth = MediaQuery.of(context).size.width * 0.9;
     gearHeight =
         DesignConstants.gearHeight * (gearWidth / DesignConstants.gearWidth);
 
-
-    Widget getReturnButton () {
+    Widget getReturnButton() {
       if (widget.currentState != FilterStates.FilterSelector) {
         return new Positioned(
           child: new PressingButton(
@@ -577,8 +605,10 @@ class FilterScreenState extends State<FilterScreen>
               30.0 * (gearWidth / DesignConstants.gearWidth), () {
             Navigator.of(context).pop();
           }),
-          left: (gearWidth * 137) / DesignConstants.gearWidth,
-          top: (gearWidth * 183) / DesignConstants.gearWidth,
+          left: (gearWidth / 2.0) -
+              15.0 * (gearWidth / DesignConstants.gearWidth),
+          top: (gearWidth / 2.0) -
+              15.0 * (gearWidth / DesignConstants.gearWidth),
         );
       } else {
         return new Container(
@@ -588,22 +618,142 @@ class FilterScreenState extends State<FilterScreen>
       }
     }
 
-    Widget getMainButtons () {
+
+
+
+    void _handleSubmitted(String text) {
+      _textController.value = new TextEditingValue(text: text);
+      switch (widget.currentState) {
+        case FilterStates.TitleFilter:
+          new MainFilter().filter.tituloFilter = text;
+          break;
+        case FilterStates.CastFilter:
+          new MainFilter().filter.casts = text;
+          break;
+        case FilterStates.DirectorFilter:
+          new MainFilter().filter.director = text;
+          break;
+        case FilterStates.LocationFilter:
+          new MainFilter().filter.location = text;
+          break;
+        default:
+        //do Nothing
+      }
+    }
+
+    void _initTextController() {
+      switch (widget.currentState) {
+        case FilterStates.TitleFilter:
+          if (!isNullOrEmpty(new MainFilter().filter.tituloFilter)) {
+            _textController.value =
+            new TextEditingValue(text: new MainFilter().filter.tituloFilter);
+          }
+          break;
+        case FilterStates.CastFilter:
+          if (!isNullOrEmpty(new MainFilter().filter.casts)) {
+            _textController.value =
+            new TextEditingValue(text: new MainFilter().filter.casts);
+          }
+          break;
+        case FilterStates.DirectorFilter:
+          if (!isNullOrEmpty(new MainFilter().filter.director)) {
+            _textController.value =
+            new TextEditingValue(text: new MainFilter().filter.director);
+          }
+          break;
+        case FilterStates.LocationFilter:
+          if (!isNullOrEmpty(new MainFilter().filter.location)) {
+            _textController.value =
+            new TextEditingValue(text: new MainFilter().filter.location);
+          }
+          break;
+        default:
+        //do Nothing
+      }
+    }
+
+    Widget _buildTextComposer(FilterStates filterStates) {
+      _initTextController();
+      return new Positioned(
+        child: new Container(
+          width: 220.0 * (gearWidth / DesignConstants.gearWidth),
+          //height: 30.0 * (gearWidth / DesignConstants.gearWidth),
+          margin: null,
+          child: new Column(children: <Widget>[
+            new Container(
+                width: 137.0 * (gearWidth / DesignConstants.gearWidth),
+                height: 24.0 * (gearWidth / DesignConstants.gearWidth),
+                child: new Center(
+                    child: new Text(
+                  widget.title,
+                  style: Theme.of(context).textTheme.display1.copyWith(
+                      textBaseline: TextBaseline.alphabetic,
+                      color: new Color(0xFF564C19),
+                      fontSize: 16.0 * (gearWidth / DesignConstants.gearWidth),
+                      fontWeight: FontWeight.bold),
+                )),
+                decoration: new BoxDecoration(
+                  color: new Color(0xFFCC9900),
+                  border:
+                      new Border.all(color: new Color(0xFF564C19), width: 2.0),
+                )),
+            new Container(
+                margin: new EdgeInsets.only(
+                    top: 41.0 * (gearWidth / DesignConstants.gearWidth)),
+                padding: new EdgeInsets.only(
+                    top: 3.0 * (gearWidth / DesignConstants.gearWidth)),
+                constraints: new BoxConstraints.tightFor(
+                  width: 220.0 * (gearWidth / DesignConstants.gearWidth),
+                  height: 30.0 * (gearWidth / DesignConstants.gearWidth),
+                ),
+                child: new TextField(
+                  controller: _textController,
+                  onSubmitted: _handleSubmitted,
+                  decoration: new InputDecoration.collapsed(
+                    hintText: '_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _',
+                  ),
+                  textAlign: TextAlign.center,
+                  //style: Theme.of(context).textTheme.display1.copyWith(fontSize: 20.0)
+                  style: Theme.of(context).textTheme.display1.copyWith(
+                      textBaseline: TextBaseline.alphabetic,
+                      color: new Color(0xFF564C19),
+                      fontSize: 16.0 * (gearWidth / DesignConstants.gearWidth),
+                      fontWeight: FontWeight.bold),
+                ),
+                decoration: new BoxDecoration(
+                  color: new Color(0xFFCC9900),
+                  border:
+                      new Border.all(color: new Color(0xFF564C19), width: 2.0),
+                ))
+          ]),
+        ),
+        left: (gearWidth - ((gearWidth * 220.0) / DesignConstants.gearWidth)) /
+            2.0,
+        top: (gearWidth * 27.0) / DesignConstants.gearWidth,
+      );
+    }
+
+    Widget getMainButtons() {
       switch (widget.currentState) {
         case FilterStates.FilterSelector:
           return _buildFiltersMain(
               animation, gearWidth, gearHeight, context, this);
-          break;
         case FilterStates.GenderFilter:
           return _buildGenderFilter(
               animation, gearWidth, gearHeight, context, this);
-          break;
+        case FilterStates.TitleFilter:
+          return _buildTextComposer(widget.currentState);
+        case FilterStates.CastFilter:
+          return _buildTextComposer(widget.currentState);
+        case FilterStates.DirectorFilter:
+          return _buildTextComposer(widget.currentState);
+        case FilterStates.LocationFilter:
+          return _buildTextComposer(widget.currentState);
         case FilterStates.None:
           return new Container(
             width: 0.0,
             height: 0.0,
           );
-          break;
         default:
           return new Container(
             width: 0.0,
@@ -612,53 +762,71 @@ class FilterScreenState extends State<FilterScreen>
       }
     }
 
-    Widget getMainGear () {
+    Widget getMainGear() {
       return new Stack(alignment: const FractionalOffset(0.0, 0.5), children: [
-        new Transform.rotate(
-            angle: PI * animation.value,
-            origin: new Offset(0.0, 0.0),
-            child: _buildGear(animation, gearWidth, gearHeight)),
         new Positioned(
           child: new PressingButton(
               'assets/imgs/search.png',
               'assets/imgs/search_selected.png',
-              123.0 * (gearWidth / DesignConstants.gearWidth),
-              75.0 * (gearWidth / DesignConstants.gearWidth), () {
+              124.0 * (gearWidth / DesignConstants.gearWidth),
+              //75.0 * (gearWidth / DesignConstants.gearWidth)
+              null, () {
             Navigator.of(context).push(
                 new MaterialPageRoute<Null>(builder: (BuildContext context) {
-                  return new ListScreen(new MainFilter().filter);
-                }));
+              return new ListScreen(new MainFilter().filter, true);
+            }));
           }),
-          left: (gearWidth * 150) / DesignConstants.gearWidth,
-          top: (gearWidth * 320) / DesignConstants.gearWidth,
+          left: screenWidth / 2.0,
+          top: (screenHeight / 2.0) +
+              (gearWidth / 2.0) -
+              (35 * (gearWidth / DesignConstants.gearWidth)),
         ),
         new Positioned(
           child: new PressingButton(
               'assets/imgs/random.png',
               'assets/imgs/random_selected.png',
-              123.0 * (gearWidth / DesignConstants.gearWidth),
-              75.0 * (gearWidth / DesignConstants.gearWidth), () {
+              124.0 * (gearWidth / DesignConstants.gearWidth),
+              //75.0 * (gearWidth / DesignConstants.gearWidth)
+              null, () {
             var filmFilter = new FilmFilter();
             filmFilter.randomFilm = true;
             Navigator.of(context).push(
                 new MaterialPageRoute<Null>(builder: (BuildContext context) {
-                  return new ListScreen(filmFilter);
-                }));
+              return new ListScreen(filmFilter, false);
+            }));
           }),
-          left: (gearWidth * 30) / DesignConstants.gearWidth,
-          top: (gearWidth * 320) / DesignConstants.gearWidth,
+          left: (screenWidth / 2.0) -
+              (124.0 * (gearWidth / DesignConstants.gearWidth)),
+          top: (screenHeight / 2.0) +
+              (gearWidth / 2.0) -
+              (35 * (gearWidth / DesignConstants.gearWidth)),
         ),
-        getReturnButton(),
-        getMainButtons()
+        new Positioned(
+          child: new Stack(
+            alignment: const FractionalOffset(0.0, 0.5),
+            children: [
+              new Transform.rotate(
+                angle: PI * animation.value,
+                origin: new Offset(0.0, 0.0),
+                child: _buildGear(animation, gearWidth),
+              ),
+              getReturnButton(),
+              getMainButtons(),
+            ],
+          ),
+          left: screenWidth * 0.05,
+          top: (screenHeight - gearWidth) / 2.0,
+        ),
       ]);
     }
 
-    return new Container(
+    return new Scaffold(
+        body: new Container(
       color: const Color(0xFFEAEAEA),
       child: new Center(
         child: getMainGear(),
       ),
-    );
+    ));
   }
 
   @override
@@ -669,10 +837,10 @@ class FilterScreenState extends State<FilterScreen>
   }
 }
 
-Widget _buildGear(animation, gearWidth, gearHeight) {
+Widget _buildGear(animation, gearWidth) {
   return new Image.asset(
     'assets/imgs/gear.png',
     width: gearWidth,
-    height: gearHeight,
+    height: gearWidth,
   );
 }

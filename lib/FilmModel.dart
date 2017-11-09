@@ -18,7 +18,7 @@ class FilmFilter {
   LanguageList subtitulos;
   GenderList generos;
   int page;
-  bool randomFilm;
+  bool randomFilm = false;
 
   FilmFilter() {
     idiomas = new LanguageList();

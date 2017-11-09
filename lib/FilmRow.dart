@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/src/services/image_provider.dart';
 import 'package:pelis_busta/FilmModel.dart';
 import 'package:pelis_busta/DesignConstants.dart';
 import 'package:pelis_busta/Utils.dart';
@@ -21,11 +20,13 @@ List<Widget> fillImageList(
     Widget image;
     try {
       //image = new Image(image: new ImageProvider<AssetImage>())
-      image = new Image.asset(
-        imagePathFormat + g + '.png',
-        height: height,
-        width: height,
+      image =
+      new Image.asset(
+          imagePathFormat + g + '.png',
+          height: height,
+          width: height,
       );
+
     } catch (Exception) {
       image = new Image.asset(
         'assets/languages/fake.png',
@@ -78,15 +79,15 @@ class FilmRow extends StatelessWidget {
       listLangs = fillImageList(
           film.idiomasStr.split(';'),
           'assets/languages/',
-          20.0 * transformProportion,
-          2.0 * transformProportion);
+          23.0 * transformProportion,
+          1.0 * transformProportion);
     }
     if (!isNullOrEmpty(film.subtitulosStr)) {
       listSubs = fillImageList(
           film.subtitulosStr.split(';'),
           'assets/languages/',
-          20.0 * transformProportion,
-          2.0 * transformProportion);
+          23.0 * transformProportion,
+          1.0 * transformProportion);
     }
     int backgroundNumber = itemNum;
     String filmTitle = film.titulo ?? "";
@@ -114,9 +115,8 @@ class FilmRow extends StatelessWidget {
             ),
             new Image.asset('assets/genderIcon/Stroke3.png'),
             new Image.asset('assets/genderIcon/Stroke4.png'),
-            new Image.asset('assets/imgs/backFilmRow.png'),
+            new Image.asset('assets/imgs/backFilmRow.png', color: new Color(0xFFCC9900),scale: 0.5,fit: BoxFit.cover,),
             new Container(
-              //margin: new EdgeInsets.only(top: 25.0 * transformProportion),
               child: new Text(backgroundNumber.toString(),
                   textAlign: TextAlign.center,
                   style: new TextStyle(
@@ -134,7 +134,7 @@ class FilmRow extends StatelessWidget {
       new Expanded(
         child: new Container(
             margin:
-                new EdgeInsets.symmetric(horizontal: 4.0 * transformProportion),
+                new EdgeInsets.only(left: 4.0 * transformProportion),
             child: new Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
@@ -148,8 +148,8 @@ class FilmRow extends StatelessWidget {
                     child: new Row(
                   children: listLangs,
                 )
-                    //)
                     )
+                    //)
               ],
             )),
       ),
@@ -339,11 +339,47 @@ class FilmRow extends StatelessWidget {
 
     return new Container(
         height: DesignConstants.filmRowHeight * transformProportion,
+        width: screenWidth,
         child: new Stack(
           children: [
             background,
             dataContainer,
           ],
         ));
+  }
+}
+
+class FirstRow extends StatelessWidget {
+
+
+  @override
+  Widget build(BuildContext context) {
+
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final transformProportion = (screenWidth / DesignConstants.filmRowWidth);
+
+    return new Container(
+        width: screenWidth,
+      color: const Color(0xFFEAEAEA),
+      child:
+          new Image.asset('assets/imgs/backFilmFirstRow.png', color: new Color(0xFFCC9900),fit: BoxFit.cover,),
+       );
+  }
+}
+
+class LastRow extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final transformProportion = (screenWidth / DesignConstants.filmRowWidth);
+
+    return new Container(
+        height: ((DesignConstants.filmRowHeight * transformProportion) / 2) - 1.0 ,
+        color: const Color(0xFFEAEAEA),
+        child: new Image.asset('assets/imgs/backFilmLastRow.png', color: new Color(0xFFCC9900), fit: BoxFit.cover,),
+
+        );
   }
 }

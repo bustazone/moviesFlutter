@@ -38,6 +38,8 @@ flutter:
    - assets/icons/icon_time.png
    - assets/imgs/pressedIcon.png
    - assets/imgs/backFilmRow.png
+   - assets/imgs/backFilmFirstRow.png
+   - assets/imgs/backFilmLastRow.png
    - assets/imgs/gear.png
    - assets/imgs/search.png
    - assets/imgs/search_selected.png
