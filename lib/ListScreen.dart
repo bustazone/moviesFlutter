@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pelis_busta/FilmRow.dart';
 import 'package:pelis_busta/FilmModel.dart';
+import 'package:pelis_busta/ProgressScreen.dart';
 import 'package:pelis_busta/Services.dart';
 import 'package:pelis_busta/Utils.dart';
 
@@ -19,12 +20,15 @@ class ListScreen extends StatefulWidget {
 class ListScreenState extends State<ListScreen> {
   bool queryMore = true;
   bool loadingData = false;
+  bool firstQuery = true;
   List<Film> items = new List();
 
   _getFilms() async {
     loadingData = true;
+    setState((){});
     List<Film> resp = await postData(widget.filmFilter);
     loadingData = false;
+    firstQuery = false;
     if (!isNullOrEmpty(resp)) {
       setState(() {
         //items.addAll(resp);
@@ -37,6 +41,7 @@ class ListScreenState extends State<ListScreen> {
 
   initState() {
     super.initState();
+    firstQuery = true;
     queryMore = widget.queryMore;
     widget.filmFilter.page = 0;
     items.add(new Film());
@@ -46,6 +51,7 @@ class ListScreenState extends State<ListScreen> {
 
   reload() {
     items.clear();
+    firstQuery = true;
     queryMore = widget.queryMore;
     widget.filmFilter.page = 0;
     items.add(new Film());
@@ -80,6 +86,14 @@ class ListScreenState extends State<ListScreen> {
               onPressed: () {
                 reload();
               }));
+    } else {
+      return new Container();
+    }
+  }
+
+  Widget _getLoadingScreen() {
+    if (loadingData && firstQuery) {
+      return new ProgressScreen();
     } else {
       return new Container();
     }
@@ -139,6 +153,7 @@ class ListScreenState extends State<ListScreen> {
                     height: MediaQuery.of(context).padding.top,
                   ),
                 ),
+                _getLoadingScreen(),
               ],
             )));
   }
