@@ -7,6 +7,7 @@ import 'package:pelis_busta/FilmModel.dart';
 import 'package:pelis_busta/GearInnerIcon.dart';
 import 'package:pelis_busta/ListScreen.dart';
 import 'package:pelis_busta/MainFilter.dart';
+import 'package:pelis_busta/MoreGenreFilter.dart';
 import 'package:pelis_busta/PressingButton.dart';
 import 'package:pelis_busta/TextFilter.dart';
 import 'package:pelis_busta/Utils.dart';
@@ -14,6 +15,7 @@ import 'package:pelis_busta/Utils.dart';
 enum FilterStates {
   FilterSelector,
   GenderFilter,
+  MoreGenreFilter,
   TitleFilter,
   CastFilter,
   LocationFilter,
@@ -292,7 +294,7 @@ class FilterScreenState extends State<FilterScreen>
         opaque: false,
         pageBuilder: (BuildContext context, _, __) {
           return new FilterScreen(
-              title: widget.title, currentState: FilterStates.None);
+              title: widget.title, currentState: FilterStates.MoreGenreFilter);
         },
         transitionsBuilder: (_, Animation<double> animation, __, Widget child) {
           return new FadeTransition(
@@ -608,6 +610,8 @@ class FilterScreenState extends State<FilterScreen>
         case FilterStates.DirectorFilter:
         case FilterStates.LocationFilter:
           return new TextFilter(gearWidth, title: widget.title ,currentState: widget.currentState);
+        case FilterStates.MoreGenreFilter:
+          return new MoreGenresFilter(gearWidth, "SUB-GENRES");
         default:
           return new Container(
             width: 0.0,

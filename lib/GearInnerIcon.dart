@@ -170,11 +170,6 @@ class _IconGestureDetectorState extends State<IconGestureDetector>
       }
     }
   }
-
-  @override
-  dispose() {
-    super.dispose();
-  }
 }
 
 //class GearInnerIconTest extends StatefulWidget {

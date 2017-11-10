@@ -26,7 +26,7 @@ class ListScreenState extends State<ListScreen> {
   _getFilms() async {
     loadingData = true;
     setState((){});
-    List<Film> resp = await postData(widget.filmFilter);
+    List<Film> resp = await getItemsList(widget.filmFilter);
     loadingData = false;
     firstQuery = false;
     if (!isNullOrEmpty(resp)) {

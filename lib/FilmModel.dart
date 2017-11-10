@@ -166,6 +166,19 @@ class Response<T> {
     }
     return response;
   }
+
+  static Response<Gender> fromResponseGenreString(String data) {
+    var response = new Response<Gender>();
+    Map dataConverted = JSON.decode(data);
+    response.code = dataConverted['code'];
+    response.message = dataConverted['message'];
+    response.rowCount = dataConverted['rowCount'];
+    List listItems = dataConverted['items'];
+    for (Map i in listItems) {
+      response.items.add(new Gender.fromMap(i));
+    }
+    return response;
+  }
 }
 
 class Film {
