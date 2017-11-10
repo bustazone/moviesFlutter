@@ -12,19 +12,17 @@ class GearInnerIcon extends StatefulWidget {
       mainGearWidth,
       selectable,
       selected;
-  final Animation<double> animation;
   final ScalesCallback scaleCallback;
   final OnTap onTap;
   final AnimationController controller;
 
-  GearInnerIcon(this.animation, this.image, this.imageSelected, this.posX,
+  GearInnerIcon(this.image, this.imageSelected, this.posX,
       this.posY, this.mainGearWidth, this.controller,
       {this.selectable, this.selected, this.onTap, this.scaleCallback});
 
-  factory GearInnerIcon.mainButton(animation, image, imageSelected, posX, posY,
+  factory GearInnerIcon.mainButton(image, imageSelected, posX, posY,
       mainGearWidth, controller, ScalesCallback scaleCallback, selected) {
     return new GearInnerIcon(
-      animation,
       image,
       imageSelected,
       posX,
@@ -37,10 +35,9 @@ class GearInnerIcon extends StatefulWidget {
     );
   }
 
-  factory GearInnerIcon.selectableIcon(animation, image, imageSelected, posX,
+  factory GearInnerIcon.selectableIcon(image, imageSelected, posX,
       posY, mainGearWidth, controller, OnTap onTap, selected) {
     return new GearInnerIcon(
-      animation,
       image,
       imageSelected,
       posX,
@@ -65,17 +62,19 @@ class GearInnerIconState extends State<GearInnerIcon> {
 
   initState() {
     super.initState();
-    Curve curIcons = new Cubic(.87, .75, .88, 1.6);
-    final Animation curveIcons =
-    new CurvedAnimation(parent: widget.controller, curve: curIcons);
-    animationIcons = new Tween(begin: 0.0, end: 1.0).animate(curveIcons);
-    animationIcons.addStatusListener((status) {
-      if (status == AnimationStatus.dismissed) {
-        if (pushed) {
-          //widget.scaleCallback();
+    if (widget.controller != null) {
+      Curve curIcons = new Cubic(.87, .75, .88, 1.6);
+      final Animation curveIcons =
+      new CurvedAnimation(parent: widget.controller, curve: curIcons);
+      animationIcons = new Tween(begin: 0.0, end: 1.0).animate(curveIcons);
+      animationIcons.addStatusListener((status) {
+        if (status == AnimationStatus.dismissed) {
+          if (pushed) {
+            //widget.scaleCallback();
+          }
         }
-      }
-    });
+      });
+    }
   }
 
   @override
@@ -91,7 +90,7 @@ class GearInnerIconState extends State<GearInnerIcon> {
           if (widget.onTap != null) {
             widget.onTap(selected);
           }
-          if (!iconIsSelectable) {
+          if (widget.controller != null && !iconIsSelectable) {
 //            widget.animation.addStatusListener((status) {
 //              if (status == AnimationStatus.dismissed) {
                 widget.scaleCallback();
