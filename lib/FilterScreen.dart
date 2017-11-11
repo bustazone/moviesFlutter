@@ -4,7 +4,10 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:pelis_busta/DesignConstants.dart';
 import 'package:pelis_busta/FilmModel.dart';
+import 'package:pelis_busta/FiltersNavigation.dart';
 import 'package:pelis_busta/GearInnerIcon.dart';
+import 'package:pelis_busta/GenresFilter.dart';
+import 'package:pelis_busta/LanguagesFilter.dart';
 import 'package:pelis_busta/ListScreen.dart';
 import 'package:pelis_busta/MainFilter.dart';
 import 'package:pelis_busta/MoreGenreFilter.dart';
@@ -20,6 +23,7 @@ enum FilterStates {
   CastFilter,
   LocationFilter,
   DirectorFilter,
+  LanguagesFilter,
   None
 }
 
@@ -42,7 +46,6 @@ class FilterScreen extends StatefulWidget {
 
 class FilterScreenState extends State<FilterScreen>
     with TickerProviderStateMixin {
-
   List<GearInnerIcon> listIcons = <GearInnerIcon>[];
   var iconsStack;
   var screenWidth;
@@ -99,7 +102,10 @@ class FilterScreenState extends State<FilterScreen>
         gearWidth,
         controllerIcons,
         () {
-          goToTextFilter("CAST", FilterStates.CastFilter, context);
+          goToFilter(context, "CAST", FilterStates.CastFilter, () {
+            setState(() {});
+            controllerIcons.forward();
+          });
         },
         !isNullOrEmpty(new MainFilter().filter.casts),
       ));
@@ -111,7 +117,10 @@ class FilterScreenState extends State<FilterScreen>
         gearWidth,
         controllerIcons,
         () {
-          goToTextFilter("DIRECTOR", FilterStates.DirectorFilter, context);
+          goToFilter(context, "DIRECTOR", FilterStates.DirectorFilter, () {
+            setState(() {});
+            controllerIcons.forward();
+          });
         },
         !isNullOrEmpty(new MainFilter().filter.director),
       ));
@@ -124,7 +133,10 @@ class FilterScreenState extends State<FilterScreen>
         gearWidth,
         controllerIcons,
         () {
-          goToGenderFilter(context);
+          goToFilter(context, "GENRES", FilterStates.GenderFilter, () {
+            setState(() {});
+            controllerIcons.forward();
+          });
         },
         !isNullOrEmpty(new MainFilter().filter.generos),
       ));
@@ -136,7 +148,10 @@ class FilterScreenState extends State<FilterScreen>
         gearWidth,
         controllerIcons,
         () {
-          goToTextFilter("TITLE", FilterStates.TitleFilter, context);
+          goToFilter(context, "TITLE", FilterStates.TitleFilter, () {
+            setState(() {});
+            controllerIcons.forward();
+          });
         },
         !isNullOrEmpty(new MainFilter().filter.tituloFilter),
       ));
@@ -148,21 +163,10 @@ class FilterScreenState extends State<FilterScreen>
         gearWidth,
         controllerIcons,
         () {
-          Dialog sb = new Dialog(child: new Text("Tapped LANGUAGES!!!"));
-          showDialog(context: context, child: sb);
-        },
-        false,
-      ));
-      listIconsp.add(new GearInnerIcon.selectableIcon(
-        'assets/filterIcons/reset.png',
-        'assets/filterIcons/reset.png',
-        128.0,
-        240.0,
-        gearWidth,
-        controllerIcons,
-        (selected) {
-          new MainFilter().resetFilter();
-          setState((){});
+          goToFilter(context, "LANGUAGES", FilterStates.LanguagesFilter, () {
+            setState(() {});
+            controllerIcons.forward();
+          });
         },
         false,
       ));
@@ -177,8 +181,6 @@ class FilterScreenState extends State<FilterScreen>
           setState(() {
             new MainFilter().filter.serie = selected;
           });
-//          Dialog sb = new Dialog(child: new Text("Tapped SERIES!!!"));
-//          showDialog(context: context, child: sb);
         },
         new MainFilter().filter.serie,
       ));
@@ -190,7 +192,10 @@ class FilterScreenState extends State<FilterScreen>
         gearWidth,
         controllerIcons,
         () {
-          goToTextFilter("LOCATION", FilterStates.LocationFilter, context);
+          goToFilter(context, "LOCATION", FilterStates.LocationFilter, () {
+            setState(() {});
+            controllerIcons.forward();
+          });
         },
         !isNullOrEmpty(new MainFilter().filter.location),
       ));
@@ -207,6 +212,19 @@ class FilterScreenState extends State<FilterScreen>
         },
         false,
       ));
+      listIconsp.add(new GearInnerIcon.selectableIcon(
+        'assets/filterIcons/reset.png',
+        'assets/filterIcons/reset.png',
+        128.0,
+        240.0,
+        gearWidth,
+        controllerIcons,
+        (selected) {
+          new MainFilter().resetFilter();
+          setState(() {});
+        },
+        false,
+      ));
       return listIconsp;
     }
 
@@ -219,345 +237,6 @@ class FilterScreenState extends State<FilterScreen>
           overflow: Overflow.visible,
           children: createGenderIconsList(),
         ));
-  }
-
-  Future goToGenderFilter(context) async {
-//    Navigator
-//        .of(context)
-//        .push(new MaterialPageRoute<Null>(builder: (BuildContext context) {
-//      return new FilterScreen(
-//          title: widget.title, currentState: FilterStates.GenderFilter);
-//    }));
-
-    await Navigator.of(context).push(new PageRouteBuilder(
-        opaque: false,
-        pageBuilder: (BuildContext context, _, __) {
-          return new FilterScreen(
-              title: widget.title, currentState: FilterStates.GenderFilter);
-        },
-        transitionsBuilder: (_, Animation<double> animation, __, Widget child) {
-          return new FadeTransition(
-            opacity: animation,
-            child: child,
-          );
-        }));
-
-//    print("baaaaaaaaack!!!!!");
-//    Curve curIcons = new Cubic(.87, .75, .88, 1.6);
-//    final Animation curveIcons =
-//    new CurvedAnimation(parent: controllerIcons, curve: curIcons);
-//    animationIcons = new Tween(begin: 0.0, end: 1.0).animate(curveIcons);
-    //controller.forward();
-    setState(() {});
-    controllerIcons.forward();
-  }
-
-  Future goToTextFilter(title, filterState, context) async {
-//    Navigator
-//        .of(context)
-//        .push(new MaterialPageRoute<Null>(builder: (BuildContext context) {
-//      return new FilterScreen(
-//          title: widget.title, currentState: FilterStates.GenderFilter);
-//    }));
-
-    await Navigator.of(context).push(new PageRouteBuilder(
-        opaque: false,
-        pageBuilder: (BuildContext context, _, __) {
-          return new FilterScreen(title: title, currentState: filterState);
-        },
-        transitionsBuilder: (_, Animation<double> animation, __, Widget child) {
-          return new FadeTransition(
-            opacity: animation,
-            child: child,
-          );
-        }));
-
-//    print("baaaaaaaaack!!!!!");
-//    Curve curIcons = new Cubic(.87, .75, .88, 1.6);
-//    final Animation curveIcons =
-//    new CurvedAnimation(parent: controllerIcons, curve: curIcons);
-//    animationIcons = new Tween(begin: 0.0, end: 1.0).animate(curveIcons);
-    //controller.forward();
-    setState(() {});
-    controllerIcons.forward();
-  }
-
-  Future ssssssss111(context) async {
-//    Navigator
-//        .of(context)
-//        .push(new MaterialPageRoute<Null>(builder: (BuildContext context) {
-//      return new FilterScreen(
-//          title: widget.title, currentState: FilterStates.GenderFilter);
-//    }));
-
-    await Navigator.of(context).push(new PageRouteBuilder(
-        opaque: false,
-        pageBuilder: (BuildContext context, _, __) {
-          return new FilterScreen(
-              title: widget.title, currentState: FilterStates.MoreGenreFilter);
-        },
-        transitionsBuilder: (_, Animation<double> animation, __, Widget child) {
-          return new FadeTransition(
-            opacity: animation,
-            child: child,
-          );
-        }));
-
-//    print("baaaaaaaaack!!!!!");
-//    Curve curIcons = new Cubic(.87, .75, .88, 1.6);
-//    final Animation curveIcons =
-//    new CurvedAnimation(parent: controllerIcons, curve: curIcons);
-//    animationIcons = new Tween(begin: 0.0, end: 1.0).animate(curveIcons);
-    //controller.forward();
-    setState(() {});
-    controllerIcons.forward();
-  }
-
-  Widget _buildGenderFilter(animation, gearWidth, gearHeight, context, vsync) {
-    List<GearInnerIcon> createGenderIconsList() {
-      List<GearInnerIcon> listIconsp = <GearInnerIcon>[];
-      listIconsp.add(new GearInnerIcon.selectableIcon(
-          'assets/imgs/romance.png',
-          'assets/imgs/romance_selected.png',
-          15.0,
-          128.0,
-          gearWidth,
-          controllerIcons, (selected) {
-        setState(() {
-          updateFilterGenders(selected, codigo: Gender.GENDER_ROMANCE_CODE);
-        });
-      }, checkFilterGenders(codigo: Gender.GENDER_ROMANCE_CODE)));
-      listIconsp.add(new GearInnerIcon.selectableIcon(
-          'assets/imgs/drama.png',
-          'assets/imgs/drama_selected.png',
-          30.0,
-          72.0,
-          gearWidth,
-          controllerIcons, (selected) {
-        setState(() {
-          updateFilterGenders(selected, codigo: Gender.GENDER_DRAMA_CODE);
-        });
-      }, checkFilterGenders(codigo: Gender.GENDER_DRAMA_CODE)));
-      listIconsp.add(new GearInnerIcon.selectableIcon(
-          'assets/imgs/suspense.png',
-          'assets/imgs/suspense_selected.png',
-          30.0,
-          184.0,
-          gearWidth,
-          controllerIcons, (selected) {
-        setState(() {
-          updateFilterGenders(selected, codigo: Gender.GENDER_SUSPENSE_CODE);
-        });
-      }, checkFilterGenders(codigo: Gender.GENDER_SUSPENSE_CODE)));
-      listIconsp.add(new GearInnerIcon.selectableIcon(
-          'assets/imgs/horror.png',
-          'assets/imgs/horror_selected.png',
-          72.0,
-          30.0,
-          gearWidth,
-          controllerIcons, (selected) {
-        setState(() {
-          updateFilterGenders(selected, codigo: Gender.GENDER_HORROR_CODE);
-        });
-      }, checkFilterGenders(codigo: Gender.GENDER_HORROR_CODE)));
-      listIconsp.add(new GearInnerIcon.selectableIcon(
-          'assets/imgs/musical.png',
-          'assets/imgs/musical_selected.png',
-          72.0,
-          225.0,
-          gearWidth,
-          controllerIcons, (selected) {
-        setState(() {
-          updateFilterGenders(selected, codigo: Gender.GENDER_MUSICAL_CODE);
-        });
-      }, checkFilterGenders(codigo: Gender.GENDER_MUSICAL_CODE)));
-      listIconsp.add(new GearInnerIcon.selectableIcon(
-          'assets/imgs/comedy.png',
-          'assets/imgs/comedy_selected.png',
-          79.0,
-          100.0,
-          gearWidth,
-          controllerIcons, (selected) {
-        setState(() {
-          updateFilterGenders(selected, codigo: Gender.GENDER_COMEDY_CODE);
-        });
-      }, checkFilterGenders(codigo: Gender.GENDER_COMEDY_CODE)));
-      listIconsp.add(new GearInnerIcon.selectableIcon(
-          'assets/imgs/thriller.png',
-          'assets/imgs/thriller_selected.png',
-          79.0,
-          156.0,
-          gearWidth,
-          controllerIcons, (selected) {
-        setState(() {
-          updateFilterGenders(selected, codigo: Gender.GENDER_THRILLER_CODE);
-        });
-      }, checkFilterGenders(codigo: Gender.GENDER_THRILLER_CODE)));
-      listIconsp.add(new GearInnerIcon.selectableIcon(
-          'assets/imgs/scifi.png',
-          'assets/imgs/scifi_selected.png',
-          128.0,
-          15.0,
-          gearWidth,
-          controllerIcons, (selected) {
-        setState(() {
-          updateFilterGenders(selected, codigo: Gender.GENDER_SCIFI_CODE);
-        });
-      }, checkFilterGenders(codigo: Gender.GENDER_SCIFI_CODE)));
-      listIconsp.add(new GearInnerIcon.selectableIcon(
-          'assets/imgs/animation.png',
-          'assets/imgs/animation_selected.png',
-          128.0,
-          72.0,
-          gearWidth,
-          controllerIcons, (selected) {
-        setState(() {
-          updateFilterGenders(selected, codigo: Gender.GENDER_ANIMATION_CODE);
-        });
-      }, checkFilterGenders(codigo: Gender.GENDER_ANIMATION_CODE)));
-      listIconsp.add(new GearInnerIcon.selectableIcon(
-          'assets/imgs/noir.png',
-          'assets/imgs/noir_selected.png',
-          128.0,
-          184.0,
-          gearWidth,
-          controllerIcons, (selected) {
-        setState(() {
-          updateFilterGenders(selected, codigo: Gender.GENDER_NOIR_CODE);
-        });
-      }, checkFilterGenders(codigo: Gender.GENDER_NOIR_CODE)));
-      listIconsp.add(new GearInnerIcon.mainButton(
-          'assets/imgs/more.png',
-          'assets/imgs/more_selected.png',
-          128.0,
-          240.0,
-          gearWidth,
-          controllerIcons, () {
-        ssssssss111(context);
-      }, false));
-      listIconsp.add(new GearInnerIcon.selectableIcon(
-          'assets/imgs/kids.png',
-          'assets/imgs/kids_selected.png',
-          177.0,
-          100.0,
-          gearWidth,
-          controllerIcons, (selected) {
-        setState(() {
-          updateFilterGenders(selected, codigo: Gender.GENDER_KIDS_CODE);
-        });
-      }, checkFilterGenders(codigo: Gender.GENDER_KIDS_CODE)));
-      listIconsp.add(new GearInnerIcon.selectableIcon(
-          'assets/imgs/western.png',
-          'assets/imgs/western_selected.png',
-          177.0,
-          156.0,
-          gearWidth,
-          controllerIcons, (selected) {
-        setState(() {
-          updateFilterGenders(selected, codigo: Gender.GENDER_WESTERN_CODE);
-        });
-      }, checkFilterGenders(codigo: Gender.GENDER_WESTERN_CODE)));
-      listIconsp.add(new GearInnerIcon.selectableIcon(
-          'assets/imgs/fantastic.png',
-          'assets/imgs/fantastic_selected.png',
-          184.0,
-          30.0,
-          gearWidth,
-          controllerIcons, (selected) {
-        setState(() {
-          updateFilterGenders(selected, codigo: Gender.GENDER_FANTASTIC_CODE);
-        });
-      }, checkFilterGenders(codigo: Gender.GENDER_FANTASTIC_CODE)));
-      listIconsp.add(new GearInnerIcon.selectableIcon(
-          'assets/imgs/docu.png',
-          'assets/imgs/docu_selected.png',
-          184.0,
-          225.0,
-          gearWidth,
-          controllerIcons, (selected) {
-        setState(() {
-          updateFilterGenders(selected, codigo: Gender.GENDER_DOCU_CODE);
-        });
-      }, checkFilterGenders(codigo: Gender.GENDER_DOCU_CODE)));
-      listIconsp.add(new GearInnerIcon.selectableIcon(
-          'assets/imgs/adventure.png',
-          'assets/imgs/adventure_selected.png',
-          225.0,
-          72.0,
-          gearWidth,
-          controllerIcons, (selected) {
-        setState(() {
-          updateFilterGenders(selected, codigo: Gender.GENDER_ADVENTURE_CODE);
-        });
-      }, checkFilterGenders(codigo: Gender.GENDER_ADVENTURE_CODE)));
-      listIconsp.add(new GearInnerIcon.selectableIcon(
-          'assets/imgs/action.png',
-          'assets/imgs/action_selected.png',
-          225.0,
-          184.0,
-          gearWidth,
-          controllerIcons, (selected) {
-        setState(() {
-          updateFilterGenders(selected, codigo: Gender.GENDER_ACTION_CODE);
-        });
-      }, checkFilterGenders(codigo: Gender.GENDER_ACTION_CODE)));
-      listIconsp.add(new GearInnerIcon.selectableIcon(
-          'assets/imgs/belic.png',
-          'assets/imgs/belic_selected.png',
-          241.0,
-          128.0,
-          gearWidth,
-          controllerIcons, (selected) {
-        setState(() {
-          updateFilterGenders(selected, codigo: Gender.GENDER_BELIC_CODE);
-        });
-      }, checkFilterGenders(codigo: Gender.GENDER_BELIC_CODE)));
-      return listIconsp;
-    }
-
-//    var controllerScale = new AnimationController(
-//        duration: const Duration(milliseconds: 1000), vsync: vsync);
-
-//    runAfterDelay(0, vsync, () {
-//      controllerScale.forward();
-//    });
-
-//    animation.addStatusListener((status) {
-//      if (status == AnimationStatus.completed) {
-//        controllerScale.forward();
-//      }
-//    });
-
-    return new Container(
-        //color: const Color(0xFFFF0000),
-        width: gearWidth,
-        height: gearWidth,
-        child: new Stack(
-          alignment: const FractionalOffset(0.5, 0.5),
-          overflow: Overflow.visible,
-          children: createGenderIconsList(),
-        ));
-  }
-
-  void updateFilterGenders(bool selected, {int codigo, String nombre}) {
-    if (selected) {
-      new MainFilter()
-          .filter
-          .generos
-          .add(new Gender(id: codigo, nombre: nombre));
-    } else {
-      new MainFilter()
-          .filter
-          .generos
-          .removeByValues(new Gender(id: codigo, nombre: nombre));
-    }
-  }
-
-  bool checkFilterGenders({int codigo, String nombre}) {
-    return new MainFilter()
-        .filter
-        .generos
-        .hasByValues(new Gender(id: codigo, nombre: nombre));
   }
 
   @override
@@ -576,7 +255,6 @@ class FilterScreenState extends State<FilterScreen>
               'assets/imgs/return_selected.png',
               30.0 * (gearWidth / DesignConstants.gearWidth),
               30.0 * (gearWidth / DesignConstants.gearWidth), () {
-
             Navigator.of(context).pop();
           }),
           left: (gearWidth / 2.0) -
@@ -592,26 +270,23 @@ class FilterScreenState extends State<FilterScreen>
       }
     }
 
-
-
-
-
-
     Widget getMainButtons() {
       switch (widget.currentState) {
         case FilterStates.FilterSelector:
           return _buildFiltersMain(
               animation, gearWidth, gearHeight, context, this);
         case FilterStates.GenderFilter:
-          return _buildGenderFilter(
-              animation, gearWidth, gearHeight, context, this);
+          return new GenresFilter(gearWidth, widget.title, controllerIcons);
         case FilterStates.TitleFilter:
         case FilterStates.CastFilter:
         case FilterStates.DirectorFilter:
         case FilterStates.LocationFilter:
-          return new TextFilter(gearWidth, title: widget.title ,currentState: widget.currentState);
+          return new TextFilter(gearWidth,
+              title: widget.title, currentState: widget.currentState);
         case FilterStates.MoreGenreFilter:
-          return new MoreGenresFilter(gearWidth, "SUB-GENRES");
+          return new MoreGenresFilter(gearWidth, widget.title);
+        case FilterStates.LanguagesFilter:
+          return new LanguagesFilter(gearWidth, widget.title);
         default:
           return new Container(
             width: 0.0,

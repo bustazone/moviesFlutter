@@ -129,10 +129,11 @@ flutter:
    - assets/languages/id.png
    - assets/languages/pl.png
    - assets/languages/zh.png
-   - assets/languages/du.png
+   - assets/languages/nl.png
    - assets/languages/fa.png
    - assets/languages/it.png
    - assets/languages/pt.png
+   - assets/languages/eu.png
    - assets/filterIcons/cast.png
    - assets/filterIcons/location.png
    - assets/filterIcons/languages.png

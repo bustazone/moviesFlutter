@@ -179,6 +179,19 @@ class Response<T> {
     }
     return response;
   }
+
+  static Response<Language> fromResponseLangString(String data) {
+    var response = new Response<Language>();
+    Map dataConverted = JSON.decode(data);
+    response.code = dataConverted['code'];
+    response.message = dataConverted['message'];
+    response.rowCount = dataConverted['rowCount'];
+    List listItems = dataConverted['items'];
+    for (Map i in listItems) {
+      response.items.add(new Language.fromMap(i));
+    }
+    return response;
+  }
 }
 
 class Film {
@@ -269,7 +282,7 @@ class Language {
   String codigo;
   String nombre;
 
-  Language();
+  Language({this.codigo, this.nombre});
 
   factory Language.fromString(String data) {
     Map dataConverted = JSON.decode(data);
