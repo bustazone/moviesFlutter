@@ -4,7 +4,7 @@ import 'package:pelis_busta/FilmModel.dart';
 import 'dart:convert';
 
 final String listUrl = "http://bustazone.com:8080/pelisBustaWS/peliculas/list";
-final String listSubGenre = "http://bustazone.com:8080/pelisBustaWS/peliculas/listGenders?everything=false&tipo=listas_filmaffinity";
+final String listSubGenre = "http://bustazone.com:8080/pelisBustaWS/peliculas/listGenders?everything=false&type=listas_filmaffinity";
 
 var httpClient;
 

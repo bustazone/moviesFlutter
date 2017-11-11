@@ -94,6 +94,7 @@ class MoreGenresFilterState extends State<MoreGenresFilter>
     itemsGeneral.clear();
     itemsSelected.clear();
     resp = await getSubGenresList();
+    resp.sort((a, b)=>a.nombre.compareTo(b.nombre));
     transformItems(resp);
     setState(() {});
   }
