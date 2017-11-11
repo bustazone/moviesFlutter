@@ -25,17 +25,21 @@ class ListScreenState extends State<ListScreen> {
 
   _getFilms() async {
     loadingData = true;
-    setState((){});
     List<Film> resp = await getItemsList(widget.filmFilter);
     loadingData = false;
     firstQuery = false;
     if (!isNullOrEmpty(resp)) {
       setState(() {
-        //items.addAll(resp);
         items.insertAll(items.length - 1, resp);
       });
     } else {
+      if (items.length == 2) {
+        setState(() {
+          items.insert(items.length - 1, null);
+        });
+      }
       queryMore = false;
+      setState(() {});
     }
   }
 
@@ -46,7 +50,10 @@ class ListScreenState extends State<ListScreen> {
     widget.filmFilter.page = 0;
     items.add(new Film());
     items.add(new Film());
-    _getFilms();
+    if (!loadingData) {
+      loadingData = true;
+      _getFilms();
+    }
   }
 
   reload() {
@@ -56,7 +63,10 @@ class ListScreenState extends State<ListScreen> {
     widget.filmFilter.page = 0;
     items.add(new Film());
     items.add(new Film());
-    _getFilms();
+    if (!loadingData) {
+      loadingData = true;
+      _getFilms();
+    }
   }
 
   Widget getFilmItem(index) {
@@ -64,6 +74,7 @@ class ListScreenState extends State<ListScreen> {
         items.length > 2 &&
         index > items.length - 10 &&
         !loadingData) {
+      loadingData = true;
       widget.filmFilter.page += 1;
       _getFilms();
     }
@@ -72,7 +83,11 @@ class ListScreenState extends State<ListScreen> {
     } else if (index == items.length - 1) {
       return new LastRow();
     } else {
-      return new FilmRow(index, items[index]);
+      if (items[index] == null) {
+        return new NoResultsRow();
+      } else {
+        return new FilmRow(index, items[index]);
+      }
     }
   }
 
@@ -123,28 +138,28 @@ class ListScreenState extends State<ListScreen> {
                   ],
                 ),
                 new Positioned(
-                    child: new Container(
-                        color: new Color(0x80CC9900),
-                        width: MediaQuery.of(context).size.width,
-                        height: new AppBar().preferredSize.height,
+                  child: new Container(
+                      color: new Color(0x80CC9900),
+                      width: MediaQuery.of(context).size.width,
+                      height: new AppBar().preferredSize.height,
 //                        padding: new EdgeInsets.only(
 //                            top: MediaQuery.of(context).padding.top),
-                        child: new Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[
-                            new Container(
-                              child: new IconButton(
-                                  color: new Color(0xFF564C19),
-                                  icon: new Icon(Icons.arrow_back),
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  }),
-                            ),
-                            new Expanded(child: new Container()),
-                            _getReloadButton(),
-                          ],
-                        )),
-                        top: MediaQuery.of(context).padding.top,
+                      child: new Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          new Container(
+                            child: new IconButton(
+                                color: new Color(0xFF564C19),
+                                icon: new Icon(Icons.arrow_back),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                }),
+                          ),
+                          new Expanded(child: new Container()),
+                          _getReloadButton(),
+                        ],
+                      )),
+                  top: MediaQuery.of(context).padding.top,
                 ),
                 new Positioned(
                   child: new Container(
