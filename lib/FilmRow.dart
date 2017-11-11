@@ -20,13 +20,11 @@ List<Widget> fillImageList(
     Widget image;
     try {
       //image = new Image(image: new ImageProvider<AssetImage>())
-      image =
-      new Image.asset(
-          imagePathFormat + g + '.png',
-          height: height,
-          width: height,
+      image = new Image.asset(
+        imagePathFormat + g + '.png',
+        height: height,
+        width: height,
       );
-
     } catch (Exception) {
       image = new Image.asset(
         'assets/languages/fake.png',
@@ -72,15 +70,12 @@ class FilmRow extends StatelessWidget {
       listGenderImages = fillImageList(
           film.generosStr.split(';'),
           'assets/genderIcon/genderIcon_',
-          20.0 * transformProportion,
+          25.0 * transformProportion,
           2.0 * transformProportion);
     }
     if (!isNullOrEmpty(film.idiomasStr)) {
-      listLangs = fillImageList(
-          film.idiomasStr.split(';'),
-          'assets/languages/',
-          23.0 * transformProportion,
-          1.0 * transformProportion);
+      listLangs = fillImageList(film.idiomasStr.split(';'), 'assets/languages/',
+          23.0 * transformProportion, 1.0 * transformProportion);
     }
     if (!isNullOrEmpty(film.subtitulosStr)) {
       listSubs = fillImageList(
@@ -115,7 +110,12 @@ class FilmRow extends StatelessWidget {
             ),
             new Image.asset('assets/genderIcon/Stroke3.png'),
             new Image.asset('assets/genderIcon/Stroke4.png'),
-            new Image.asset('assets/imgs/backFilmRow.png', color: new Color(0xFFCC9900),scale: 0.5,fit: BoxFit.cover,),
+            new Image.asset(
+              'assets/imgs/backFilmRow.png',
+              color: new Color(0xFFCC9900),
+              scale: 0.5,
+              fit: BoxFit.cover,
+            ),
             new Container(
               child: new Text(backgroundNumber.toString(),
                   textAlign: TextAlign.center,
@@ -133,8 +133,7 @@ class FilmRow extends StatelessWidget {
         child: new Column(children: <Widget>[
       new Expanded(
         child: new Container(
-            margin:
-                new EdgeInsets.only(left: 4.0 * transformProportion),
+            margin: new EdgeInsets.only(left: 4.0 * transformProportion),
             child: new Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
@@ -147,9 +146,8 @@ class FilmRow extends StatelessWidget {
                     //    color: Colors.green[300],
                     child: new Row(
                   children: listLangs,
-                )
-                    )
-                    //)
+                ))
+                //)
               ],
             )),
       ),
@@ -213,7 +211,6 @@ class FilmRow extends StatelessWidget {
                         textAlign: TextAlign.right,
                         overflow: TextOverflow.clip,
                         maxLines: 3,
-
                         style: new TextStyle(
                           color: new Color(0xFF564C19),
                           fontFamily: 'Marion',
@@ -232,12 +229,14 @@ class FilmRow extends StatelessWidget {
             ),
           ),
           new Expanded(
+            child: new Container(
+              margin: new EdgeInsets.only(bottom: 5.0),
               child: new Column(
             children: <Widget>[
 //              new Expanded(
 //                  child:
               new Container(
-                height: 35.0 * transformProportion,
+                height: 30.0 * transformProportion,
                 child: new Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -318,7 +317,7 @@ class FilmRow extends StatelessWidget {
                 ],
               )),
             ],
-          ))
+          )))
         ],
       ),
     ));
@@ -350,36 +349,69 @@ class FilmRow extends StatelessWidget {
 }
 
 class FirstRow extends StatelessWidget {
-
-
   @override
   Widget build(BuildContext context) {
-
     final double screenWidth = MediaQuery.of(context).size.width;
     final transformProportion = (screenWidth / DesignConstants.filmRowWidth);
 
     return new Container(
-        width: screenWidth,
+      width: screenWidth,
       color: const Color(0xFFEAEAEA),
-      child:
-          new Image.asset('assets/imgs/backFilmFirstRow.png', color: new Color(0xFFCC9900),fit: BoxFit.cover,),
-       );
+      child: new Image.asset(
+        'assets/imgs/backFilmFirstRow.png',
+        color: new Color(0xFFCC9900),
+        fit: BoxFit.cover,
+      ),
+    );
   }
 }
 
 class LastRow extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
-
     final double screenWidth = MediaQuery.of(context).size.width;
     final transformProportion = (screenWidth / DesignConstants.filmRowWidth);
 
     return new Container(
-        height: ((DesignConstants.filmRowHeight * transformProportion) / 2) - 1.0 ,
-        color: const Color(0xFFEAEAEA),
-        child: new Image.asset('assets/imgs/backFilmLastRow.png', color: new Color(0xFFCC9900), fit: BoxFit.cover,),
+      height: ((DesignConstants.filmRowHeight * transformProportion) / 2) - 1.0,
+      color: const Color(0xFFEAEAEA),
+      child: new Image.asset(
+        'assets/imgs/backFilmLastRow.png',
+        color: new Color(0xFFCC9900),
+        fit: BoxFit.cover,
+      ),
+    );
+  }
+}
 
-        );
+class NoResultsRow extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final transformProportion = (screenWidth / DesignConstants.filmRowWidth);
+
+    return new Container(
+        color: const Color(0xFFEAEAEA),
+        child: new Stack(
+          alignment: AlignmentDirectional.center,
+          children: <Widget>[
+            new Image.asset(
+              'assets/imgs/backFilmRow.png',
+              color: new Color(0xFFCC9900),
+              scale: 0.5,
+              fit: BoxFit.cover,
+            ),
+            new Container(
+              child: new Text("Sorry,\nthe filter\nhas no results...",
+                  textAlign: TextAlign.center,
+                  style: new TextStyle(
+                      color: new Color(0xFF6B6969),
+                      fontFamily: 'Marion',
+                      fontWeight: FontWeight.normal,
+                      fontSize: 25.0 * transformProportion,
+                      decoration: TextDecoration.none)),
+            )
+          ],
+        ));
   }
 }
