@@ -163,6 +163,7 @@ class TextFilterState extends State<TextFilter> with TickerProviderStateMixin {
               false,
               'assets/filterIcons/reset.png',
               'assets/filterIcons/reset.png',
+              DesignConstants.gearHoleWidth,
               widget.gearWidth,
               (selected) {
                 _resetFilter();

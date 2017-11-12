@@ -85,6 +85,7 @@ class LanguagesFilterState extends State<LanguagesFilter>
                 false,
                 'assets/filterIcons/reset.png',
                 'assets/filterIcons/reset.png',
+                DesignConstants.gearHoleWidth,
                 widget.gearWidth,
                 (selected) {
                 _reset();

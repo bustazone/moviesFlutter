@@ -67,13 +67,6 @@ class GearInnerIconState extends State<GearInnerIcon> {
       final Animation curveIcons =
       new CurvedAnimation(parent: widget.controller, curve: curIcons);
       animationIcons = new Tween(begin: 0.0, end: 1.0).animate(curveIcons);
-      animationIcons.addStatusListener((status) {
-        if (status == AnimationStatus.dismissed) {
-          if (pushed) {
-            //widget.scaleCallback();
-          }
-        }
-      });
     }
   }
 
@@ -85,7 +78,7 @@ class GearInnerIconState extends State<GearInnerIcon> {
       child: new ScaleTransition(
         scale: animationIcons,
         child: new IconGestureDetector(
-            iconIsSelectable, iconIsActive, widget.image, widget.imageSelected, widget.mainGearWidth,
+            iconIsSelectable, iconIsActive, widget.image, widget.imageSelected, DesignConstants.gearHoleWidth, widget.mainGearWidth,
             (selected) {
           if (widget.onTap != null) {
             widget.onTap(selected);
@@ -108,11 +101,11 @@ class GearInnerIconState extends State<GearInnerIcon> {
 }
 
 class IconGestureDetector extends StatefulWidget {
-  final iconIsSelectable, iconIsSelected, image, imageSelected, mainGearWidth;
+  final iconIsSelectable, iconIsSelected, image, imageSelected, mainGearWidth, width;
   final OnTap onTap;
 
   IconGestureDetector(this.iconIsSelectable, this.iconIsSelected, this.image,
-      this.imageSelected, this.mainGearWidth, this.onTap);
+      this.imageSelected, this.width, this.mainGearWidth, this.onTap);
 
   @override
   State createState() {
@@ -153,7 +146,7 @@ class _IconGestureDetectorState extends State<IconGestureDetector>
       },
       child: new Image.asset(
         getCurrentImage(widget.iconIsSelected, _highlighted),
-        width: (widget.mainGearWidth * DesignConstants.gearHoleWidth) /
+        width: (widget.mainGearWidth * widget.width) /
             DesignConstants.gearWidth,
       ),
     );

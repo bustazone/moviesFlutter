@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -14,6 +13,7 @@ import 'package:pelis_busta/MoreGenreFilter.dart';
 import 'package:pelis_busta/PressingButton.dart';
 import 'package:pelis_busta/TextFilter.dart';
 import 'package:pelis_busta/Utils.dart';
+import 'package:pelis_busta/YearFilter.dart';
 
 enum FilterStates {
   FilterSelector,
@@ -24,6 +24,7 @@ enum FilterStates {
   LocationFilter,
   DirectorFilter,
   LanguagesFilter,
+  YearFilter,
   None
 }
 
@@ -207,10 +208,12 @@ class FilterScreenState extends State<FilterScreen>
         gearWidth,
         controllerIcons,
         () {
-          Dialog sb = new Dialog(child: new Text("Tapped YEAR!!!"));
-          showDialog(context: context, child: sb);
+          goToFilter(context, "YEAR", FilterStates.YearFilter, () {
+            setState(() {});
+            controllerIcons.forward();
+          });
         },
-        false,
+      ((new MainFilter().filter.year!=null) || (new MainFilter().filter.minYear!=null && new MainFilter().filter.maxYear!=null)),
       ));
       listIconsp.add(new GearInnerIcon.selectableIcon(
         'assets/filterIcons/reset.png',
@@ -225,6 +228,7 @@ class FilterScreenState extends State<FilterScreen>
         },
         false,
       ));
+
       return listIconsp;
     }
 
@@ -287,6 +291,8 @@ class FilterScreenState extends State<FilterScreen>
           return new MoreGenresFilter(gearWidth, widget.title);
         case FilterStates.LanguagesFilter:
           return new LanguagesFilter(gearWidth, widget.title);
+        case FilterStates.YearFilter:
+          return new YearFilter(gearWidth, currentState: widget.currentState);
         default:
           return new Container(
             width: 0.0,

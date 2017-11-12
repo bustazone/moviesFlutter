@@ -31,6 +31,9 @@ flutter:
   #  - images/a_dot_ham.jpeg
 
   assets:
+   - assets/imgs/range_arrow.png
+   - assets/imgs/switch_left.png
+   - assets/imgs/switch_right.png
    - assets/icons/icon_audio.png
    - assets/icons/icon_subs.png
    - assets/icons/icon_location.png
