@@ -22,13 +22,10 @@ class LanguagesFilter extends StatefulWidget {
 
 class LanguagesFilterState extends State<LanguagesFilter>
     with TickerProviderStateMixin {
+
   _reset() {
-//    for (LanguageListItemData l in itemsLangSelected) {
-//      new MainFilter()
-//          .filter
-//          .idiomas
-//          .removeByValues(new Language(codigo: l.codigo));
-//    }
+      new MainFilter().filter.idiomas.clear();
+      new MainFilter().filter.subtitulos.clear();
   }
 
   @override
@@ -90,8 +87,7 @@ class LanguagesFilterState extends State<LanguagesFilter>
                 'assets/filterIcons/reset.png',
                 widget.gearWidth,
                 (selected) {
-//                _resetFilter();
-//                _initTextController();
+                _reset();
                   setState(() {});
                 },
               ),

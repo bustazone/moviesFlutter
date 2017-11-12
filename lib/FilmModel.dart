@@ -319,6 +319,8 @@ class Language {
 }
 
 class Gender {
+  static const String TYPE_GENDER = "principal";
+  static const String TYPE_SUBGENDER = "listas_filmaffinity";
 
   static const int GENDER_ACTION_CODE = 3;
   static const int GENDER_ADVENTURE_CODE = 24;
