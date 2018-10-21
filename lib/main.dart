@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pelis_busta/FilterScreen.dart';
+import 'package:pelis_busta/feats/filter/FilterScreen.dart';
 
 void main() {
   runApp(new PelisApp());
