@@ -1,5 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pelis_busta/actions/actions.dart';
 import 'package:pelis_busta/models/FilmFilter.dart';
 import 'package:pelis_busta/feats/filter/GearInnerIcon.dart';
 import 'package:pelis_busta/feats/filter/GenresFilter.dart';
@@ -8,11 +10,13 @@ import 'package:pelis_busta/feats/list/ListScreen.dart';
 import 'package:pelis_busta/feats/filter/MainFilter.dart';
 import 'package:pelis_busta/feats/filter/MoreGenreFilter.dart';
 import 'package:pelis_busta/feats/filter/TextFilter.dart';
+import 'package:pelis_busta/state/AppState.dart';
 import 'package:pelis_busta/support/constants/DesignConstants.dart';
 import 'package:pelis_busta/support/custom_widgets/PressingButton.dart';
 import 'package:pelis_busta/support/navigation/FiltersNavigation.dart';
 import 'package:pelis_busta/support/utils/Utils.dart';
 import 'package:pelis_busta/feats/filter/YearFilter.dart';
+import 'package:redux/redux.dart';
 
 enum FilterStates {
   FilterSelector,
@@ -101,7 +105,7 @@ class FilterScreenState extends State<FilterScreen>
         72.0,
         gearWidth,
         controllerIcons,
-        () {
+            () {
           goToFilter(context, "CAST", FilterStates.CastFilter, () {
             setState(() {});
             controllerIcons.forward();
@@ -116,7 +120,7 @@ class FilterScreenState extends State<FilterScreen>
         30.0,
         gearWidth,
         controllerIcons,
-        () {
+            () {
           goToFilter(context, "DIRECTOR", FilterStates.DirectorFilter, () {
             setState(() {});
             controllerIcons.forward();
@@ -132,7 +136,7 @@ class FilterScreenState extends State<FilterScreen>
         100.0,
         gearWidth,
         controllerIcons,
-        () {
+            () {
           goToFilter(context, "GENRES", FilterStates.GenderFilter, () {
             setState(() {});
             controllerIcons.forward();
@@ -147,7 +151,7 @@ class FilterScreenState extends State<FilterScreen>
         15.0,
         gearWidth,
         controllerIcons,
-        () {
+            () {
           goToFilter(context, "TITLE", FilterStates.TitleFilter, () {
             setState(() {});
             controllerIcons.forward();
@@ -162,7 +166,7 @@ class FilterScreenState extends State<FilterScreen>
         72.0,
         gearWidth,
         controllerIcons,
-        () {
+            () {
           goToFilter(context, "LANGUAGES", FilterStates.LanguagesFilter, () {
             setState(() {});
             controllerIcons.forward();
@@ -170,20 +174,32 @@ class FilterScreenState extends State<FilterScreen>
         },
         false,
       ));
-      listIconsp.add(new GearInnerIcon.selectableIcon(
-        'assets/filterIcons/series.png',
-        'assets/filterIcons/series_selected.png',
-        177.0,
-        100.0,
-        gearWidth,
-        controllerIcons,
-        (selected) {
-          setState(() {
-            new MainFilter().filter.serie = selected;
-          });
-        },
-        new MainFilter().filter.serie,
-      ));
+      listIconsp.add(new StoreConnector<AppState, _ViewModel>(
+            converter: (store) {
+              // Return a `VoidCallback`, which is a fancy name for a function
+              // with no parameters. It only dispatches an Increment action.
+              return _ViewModel.fromStore(store);
+            },
+            builder: (context, vm) {
+              return new GearInnerIcon.selectableIcon(
+                'assets/filterIcons/series.png',
+                'assets/filterIcons/series_selected.png',
+                177.0,
+                100.0,
+                gearWidth,
+                controllerIcons,
+                    (selected) {
+                  setState(() {
+                    new MainFilter().filter.serie = selected;
+                    vm.setSeries(selected);
+                  });
+                },
+                //new MainFilter().filter.serie,
+                vm.isSeries
+              );
+            },
+          )
+      );
       listIconsp.add(new GearInnerIcon.mainButton(
         'assets/filterIcons/location.png',
         'assets/filterIcons/location_selected.png',
@@ -191,7 +207,7 @@ class FilterScreenState extends State<FilterScreen>
         30.0,
         gearWidth,
         controllerIcons,
-        () {
+            () {
           goToFilter(context, "LOCATION", FilterStates.LocationFilter, () {
             setState(() {});
             controllerIcons.forward();
@@ -206,7 +222,7 @@ class FilterScreenState extends State<FilterScreen>
         72.0,
         gearWidth,
         controllerIcons,
-        () {
+            () {
           goToFilter(context, "YEAR", FilterStates.YearFilter, () {
             setState(() {});
             controllerIcons.forward();
@@ -223,7 +239,7 @@ class FilterScreenState extends State<FilterScreen>
         240.0,
         gearWidth,
         controllerIcons,
-        (selected) {
+            (selected) {
           new MainFilter().resetFilter();
           setState(() {});
         },
@@ -234,7 +250,7 @@ class FilterScreenState extends State<FilterScreen>
     }
 
     return new Container(
-        //color: const Color(0xFFFF0000),
+      //color: const Color(0xFFFF0000),
         width: gearWidth,
         height: gearWidth,
         child: new Stack(
@@ -246,9 +262,18 @@ class FilterScreenState extends State<FilterScreen>
 
   @override
   Widget build(BuildContext context) {
-    screenWidth = MediaQuery.of(context).size.width;
-    screenHeight = MediaQuery.of(context).size.height;
-    gearWidth = MediaQuery.of(context).size.width * 0.9;
+    screenWidth = MediaQuery
+        .of(context)
+        .size
+        .width;
+    screenHeight = MediaQuery
+        .of(context)
+        .size
+        .height;
+    gearWidth = MediaQuery
+        .of(context)
+        .size
+        .width * 0.9;
     gearHeight =
         DesignConstants.gearHeight * (gearWidth / DesignConstants.gearWidth);
 
@@ -313,8 +338,8 @@ class FilterScreenState extends State<FilterScreen>
               null, () {
             Navigator.of(context).push(
                 new MaterialPageRoute<Null>(builder: (BuildContext context) {
-              return new ListScreen(new MainFilter().filter, true);
-            }));
+                  return new ListScreen(new MainFilter().filter, true);
+                }));
           }),
           left: screenWidth / 2.0,
           top: (screenHeight / 2.0) +
@@ -332,8 +357,8 @@ class FilterScreenState extends State<FilterScreen>
             filmFilter.randomFilm = true;
             Navigator.of(context).push(
                 new MaterialPageRoute<Null>(builder: (BuildContext context) {
-              return new ListScreen(filmFilter, false);
-            }));
+                  return new ListScreen(filmFilter, false);
+                }));
           }),
           left: (screenWidth / 2.0) -
               (124.0 * (gearWidth / DesignConstants.gearWidth)),
@@ -362,11 +387,11 @@ class FilterScreenState extends State<FilterScreen>
 
     return new Scaffold(
         body: new Container(
-      color: const Color(0xFFEAEAEA),
-      child: new Center(
-        child: getMainGear(),
-      ),
-    ));
+          color: const Color(0xFFEAEAEA),
+          child: new Center(
+            child: getMainGear(),
+          ),
+        ));
   }
 
   @override
@@ -383,4 +408,33 @@ Widget _buildGear(animation, gearWidth) {
     width: gearWidth,
     height: gearWidth,
   );
+}
+
+class _ViewModel {
+  final Function(bool) setSeries;
+  final bool isSeries;
+
+  _ViewModel({
+    @required this.setSeries,
+    @required this.isSeries,
+  });
+
+  static _ViewModel fromStore(Store<AppState> store) {
+    return _ViewModel(
+      setSeries: (isSeries) {
+        store.dispatch(SetSeriesAction(isSeries));
+      },
+      isSeries: store.state.filter.series,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+          other is _ViewModel &&
+              runtimeType == other.runtimeType &&
+              isSeries == other.isSeries;
+
+  @override
+  int get hashCode => isSeries.hashCode;
 }

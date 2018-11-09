@@ -25,8 +25,9 @@ class LanguagesMultiselectionState extends State<LanguagesMultiselection>
       if (index < itemsLangSelected.length) {
         return new LanguageListItem(itemsLangSelected[index], widget.gearWidth,
             (selected) {
-          changeSelectedLangValue(itemsLangSelected[index].codigo, selected);
-          setState(() {});
+          setState(() {
+            changeSelectedLangValue(itemsLangSelected[index].codigo, selected);
+          });
         });
       } else if (itemsLangSelected.length > 0 &&
           index == itemsLangSelected.length) {
