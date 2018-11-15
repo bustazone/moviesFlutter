@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:pelis_busta/feats/filter/FilterScreen.dart';
-import 'package:pelis_busta/feats/filter/MainFilter.dart';
 import 'package:pelis_busta/support/constants/DesignConstants.dart';
 import 'package:pelis_busta/support/custom_widgets/IconGestureDetector.dart';
-import 'package:pelis_busta/support/utils/Utils.dart';
 
 class TextFilter extends StatefulWidget {
   final String title;
-  final FilterStates currentState;
   final double gearWidth;
+  final String value;
+  final setText;
+  final resetText;
 
-  TextFilter(this.gearWidth, {Key key, this.title, this.currentState})
+  TextFilter(
+      this.gearWidth, this.title, this.value, this.setText, this.resetText,
+      {Key key})
       : super(key: key);
 
   @override
@@ -21,78 +22,15 @@ class TextFilterState extends State<TextFilter> with TickerProviderStateMixin {
   final TextEditingController _textController = new TextEditingController();
 
   void _handleSubmitted(String text) {
-    switch (widget.currentState) {
-      case FilterStates.TitleFilter:
-        new MainFilter().filter.tituloFilter = text;
-        break;
-      case FilterStates.CastFilter:
-        new MainFilter().filter.casts = text;
-        break;
-      case FilterStates.DirectorFilter:
-        new MainFilter().filter.director = text;
-        break;
-      case FilterStates.LocationFilter:
-        new MainFilter().filter.location = text;
-        break;
-      default:
-      //do Nothing
-    }
+    widget.setText(text);
   }
 
   void _initTextController() {
-    switch (widget.currentState) {
-      case FilterStates.TitleFilter:
-        if (!isNullOrEmpty(new MainFilter().filter.tituloFilter)) {
-          _textController.value =
-              new TextEditingValue(text: new MainFilter().filter.tituloFilter);
-          return;
-        }
-        break;
-      case FilterStates.CastFilter:
-        if (!isNullOrEmpty(new MainFilter().filter.casts)) {
-          _textController.value =
-              new TextEditingValue(text: new MainFilter().filter.casts);
-          return;
-        }
-        break;
-      case FilterStates.DirectorFilter:
-        if (!isNullOrEmpty(new MainFilter().filter.director)) {
-          _textController.value =
-              new TextEditingValue(text: new MainFilter().filter.director);
-          return;
-        }
-        break;
-      case FilterStates.LocationFilter:
-        if (!isNullOrEmpty(new MainFilter().filter.location)) {
-          _textController.value =
-              new TextEditingValue(text: new MainFilter().filter.location);
-          return;
-        }
-        break;
-      default:
-        //do Nothing
-        return;
-    }
-    _textController.value = new TextEditingValue(text: "");
+    _textController.value = new TextEditingValue(text: widget.value == null ? "" : widget.value);
   }
 
   void _resetFilter() {
-    switch (widget.currentState) {
-      case FilterStates.TitleFilter:
-        new MainFilter().filter.tituloFilter = null;
-        break;
-      case FilterStates.CastFilter:
-        new MainFilter().filter.casts = null;
-        break;
-      case FilterStates.DirectorFilter:
-        new MainFilter().filter.director = null;
-        break;
-      case FilterStates.LocationFilter:
-        new MainFilter().filter.location = null;
-        break;
-      default:
-      //do Nothing
-    }
+    widget.resetText();
   }
 
   initState() {
@@ -168,7 +106,6 @@ class TextFilterState extends State<TextFilter> with TickerProviderStateMixin {
               (selected) {
                 _resetFilter();
                 _initTextController();
-                setState(() {});
               },
             ),
           ),

@@ -1,22 +1,17 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:pelis_busta/actions/actions.dart';
-import 'package:pelis_busta/models/FilmFilter.dart';
-import 'package:pelis_busta/feats/filter/GearInnerIcon.dart';
-import 'package:pelis_busta/feats/filter/GenresFilter.dart';
-import 'package:pelis_busta/feats/filter/LanguagesFilter.dart';
-import 'package:pelis_busta/feats/list/ListScreen.dart';
-import 'package:pelis_busta/feats/filter/MainFilter.dart';
-import 'package:pelis_busta/feats/filter/MoreGenreFilter.dart';
-import 'package:pelis_busta/feats/filter/TextFilter.dart';
-import 'package:pelis_busta/state/AppState.dart';
+import 'package:pelis_busta/feats/filter/FilterScreenContainer.dart';
+import 'package:pelis_busta/feats/navigation/OnNavigateRouteCustom/CustomNavigator.dart';
+import 'package:pelis_busta/main.dart';
+import 'package:pelis_busta/feats/filter/components/GearInnerIcon.dart';
+import 'package:pelis_busta/feats/filter/components/GenresFilter.dart';
+import 'package:pelis_busta/feats/filter/components/LanguagesFilter.dart';
+import 'package:pelis_busta/feats/filter/components/MainFilter.dart';
+import 'package:pelis_busta/feats/filter/components/MoreGenreFilter.dart';
+import 'package:pelis_busta/feats/filter/components/TextFilter.dart';
 import 'package:pelis_busta/support/constants/DesignConstants.dart';
 import 'package:pelis_busta/support/custom_widgets/PressingButton.dart';
-import 'package:pelis_busta/support/navigation/FiltersNavigation.dart';
-import 'package:pelis_busta/support/utils/Utils.dart';
-import 'package:pelis_busta/feats/filter/YearFilter.dart';
-import 'package:redux/redux.dart';
+import 'package:pelis_busta/feats/filter/components/YearFilter.dart';
 
 enum FilterStates {
   FilterSelector,
@@ -34,22 +29,17 @@ enum FilterStates {
 class FilterScreen extends StatefulWidget {
   final String title;
   final FilterStates currentState;
+  final ViewModel vm;
 
-  FilterScreen({Key key, this.title, this.currentState}) : super(key: key);
-
-  factory FilterScreen.main({Key key, String title}) {
-    return new FilterScreen(
-      title: title,
-      currentState: FilterStates.FilterSelector,
-    );
-  }
+  FilterScreen(this.currentState, this.vm, {Key key, this.title})
+      : super(key: key);
 
   @override
   State createState() => new FilterScreenState();
 }
 
 class FilterScreenState extends State<FilterScreen>
-    with TickerProviderStateMixin {
+    with TickerProviderStateMixin, RouteAware {
   List<GearInnerIcon> listIcons = <GearInnerIcon>[];
   var iconsStack;
   var screenWidth;
@@ -61,6 +51,25 @@ class FilterScreenState extends State<FilterScreen>
   Animation<double> animationIcons;
   AnimationController controller;
   AnimationController controllerIcons;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    routeObserver.subscribe(this, ModalRoute.of(context));
+  }
+
+  @override
+  void didPush() {
+    // Route was pushed onto navigator and is now topmost route.
+    print("didPush");
+  }
+
+  @override
+  void didPopNext() {
+    // Covering route was popped off the navigator.
+    print("didPopNext");
+    controllerIcons.forward();
+  }
 
   initState() {
     super.initState();
@@ -95,185 +104,11 @@ class FilterScreenState extends State<FilterScreen>
 //    animationIcons = new Tween(begin: 0.0, end: 1.0).animate(curveIcons);
   }
 
-  Widget _buildFiltersMain(animation, gearWidth, gearHeight, context, vsync) {
-    List<Widget> createGenderIconsList() {
-      List<Widget> listIconsp = <Widget>[];
-      listIconsp.add(new GearInnerIcon.mainButton(
-        'assets/filterIcons/cast.png',
-        'assets/filterIcons/cast_selected.png',
-        31.0,
-        72.0,
-        gearWidth,
-        controllerIcons,
-            () {
-          goToFilter(context, "CAST", FilterStates.CastFilter, () {
-            setState(() {});
-            controllerIcons.forward();
-          });
-        },
-        !isNullOrEmpty(new MainFilter().filter.casts),
-      ));
-      listIconsp.add(new GearInnerIcon.mainButton(
-        'assets/filterIcons/director.png',
-        'assets/filterIcons/director_selected.png',
-        72.0,
-        30.0,
-        gearWidth,
-        controllerIcons,
-            () {
-          goToFilter(context, "DIRECTOR", FilterStates.DirectorFilter, () {
-            setState(() {});
-            controllerIcons.forward();
-          });
-        },
-        !isNullOrEmpty(new MainFilter().filter.director),
-      ));
-
-      listIconsp.add(new GearInnerIcon.mainButton(
-        'assets/filterIcons/gender.png',
-        'assets/filterIcons/gender_selected.png',
-        79.0,
-        100.0,
-        gearWidth,
-        controllerIcons,
-            () {
-          goToFilter(context, "GENRES", FilterStates.GenderFilter, () {
-            setState(() {});
-            controllerIcons.forward();
-          });
-        },
-        !isNullOrEmpty(new MainFilter().filter.generos),
-      ));
-      listIconsp.add(new GearInnerIcon.mainButton(
-        'assets/filterIcons/title.png',
-        'assets/filterIcons/title_selected.png',
-        128.0,
-        15.0,
-        gearWidth,
-        controllerIcons,
-            () {
-          goToFilter(context, "TITLE", FilterStates.TitleFilter, () {
-            setState(() {});
-            controllerIcons.forward();
-          });
-        },
-        !isNullOrEmpty(new MainFilter().filter.tituloFilter),
-      ));
-      listIconsp.add(new GearInnerIcon.mainButton(
-        'assets/filterIcons/languages.png',
-        'assets/filterIcons/languages_selected.png',
-        128.0,
-        72.0,
-        gearWidth,
-        controllerIcons,
-            () {
-          goToFilter(context, "LANGUAGES", FilterStates.LanguagesFilter, () {
-            setState(() {});
-            controllerIcons.forward();
-          });
-        },
-        false,
-      ));
-      listIconsp.add(new StoreConnector<AppState, _ViewModel>(
-            converter: (store) {
-              // Return a `VoidCallback`, which is a fancy name for a function
-              // with no parameters. It only dispatches an Increment action.
-              return _ViewModel.fromStore(store);
-            },
-            builder: (context, vm) {
-              return new GearInnerIcon.selectableIcon(
-                'assets/filterIcons/series.png',
-                'assets/filterIcons/series_selected.png',
-                177.0,
-                100.0,
-                gearWidth,
-                controllerIcons,
-                    (selected) {
-                  setState(() {
-                    new MainFilter().filter.serie = selected;
-                    vm.setSeries(selected);
-                  });
-                },
-                //new MainFilter().filter.serie,
-                vm.isSeries
-              );
-            },
-          )
-      );
-      listIconsp.add(new GearInnerIcon.mainButton(
-        'assets/filterIcons/location.png',
-        'assets/filterIcons/location_selected.png',
-        184.0,
-        30.0,
-        gearWidth,
-        controllerIcons,
-            () {
-          goToFilter(context, "LOCATION", FilterStates.LocationFilter, () {
-            setState(() {});
-            controllerIcons.forward();
-          });
-        },
-        !isNullOrEmpty(new MainFilter().filter.location),
-      ));
-      listIconsp.add(new GearInnerIcon.mainButton(
-        'assets/filterIcons/year.png',
-        'assets/filterIcons/year_selected.png',
-        225.0,
-        72.0,
-        gearWidth,
-        controllerIcons,
-            () {
-          goToFilter(context, "YEAR", FilterStates.YearFilter, () {
-            setState(() {});
-            controllerIcons.forward();
-          });
-        },
-        ((new MainFilter().filter.year != null) ||
-            (new MainFilter().filter.minYear != null &&
-                new MainFilter().filter.maxYear != null)),
-      ));
-      listIconsp.add(new GearInnerIcon.selectableIcon(
-        'assets/filterIcons/reset.png',
-        'assets/filterIcons/reset.png',
-        128.0,
-        240.0,
-        gearWidth,
-        controllerIcons,
-            (selected) {
-          new MainFilter().resetFilter();
-          setState(() {});
-        },
-        false,
-      ));
-
-      return listIconsp;
-    }
-
-    return new Container(
-      //color: const Color(0xFFFF0000),
-        width: gearWidth,
-        height: gearWidth,
-        child: new Stack(
-          alignment: const FractionalOffset(0.5, 0.5),
-          overflow: Overflow.visible,
-          children: createGenderIconsList(),
-        ));
-  }
-
   @override
   Widget build(BuildContext context) {
-    screenWidth = MediaQuery
-        .of(context)
-        .size
-        .width;
-    screenHeight = MediaQuery
-        .of(context)
-        .size
-        .height;
-    gearWidth = MediaQuery
-        .of(context)
-        .size
-        .width * 0.9;
+    screenWidth = MediaQuery.of(context).size.width;
+    screenHeight = MediaQuery.of(context).size.height;
+    gearWidth = MediaQuery.of(context).size.width * 0.9;
     gearHeight =
         DesignConstants.gearHeight * (gearWidth / DesignConstants.gearWidth);
 
@@ -303,22 +138,46 @@ class FilterScreenState extends State<FilterScreen>
     Widget getMainButtons() {
       switch (widget.currentState) {
         case FilterStates.FilterSelector:
-          return _buildFiltersMain(
-              animation, gearWidth, gearHeight, context, this);
+          return new MainFilter(
+              animation, controllerIcons, gearWidth, gearHeight, widget.vm);
         case FilterStates.GenderFilter:
-          return new GenresFilter(gearWidth, widget.title, controllerIcons);
+          return new GenresFilter(gearWidth, widget.title, controllerIcons,
+              widget.vm.genres, widget.vm.setGenres);
         case FilterStates.TitleFilter:
+          return new TextFilter(gearWidth, widget.title, widget.vm.title,
+              widget.vm.setTitle, widget.vm.resetTitle);
         case FilterStates.CastFilter:
+          return new TextFilter(gearWidth, widget.title, widget.vm.cast,
+              widget.vm.setCast, widget.vm.resetCast);
         case FilterStates.DirectorFilter:
+          return new TextFilter(gearWidth, widget.title, widget.vm.director,
+              widget.vm.setDirector, widget.vm.resetDirector);
         case FilterStates.LocationFilter:
-          return new TextFilter(gearWidth,
-              title: widget.title, currentState: widget.currentState);
+          return new TextFilter(gearWidth, widget.title, widget.vm.location,
+              widget.vm.setLocation, widget.vm.resetLocation);
         case FilterStates.MoreGenreFilter:
-          return new MoreGenresFilter(gearWidth, widget.title);
+          return new MoreGenresFilter(
+              gearWidth, widget.title, widget.vm.genres, widget.vm.setGenres);
         case FilterStates.LanguagesFilter:
-          return new LanguagesFilter(gearWidth, widget.title);
+          return new LanguagesFilter(
+              gearWidth,
+              widget.title,
+              widget.vm.languages,
+              widget.vm.setLanguages,
+              widget.vm.resetLanguages,
+              widget.vm.subtitles,
+              widget.vm.setSubtitles,
+              widget.vm.resetSubtitles);
         case FilterStates.YearFilter:
-          return new YearFilter(gearWidth, currentState: widget.currentState);
+          return new YearFilter(
+              gearWidth,
+              widget.vm.year,
+              widget.vm.minYear,
+              widget.vm.maxYear,
+              widget.vm.setYear,
+              widget.vm.setMinYear,
+              widget.vm.setMaxYear,
+              widget.vm.resetYears);
         default:
           return new Container(
             width: 0.0,
@@ -336,10 +195,7 @@ class FilterScreenState extends State<FilterScreen>
               124.0 * (gearWidth / DesignConstants.gearWidth),
               //75.0 * (gearWidth / DesignConstants.gearWidth)
               null, () {
-            Navigator.of(context).push(
-                new MaterialPageRoute<Null>(builder: (BuildContext context) {
-                  return new ListScreen(new MainFilter().filter, true);
-                }));
+            Navigator.of(context).pushNamed(ListRouteName);
           }),
           left: screenWidth / 2.0,
           top: (screenHeight / 2.0) +
@@ -353,12 +209,7 @@ class FilterScreenState extends State<FilterScreen>
               124.0 * (gearWidth / DesignConstants.gearWidth),
               //75.0 * (gearWidth / DesignConstants.gearWidth)
               null, () {
-            var filmFilter = new FilmFilter();
-            filmFilter.randomFilm = true;
-            Navigator.of(context).push(
-                new MaterialPageRoute<Null>(builder: (BuildContext context) {
-                  return new ListScreen(filmFilter, false);
-                }));
+            Navigator.of(context).pushNamed(RandomFilmRouteName);
           }),
           left: (screenWidth / 2.0) -
               (124.0 * (gearWidth / DesignConstants.gearWidth)),
@@ -387,17 +238,17 @@ class FilterScreenState extends State<FilterScreen>
 
     return new Scaffold(
         body: new Container(
-          color: const Color(0xFFEAEAEA),
-          child: new Center(
-            child: getMainGear(),
-          ),
-        ));
+      color: const Color(0xFFEAEAEA),
+      child: new Center(
+        child: getMainGear(),
+      ),
+    ));
   }
 
   @override
   dispose() {
+    routeObserver.unsubscribe(this);
     controller.dispose();
-    controllerIcons.dispose();
     super.dispose();
   }
 }
@@ -408,33 +259,4 @@ Widget _buildGear(animation, gearWidth) {
     width: gearWidth,
     height: gearWidth,
   );
-}
-
-class _ViewModel {
-  final Function(bool) setSeries;
-  final bool isSeries;
-
-  _ViewModel({
-    @required this.setSeries,
-    @required this.isSeries,
-  });
-
-  static _ViewModel fromStore(Store<AppState> store) {
-    return _ViewModel(
-      setSeries: (isSeries) {
-        store.dispatch(SetSeriesAction(isSeries));
-      },
-      isSeries: store.state.filter.series,
-    );
-  }
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-          other is _ViewModel &&
-              runtimeType == other.runtimeType &&
-              isSeries == other.isSeries;
-
-  @override
-  int get hashCode => isSeries.hashCode;
 }

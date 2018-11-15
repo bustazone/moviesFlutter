@@ -1,17 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:pelis_busta/feats/filter/FilterScreen.dart';
-import 'package:pelis_busta/feats/filter/MainFilter.dart';
+import 'package:pelis_busta/feats/filter/components/YearSelectorField.dart';
 import 'package:pelis_busta/support/constants/DesignConstants.dart';
 import 'package:pelis_busta/support/custom_widgets/IconGestureDetector.dart';
-import 'package:pelis_busta/support/custom_widgets/YearPickerCustom.dart';
 
 enum YearFilterMode { year, range }
 
 class YearFilter extends StatefulWidget {
-  final FilterStates currentState;
   final double gearWidth;
+  final year;
+  final minYear;
+  final maxYear;
+  final setYear;
+  final setMinYear;
+  final setMaxYear;
+  final resetYear;
 
-  YearFilter(this.gearWidth, {Key key, this.currentState}) : super(key: key);
+  YearFilter(this.gearWidth, this.year, this.minYear, this.maxYear,
+      this.setYear, this.setMinYear, this.setMaxYear, this.resetYear,
+      {Key key})
+      : super(key: key);
 
   @override
   State createState() => new YearFilterState();
@@ -23,11 +30,10 @@ class YearFilterState extends State<YearFilter> with TickerProviderStateMixin {
   YearFilterMode mode = YearFilterMode.year;
 
   void _initFilter() {
-    if (new MainFilter().filter.year != null) {
+    if (widget.year != null) {
       mode = YearFilterMode.year;
       return;
-    } else if (new MainFilter().filter.minYear != null &&
-        new MainFilter().filter.maxYear != null) {
+    } else if (widget.minYear != null && widget.maxYear != null) {
       mode = YearFilterMode.range;
       return;
     }
@@ -35,9 +41,7 @@ class YearFilterState extends State<YearFilter> with TickerProviderStateMixin {
   }
 
   void _resetFilter() {
-    new MainFilter().filter.year = null;
-    new MainFilter().filter.minYear = null;
-    new MainFilter().filter.maxYear = null;
+    widget.resetYear();
   }
 
   initState() {
@@ -53,11 +57,10 @@ class YearFilterState extends State<YearFilter> with TickerProviderStateMixin {
         margin: new EdgeInsets.only(
             top: 41.0 * (widget.gearWidth / DesignConstants.gearWidth)),
         child: new YearSelectorField(
-            widget.gearWidth, 80.0, new MainFilter().filter.year, (year) {
-              setState(() {
-                new MainFilter().filter.year = year;
-              });
-
+            widget.gearWidth, 80.0, widget.year, (year) {
+          setState(() {
+            widget.setYear(year);
+          });
         }),
       );
     } else {
@@ -71,12 +74,11 @@ class YearFilterState extends State<YearFilter> with TickerProviderStateMixin {
             children: <Widget>[
               new Container(
                 child: new YearSelectorField(
-                    widget.gearWidth, 80.0, new MainFilter().filter.minYear,
+                    widget.gearWidth, 80.0, widget.minYear,
                     (year) {
-
-                      setState(() {
-                        new MainFilter().filter.minYear = year;
-                      });
+                  setState(() {
+                    widget.setMinYear(year);
+                  });
                 }),
               ),
               new Expanded(
@@ -89,11 +91,11 @@ class YearFilterState extends State<YearFilter> with TickerProviderStateMixin {
               ),
               new Container(
                 child: new YearSelectorField(
-                    widget.gearWidth, 80.0, new MainFilter().filter.maxYear,
+                    widget.gearWidth, 80.0, widget.maxYear,
                     (year) {
-                      setState(() {
-                        new MainFilter().filter.maxYear = year;
-                      });
+                  setState(() {
+                    widget.setMaxYear(year);
+                  });
                 }),
               ),
             ],
@@ -175,9 +177,7 @@ class YearFilterState extends State<YearFilter> with TickerProviderStateMixin {
               DesignConstants.gearHoleWidth,
               widget.gearWidth,
               (selected) {
-                setState(() {
                   _resetFilter();
-                });
               },
             ),
           ),
@@ -192,61 +192,5 @@ class YearFilterState extends State<YearFilter> with TickerProviderStateMixin {
   dispose() {
     _textController.dispose();
     super.dispose();
-  }
-}
-
-class YearSelectorField extends StatefulWidget {
-  final int currentYear;
-  final double width;
-  final double gearWidth;
-  final onChange;
-
-  YearSelectorField(this.gearWidth, this.width, this.currentYear, this.onChange,
-      {Key key})
-      : super(key: key);
-
-  @override
-  State createState() => new YearSelectorFieldState();
-}
-
-class YearSelectorFieldState extends State<YearSelectorField>
-    with TickerProviderStateMixin {
-  @override
-  Widget build(BuildContext context) {
-    return new Container(
-        constraints: new BoxConstraints.tightFor(
-          width: widget.width * (widget.gearWidth / DesignConstants.gearWidth),
-          height: 30.0 * (widget.gearWidth / DesignConstants.gearWidth),
-        ),
-        padding: new EdgeInsets.only(
-            top: 3.0 * (widget.gearWidth / DesignConstants.gearWidth)),
-        child: new GestureDetector(
-            onTap: () async {
-              DateTime newYear = await showDatePickerCustom(
-                  context: context,
-                  initialDate: (widget.currentYear == null)
-                      ? new DateTime.now()
-                      : new DateTime.utc(widget.currentYear,
-                          new DateTime.now().month, new DateTime.now().day),
-                  firstDate: new DateTime.utc(1900, 1, 1),
-                  lastDate: new DateTime.now());
-              widget.onChange(newYear.year);
-            },
-            child: new Center(
-                child: new Text(
-              (widget.currentYear == null)
-                  ? "_ _ _ _"
-                  : widget.currentYear.toString(),
-              style: Theme.of(context).textTheme.display1.copyWith(
-                  textBaseline: TextBaseline.alphabetic,
-                  color: new Color(0xFF564C19),
-                  fontSize:
-                      16.0 * (widget.gearWidth / DesignConstants.gearWidth),
-                  fontWeight: FontWeight.bold),
-            ))),
-        decoration: new BoxDecoration(
-          color: new Color(0xFFCC9900),
-          border: new Border.all(color: new Color(0xFF564C19), width: 2.0),
-        ));
   }
 }

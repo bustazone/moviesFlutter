@@ -16,17 +16,28 @@ class FilmFilter {
   bool serie;
   String countries;
   String casts;
-  LanguageList idiomas;
-  LanguageList subtitulos;
-  GenderList generos;
+  LanguageList idiomas = new LanguageList();
+  LanguageList subtitulos = new LanguageList();
+  GenreList generos = new GenreList();
   int page;
   bool randomFilm = false;
 
-  FilmFilter() {
-    idiomas = new LanguageList();
-    subtitulos = new LanguageList();
-    generos = new GenderList();
-  }
+  FilmFilter({
+    this.tituloFilter,
+    this.location,
+    this.vista,
+    this.formato,
+    this.year,
+    this.minYear,
+    this.maxYear,
+    this.director,
+    this.serie,
+    this.countries,
+    this.casts,
+    this.idiomas,
+    this.subtitulos,
+    this.generos,
+  });
 
   Map toMap() {
     Map m = new Map();

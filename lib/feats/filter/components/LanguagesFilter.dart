@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:pelis_busta/feats/filter/LanguageMultiselection.dart';
-import 'package:pelis_busta/feats/filter/MainFilter.dart';
-import 'package:pelis_busta/feats/filter/SubtitleMultiselection.dart';
+import 'package:pelis_busta/feats/filter/components/LanguageMultiselection.dart';
 import 'package:pelis_busta/models/Language.dart';
+import 'package:pelis_busta/models/LanguageList.dart';
 import 'package:pelis_busta/support/constants/DesignConstants.dart';
 import 'package:pelis_busta/support/custom_widgets/CustomCheckbox.dart';
 import 'package:pelis_busta/support/custom_widgets/IconGestureDetector.dart';
@@ -10,8 +9,24 @@ import 'package:pelis_busta/support/custom_widgets/IconGestureDetector.dart';
 class LanguagesFilter extends StatefulWidget {
   final String title;
   final double gearWidth;
+  final LanguageList languages;
+  final setLanguages;
+  final resetLanguages;
+  final LanguageList subtitles;
+  final setSubtitles;
+  final resetSubtitles;
 
-  LanguagesFilter(this.gearWidth, this.title, {Key key}) : super(key: key);
+  LanguagesFilter(
+      this.gearWidth,
+      this.title,
+      this.languages,
+      this.setLanguages,
+      this.resetLanguages,
+      this.subtitles,
+      this.setSubtitles,
+      this.resetSubtitles,
+      {Key key})
+      : super(key: key);
 
   @override
   State createState() => new LanguagesFilterState();
@@ -20,8 +35,8 @@ class LanguagesFilter extends StatefulWidget {
 class LanguagesFilterState extends State<LanguagesFilter>
     with TickerProviderStateMixin {
   _reset() {
-    new MainFilter().filter.idiomas.clear();
-    new MainFilter().filter.subtitulos.clear();
+    widget.resetLanguages();
+    widget.resetSubtitles();
   }
 
   @override
@@ -62,9 +77,11 @@ class LanguagesFilterState extends State<LanguagesFilter>
                     margin: new EdgeInsets.only(top: 5.0),
                     child: new Row(
                       children: <Widget>[
-                        new LanguagesMultiselection(widget.gearWidth),
+                        new LanguagesMultiselection(widget.gearWidth,
+                            widget.languages, widget.setLanguages),
                         new Expanded(child: new Container()),
-                        new SubtitleMultiselection(widget.gearWidth),
+                        new LanguagesMultiselection(widget.gearWidth,
+                            widget.subtitles, widget.setSubtitles),
                       ],
                     ),
                   ),
@@ -85,7 +102,6 @@ class LanguagesFilterState extends State<LanguagesFilter>
                 widget.gearWidth,
                 (selected) {
                   _reset();
-                  setState(() {});
                 },
               ),
             ),

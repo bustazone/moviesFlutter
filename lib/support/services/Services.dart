@@ -17,7 +17,6 @@ final String listSubs = BASE_URL + "/listSubtitles?everything=false";
 
 Future<List<Film>> getItemsList(FilmFilter filter) async {
   var httpClient = Client();
-  print(json.encode(filter.toMap()));
   var response =
       await httpClient.post(listUrl, body: json.encode(filter.toMap()));
   print('Response status: ${response.statusCode}');

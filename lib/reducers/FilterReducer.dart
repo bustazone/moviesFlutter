@@ -1,12 +1,116 @@
 import 'package:pelis_busta/actions/actions.dart';
-import 'package:pelis_busta/state/CountState.dart';
 import 'package:pelis_busta/state/FilterState.dart';
 import 'package:redux/redux.dart';
 
 final filterReducer = combineReducers<FilterState>([
-  TypedReducer<FilterState, SetSeriesAction>(_setSeries)
+  TypedReducer<FilterState, SetFilterTitleStateAction>(_setTitle),
+  TypedReducer<FilterState, ResetFilterTitleStateAction>(_resetTitle),
+  TypedReducer<FilterState, SetFilterDirectorStateAction>(_setDirector),
+  TypedReducer<FilterState, ResetFilterDirectorStateAction>(_resetDirector),
+  TypedReducer<FilterState, SetFilterCastStateAction>(_setCast),
+  TypedReducer<FilterState, ResetFilterCastStateAction>(_resetCast),
+  TypedReducer<FilterState, SetFilterLocationStateAction>(_setLocation),
+  TypedReducer<FilterState, ResetFilterLocationStateAction>(_resetLocation),
+  TypedReducer<FilterState, SetFilterYearStateAction>(_setYear),
+  TypedReducer<FilterState, SetFilterMinYearStateAction>(_setMinYear),
+  TypedReducer<FilterState, SetFilterMaxYearStateAction>(_setMaxYear),
+  TypedReducer<FilterState, ResetFilterYearsStateAction>(_resetYears),
+  TypedReducer<FilterState, SetFilterLanguagesStateAction>(_setLanguages),
+  TypedReducer<FilterState, ResetFilterLanguagesStateAction>(_resetLanguages),
+  TypedReducer<FilterState, SetFilterSubtitlesStateAction>(_setSubtitles),
+  TypedReducer<FilterState, ResetFilterSubtitlesStateAction>(_resetSubtitles),
+  TypedReducer<FilterState, SetFilterGenresStateAction>(_setGenres),
+  TypedReducer<FilterState, SetFilterSeriesStateAction>(_setSeries),
+  TypedReducer<FilterState, ResetWholeFilterStateAction>(_resetWholeFilter)
 ]);
 
-FilterState _setSeries(FilterState state, SetSeriesAction action) {
-  return state.copyWith(series: action.isSeries);
+FilterState _setTitle(FilterState state, SetFilterTitleStateAction action) {
+  return state.copyWith(tituloFilter: action.title);
+}
+
+FilterState _resetTitle(FilterState state, ResetFilterTitleStateAction action) {
+  return state.copyWith(tituloFilter: null);
+}
+
+FilterState _setDirector(FilterState state,
+    SetFilterDirectorStateAction action) {
+  return state.copyWith(director: action.director);
+}
+
+FilterState _resetDirector(FilterState state,
+    ResetFilterDirectorStateAction action) {
+  return state.copyWith(director: null);
+}
+
+FilterState _setCast(FilterState state, SetFilterCastStateAction action) {
+  return state.copyWith(casts: action.cast);
+}
+
+FilterState _resetCast(FilterState state, ResetFilterCastStateAction action) {
+  return state.copyWith(casts: null);
+}
+
+FilterState _setLocation(FilterState state,
+    SetFilterLocationStateAction action) {
+  return state.copyWith(location: action.location);
+}
+
+FilterState _resetLocation(FilterState state,
+    ResetFilterLocationStateAction action) {
+  return state.copyWith(location: null);
+}
+
+FilterState _setYear(FilterState state, SetFilterYearStateAction action) {
+  return state.copyWith(year: action.year);
+}
+
+FilterState _setMinYear(FilterState state, SetFilterMinYearStateAction action) {
+  return state.copyWith(minYear: action.year);
+}
+
+FilterState _setMaxYear(FilterState state, SetFilterMaxYearStateAction action) {
+  return state.copyWith(maxYear: action.year);
+}
+
+FilterState _resetYears(FilterState state, ResetFilterYearsStateAction action) {
+  return state.copyWith(year: null, minYear: null, maxYear: null);
+}
+
+FilterState _setLanguages(FilterState state,
+    SetFilterLanguagesStateAction action) {
+  return state.copyWith(idiomas: action.languages);
+}
+
+FilterState _resetLanguages(FilterState state,
+    ResetFilterLanguagesStateAction action) {
+  return state.copyWith(idiomas: null);
+}
+
+FilterState _setSubtitles(FilterState state,
+    SetFilterSubtitlesStateAction action) {
+  return state.copyWith(subtitulos: action.subtitles);
+}
+
+FilterState _resetSubtitles(FilterState state,
+    ResetFilterSubtitlesStateAction action) {
+  return state.copyWith(subtitulos: null);
+}
+
+FilterState _setGenres(FilterState state, SetFilterGenresStateAction action) {
+  return state.copyWith(generos: action.genres);
+}
+
+FilterState _setSeries(FilterState state, SetFilterSeriesStateAction action) {
+  print(action.series);
+  print("state");
+  print(state);
+  final f = state.copyWith(series: action.series);
+  print("f");
+  print(f);
+  return f;
+}
+
+FilterState _resetWholeFilter(FilterState state,
+    ResetWholeFilterStateAction action) {
+  return FilterState.initial();
 }

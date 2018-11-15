@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:pelis_busta/feats/filter/FilterScreen.dart';
-import 'package:pelis_busta/feats/filter/GearInnerIcon.dart';
-import 'package:pelis_busta/feats/filter/MainFilter.dart';
+import 'package:pelis_busta/feats/filter/components/GearInnerIcon.dart';
+import 'package:pelis_busta/feats/navigation/OnNavigateRouteCustom/CustomNavigator.dart';
 import 'package:pelis_busta/models/Genre.dart';
-import 'package:pelis_busta/support/navigation/FiltersNavigation.dart';
+import 'package:pelis_busta/models/GenreList.dart';
 
 class GenresFilter extends StatefulWidget {
   final String title;
   final double gearWidth;
   final AnimationController controllerIcons;
+  final GenreList genres;
+  final setGenres;
 
-  GenresFilter(this.gearWidth, this.title, this.controllerIcons, {Key key})
+  GenresFilter(this.gearWidth, this.title, this.controllerIcons, this.genres, this.setGenres, {Key key})
       : super(key: key);
 
   @override
@@ -21,23 +22,14 @@ class GenresFilterState extends State<GenresFilter>
     with TickerProviderStateMixin {
   void updateFilterGenders(bool selected, {int codigo, String nombre}) {
     if (selected) {
-      new MainFilter()
-          .filter
-          .generos
-          .add(new Genre(id: codigo, nombre: nombre));
+      widget.setGenres(widget.genres.add(new Genre(id: codigo, nombre: nombre)));
     } else {
-      new MainFilter()
-          .filter
-          .generos
-          .removeByValues(new Genre(id: codigo, nombre: nombre));
+      widget.setGenres(widget.genres..removeByValues(new Genre(id: codigo, nombre: nombre)));
     }
   }
 
   bool checkFilterGenders({int codigo, String nombre}) {
-    return new MainFilter()
-        .filter
-        .generos
-        .hasByValues(new Genre(id: codigo, nombre: nombre));
+    return widget.genres.hasByValues(new Genre(id: codigo, nombre: nombre));
   }
 
   List<GearInnerIcon> createGenderIconsList() {
@@ -49,9 +41,7 @@ class GenresFilterState extends State<GenresFilter>
         128.0,
         widget.gearWidth,
         widget.controllerIcons, (selected) {
-      setState(() {
         updateFilterGenders(selected, codigo: Genre.GENDER_ROMANCE_CODE);
-      });
     }, checkFilterGenders(codigo: Genre.GENDER_ROMANCE_CODE)));
     listIconsp.add(new GearInnerIcon.selectableIcon(
         'assets/imgs/drama.png',
@@ -60,9 +50,7 @@ class GenresFilterState extends State<GenresFilter>
         72.0,
         widget.gearWidth,
         widget.controllerIcons, (selected) {
-      setState(() {
         updateFilterGenders(selected, codigo: Genre.GENDER_DRAMA_CODE);
-      });
     }, checkFilterGenders(codigo: Genre.GENDER_DRAMA_CODE)));
     listIconsp.add(new GearInnerIcon.selectableIcon(
         'assets/imgs/suspense.png',
@@ -71,9 +59,7 @@ class GenresFilterState extends State<GenresFilter>
         184.0,
         widget.gearWidth,
         widget.controllerIcons, (selected) {
-      setState(() {
         updateFilterGenders(selected, codigo: Genre.GENDER_SUSPENSE_CODE);
-      });
     }, checkFilterGenders(codigo: Genre.GENDER_SUSPENSE_CODE)));
     listIconsp.add(new GearInnerIcon.selectableIcon(
         'assets/imgs/horror.png',
@@ -82,9 +68,7 @@ class GenresFilterState extends State<GenresFilter>
         30.0,
         widget.gearWidth,
         widget.controllerIcons, (selected) {
-      setState(() {
         updateFilterGenders(selected, codigo: Genre.GENDER_HORROR_CODE);
-      });
     }, checkFilterGenders(codigo: Genre.GENDER_HORROR_CODE)));
     listIconsp.add(new GearInnerIcon.selectableIcon(
         'assets/imgs/musical.png',
@@ -93,9 +77,7 @@ class GenresFilterState extends State<GenresFilter>
         225.0,
         widget.gearWidth,
         widget.controllerIcons, (selected) {
-      setState(() {
         updateFilterGenders(selected, codigo: Genre.GENDER_MUSICAL_CODE);
-      });
     }, checkFilterGenders(codigo: Genre.GENDER_MUSICAL_CODE)));
     listIconsp.add(new GearInnerIcon.selectableIcon(
         'assets/imgs/comedy.png',
@@ -104,9 +86,7 @@ class GenresFilterState extends State<GenresFilter>
         100.0,
         widget.gearWidth,
         widget.controllerIcons, (selected) {
-      setState(() {
         updateFilterGenders(selected, codigo: Genre.GENDER_COMEDY_CODE);
-      });
     }, checkFilterGenders(codigo: Genre.GENDER_COMEDY_CODE)));
     listIconsp.add(new GearInnerIcon.selectableIcon(
         'assets/imgs/thriller.png',
@@ -115,9 +95,7 @@ class GenresFilterState extends State<GenresFilter>
         156.0,
         widget.gearWidth,
         widget.controllerIcons, (selected) {
-      setState(() {
         updateFilterGenders(selected, codigo: Genre.GENDER_THRILLER_CODE);
-      });
     }, checkFilterGenders(codigo: Genre.GENDER_THRILLER_CODE)));
     listIconsp.add(new GearInnerIcon.selectableIcon(
         'assets/imgs/scifi.png',
@@ -126,9 +104,7 @@ class GenresFilterState extends State<GenresFilter>
         15.0,
         widget.gearWidth,
         widget.controllerIcons, (selected) {
-      setState(() {
         updateFilterGenders(selected, codigo: Genre.GENDER_SCIFI_CODE);
-      });
     }, checkFilterGenders(codigo: Genre.GENDER_SCIFI_CODE)));
     listIconsp.add(new GearInnerIcon.selectableIcon(
         'assets/imgs/animation.png',
@@ -137,9 +113,7 @@ class GenresFilterState extends State<GenresFilter>
         72.0,
         widget.gearWidth,
         widget.controllerIcons, (selected) {
-      setState(() {
         updateFilterGenders(selected, codigo: Genre.GENDER_ANIMATION_CODE);
-      });
     }, checkFilterGenders(codigo: Genre.GENDER_ANIMATION_CODE)));
     listIconsp.add(new GearInnerIcon.selectableIcon(
         'assets/imgs/noir.png',
@@ -148,9 +122,7 @@ class GenresFilterState extends State<GenresFilter>
         184.0,
         widget.gearWidth,
         widget.controllerIcons, (selected) {
-      setState(() {
         updateFilterGenders(selected, codigo: Genre.GENDER_NOIR_CODE);
-      });
     }, checkFilterGenders(codigo: Genre.GENDER_NOIR_CODE)));
     listIconsp.add(new GearInnerIcon.selectableIcon(
         'assets/imgs/kids.png',
@@ -159,9 +131,7 @@ class GenresFilterState extends State<GenresFilter>
         100.0,
         widget.gearWidth,
         widget.controllerIcons, (selected) {
-      setState(() {
         updateFilterGenders(selected, codigo: Genre.GENDER_KIDS_CODE);
-      });
     }, checkFilterGenders(codigo: Genre.GENDER_KIDS_CODE)));
     listIconsp.add(new GearInnerIcon.selectableIcon(
         'assets/imgs/western.png',
@@ -170,9 +140,7 @@ class GenresFilterState extends State<GenresFilter>
         156.0,
         widget.gearWidth,
         widget.controllerIcons, (selected) {
-      setState(() {
         updateFilterGenders(selected, codigo: Genre.GENDER_WESTERN_CODE);
-      });
     }, checkFilterGenders(codigo: Genre.GENDER_WESTERN_CODE)));
     listIconsp.add(new GearInnerIcon.selectableIcon(
         'assets/imgs/fantastic.png',
@@ -181,9 +149,7 @@ class GenresFilterState extends State<GenresFilter>
         30.0,
         widget.gearWidth,
         widget.controllerIcons, (selected) {
-      setState(() {
         updateFilterGenders(selected, codigo: Genre.GENDER_FANTASTIC_CODE);
-      });
     }, checkFilterGenders(codigo: Genre.GENDER_FANTASTIC_CODE)));
     listIconsp.add(new GearInnerIcon.selectableIcon(
         'assets/imgs/docu.png',
@@ -192,9 +158,7 @@ class GenresFilterState extends State<GenresFilter>
         225.0,
         widget.gearWidth,
         widget.controllerIcons, (selected) {
-      setState(() {
         updateFilterGenders(selected, codigo: Genre.GENDER_DOCU_CODE);
-      });
     }, checkFilterGenders(codigo: Genre.GENDER_DOCU_CODE)));
     listIconsp.add(new GearInnerIcon.selectableIcon(
         'assets/imgs/adventure.png',
@@ -203,9 +167,7 @@ class GenresFilterState extends State<GenresFilter>
         72.0,
         widget.gearWidth,
         widget.controllerIcons, (selected) {
-      setState(() {
         updateFilterGenders(selected, codigo: Genre.GENDER_ADVENTURE_CODE);
-      });
     }, checkFilterGenders(codigo: Genre.GENDER_ADVENTURE_CODE)));
     listIconsp.add(new GearInnerIcon.selectableIcon(
         'assets/imgs/action.png',
@@ -214,9 +176,7 @@ class GenresFilterState extends State<GenresFilter>
         184.0,
         widget.gearWidth,
         widget.controllerIcons, (selected) {
-      setState(() {
         updateFilterGenders(selected, codigo: Genre.GENDER_ACTION_CODE);
-      });
     }, checkFilterGenders(codigo: Genre.GENDER_ACTION_CODE)));
     listIconsp.add(new GearInnerIcon.selectableIcon(
         'assets/imgs/belic.png',
@@ -225,9 +185,7 @@ class GenresFilterState extends State<GenresFilter>
         128.0,
         widget.gearWidth,
         widget.controllerIcons, (selected) {
-      setState(() {
         updateFilterGenders(selected, codigo: Genre.GENDER_BELIC_CODE);
-      });
     }, checkFilterGenders(codigo: Genre.GENDER_BELIC_CODE)));
     listIconsp.add(new GearInnerIcon.mainButton(
         'assets/imgs/more.png',
@@ -236,10 +194,7 @@ class GenresFilterState extends State<GenresFilter>
         240.0,
         widget.gearWidth,
         widget.controllerIcons, () {
-      goToFilter(context, "MORE GENRES", FilterStates.MoreGenreFilter, () {
-        setState(() {});
-        widget.controllerIcons.forward();
-      });
+      Navigator.of(context).pushNamed(FilterMoreGenreRouteName);
     }, false));
     return listIconsp;
   }

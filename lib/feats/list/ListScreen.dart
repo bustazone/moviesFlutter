@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:pelis_busta/feats/list/FilmRow.dart';
-import 'package:pelis_busta/models/Film.dart';
-import 'package:pelis_busta/models/FilmFilter.dart';
+import 'package:pelis_busta/feats/list/ListScreenContainer.dart';
 import 'package:pelis_busta/feats/list/ProgressScreen.dart';
-import 'package:pelis_busta/support/services/Services.dart';
-import 'package:pelis_busta/support/utils/Utils.dart';
 
 class ListScreen extends StatefulWidget {
-  ListScreen(this.filmFilter, this.queryMore, {Key key}) : super(key: key);
+  ListScreen(this.vm, {Key key}) : super(key: key);
 
-  final bool queryMore;
-  final FilmFilter filmFilter;
+  final ViewModel vm;
 
   @override
   State<ListScreen> createState() {
@@ -19,81 +15,38 @@ class ListScreen extends StatefulWidget {
 }
 
 class ListScreenState extends State<ListScreen> {
-  bool queryMore = true;
-  bool loadingData = false;
-  bool firstQuery = true;
-  List<Film> items = new List();
-
-  _getFilms() async {
-    loadingData = true;
-    List<Film> resp = await getItemsList(widget.filmFilter);
-    loadingData = false;
-    firstQuery = false;
-    if (!isNullOrEmpty(resp)) {
-      setState(() {
-        items.insertAll(items.length - 1, resp);
-      });
-    } else {
-      if (items.length == 2) {
-        setState(() {
-          items.insert(items.length - 1, null);
-        });
-      }
-      queryMore = false;
-      setState(() {});
-    }
-  }
-
   initState() {
     super.initState();
-    firstQuery = true;
-    queryMore = widget.queryMore;
-    widget.filmFilter.page = 0;
-    items.add(new Film());
-    items.add(new Film());
-    if (!loadingData) {
-      loadingData = true;
-      _getFilms();
-    }
+    widget.vm.getFilms(widget.vm.randomFilmFilter);
   }
 
   reload() {
-    items.clear();
-    firstQuery = true;
-    queryMore = widget.queryMore;
-    widget.filmFilter.page = 0;
-    items.add(new Film());
-    items.add(new Film());
-    if (!loadingData) {
-      loadingData = true;
-      _getFilms();
-    }
+    widget.vm.resetList();
+    widget.vm.getFilms(widget.vm.randomFilmFilter);
   }
 
-  Widget getFilmItem(index) {
-    if (queryMore &&
-        items.length > 2 &&
-        index > items.length - 10 &&
-        !loadingData) {
-      loadingData = true;
-      widget.filmFilter.page += 1;
-      _getFilms();
+  Widget getFilmItem(index, list) {
+    if (widget.vm.canQueryMore &&
+        list.length > 3 &&
+        index > list.length - 10 &&
+        !widget.vm.loadingData) {
+      widget.vm.getMoreFilms();
     }
     if (index == 0) {
       return new FirstRow();
-    } else if (index == items.length - 1) {
+    } else if (index == list.length - 1) {
       return new LastRow();
     } else {
-      if (items[index] == null) {
+      if (list[index] == null) {
         return new NoResultsRow();
       } else {
-        return new FilmRow(index, items[index]);
+        return new FilmRow(index, list[index]);
       }
     }
   }
 
   Widget _getReloadButton() {
-    if (widget.filmFilter.randomFilm) {
+    if (widget.vm.randomFilmFilter) {
       return new Container(
           margin: new EdgeInsets.symmetric(horizontal: 4.0),
           child: new IconButton(
@@ -108,63 +61,98 @@ class ListScreenState extends State<ListScreen> {
   }
 
   Widget _getLoadingScreen() {
-    if (loadingData && firstQuery) {
+    if (widget.vm.loadingData && widget.vm.filmList.length == 0) {
       return new ProgressScreen();
     } else {
       return new Container();
     }
   }
 
+  goBack() {
+    widget.vm.resetList();
+    Navigator.of(context).pop();
+  }
+
+  Future<bool> _handleBack() async {
+    goBack();
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-        body: new Container(
-            color: const Color(0xFFCC9900),
-            child: new Stack(
-              children: <Widget>[
-                new CustomScrollView(
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: false,
-                  slivers: <Widget>[
-                    new SliverList(
-                      delegate: new SliverChildBuilderDelegate(
-                        (context, index) => getFilmItem(index),
-                        childCount: items.length,
+
+    var list = List.from(widget.vm.filmList);
+    if (list.length == 0) {
+      list.addAll([null, null, null]);
+    } else {
+      list = [null];
+      list.addAll(widget.vm.filmList);
+      list.add(null);
+    }
+    return new WillPopScope(
+        onWillPop: () {
+          _handleBack();
+        },
+        child: new Scaffold(
+            body: new Container(
+                color: const Color(0xFFCC9900),
+                child: new Stack(
+                  children: <Widget>[
+                    new CustomScrollView(
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: false,
+                      slivers: <Widget>[
+                        new SliverList(
+                          delegate: new SliverChildBuilderDelegate(
+                                (context, index) => getFilmItem(index, list),
+                            childCount: list.length,
+                          ),
+                        ),
+                      ],
+                    ),
+                    new Positioned(
+                      child: new Container(
+                          color: new Color(0x80CC9900),
+                          width: MediaQuery
+                              .of(context)
+                              .size
+                              .width,
+                          height: new AppBar().preferredSize.height,
+                          child: new Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              new Container(
+                                child: new IconButton(
+                                    color: new Color(0xFF564C19),
+                                    icon: new Icon(Icons.arrow_back),
+                                    onPressed: () {
+                                      goBack();
+                                    }),
+                              ),
+                              new Expanded(child: new Container()),
+                              _getReloadButton(),
+                            ],
+                          )),
+                      top: MediaQuery
+                          .of(context)
+                          .padding
+                          .top,
+                    ),
+                    new Positioned(
+                      child: new Container(
+                        color: new Color(0xFFCC9900),
+                        width: MediaQuery
+                            .of(context)
+                            .size
+                            .width,
+                        height: MediaQuery
+                            .of(context)
+                            .padding
+                            .top,
                       ),
                     ),
+                    _getLoadingScreen(),
                   ],
-                ),
-                new Positioned(
-                  child: new Container(
-                      color: new Color(0x80CC9900),
-                      width: MediaQuery.of(context).size.width,
-                      height: new AppBar().preferredSize.height,
-                      child: new Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          new Container(
-                            child: new IconButton(
-                                color: new Color(0xFF564C19),
-                                icon: new Icon(Icons.arrow_back),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                }),
-                          ),
-                          new Expanded(child: new Container()),
-                          _getReloadButton(),
-                        ],
-                      )),
-                  top: MediaQuery.of(context).padding.top,
-                ),
-                new Positioned(
-                  child: new Container(
-                    color: new Color(0xFFCC9900),
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).padding.top,
-                  ),
-                ),
-                _getLoadingScreen(),
-              ],
-            )));
+                ))));
   }
 }

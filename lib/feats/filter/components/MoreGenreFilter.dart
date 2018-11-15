@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pelis_busta/feats/filter/MainFilter.dart';
 import 'package:pelis_busta/models/Genre.dart';
+import 'package:pelis_busta/models/GenreList.dart';
 import 'package:pelis_busta/support/constants/DesignConstants.dart';
 import 'package:pelis_busta/support/custom_widgets/CustomCheckbox.dart';
 import 'package:pelis_busta/support/custom_widgets/PressingButton.dart';
@@ -9,8 +9,10 @@ import 'package:pelis_busta/support/services/Services.dart';
 class MoreGenresFilter extends StatefulWidget {
   final String title;
   final double gearWidth;
+  final GenreList genres;
+  final setGenres;
 
-  MoreGenresFilter(this.gearWidth, this.title, {Key key}) : super(key: key);
+  MoreGenresFilter(this.gearWidth, this.title, this.genres, this.setGenres, {Key key}) : super(key: key);
 
   @override
   State createState() => new MoreGenresFilterState();
@@ -51,25 +53,24 @@ class MoreGenresFilterState extends State<MoreGenresFilter>
   }
 
   changeSelectedValue(id, selected) {
-    var generos = new MainFilter().filter.generos;
+    var generos = widget.genres;
     for (int i = 0; i < generos.length; i++) {
       if (generos[i].id == id) {
         if (!selected) {
-          new MainFilter().filter.generos.removeByValues(new Genre(id: id));
-        } else {
-          return;
+          widget.setGenres(widget.genres.removeByValues(new Genre(id: id)));
         }
+        return;
       }
     }
     if (selected) {
-      new MainFilter().filter.generos.add(new Genre(id: id));
+      widget.setGenres(widget.genres.add(new Genre(id: id)));
     }
   }
 
   transformItems(List<Genre> genderList) {
     itemsSelected.clear();
     itemsGeneral.clear();
-    var generos = new MainFilter().filter.generos;
+    var generos = widget.genres;
     List<int> jj = new List();
     for (Genre g in generos) {
       jj.add(g.id);
@@ -85,7 +86,7 @@ class MoreGenresFilterState extends State<MoreGenresFilter>
 
   _reset() {
     for (GenreListItemData g in itemsSelected) {
-      new MainFilter().filter.generos.removeByValues(new Genre(id: g.id));
+      widget.setGenres(widget.genres.removeByValues(new Genre(id: g.id)));
     }
   }
 

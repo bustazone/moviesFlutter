@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:pelis_busta/feats/filter/LanguagesFilter.dart';
-import 'package:pelis_busta/feats/filter/MainFilter.dart';
+import 'package:pelis_busta/feats/filter/components/LanguagesFilter.dart';
 import 'package:pelis_busta/models/Language.dart';
+import 'package:pelis_busta/models/LanguageList.dart';
 import 'package:pelis_busta/support/constants/DesignConstants.dart';
 import 'package:pelis_busta/support/services/Services.dart';
 
 class LanguagesMultiselection extends StatefulWidget {
   final double gearWidth;
+  final LanguageList languages;
+  final setLanguages;
 
-  LanguagesMultiselection(this.gearWidth, {Key key}) : super(key: key);
+  LanguagesMultiselection(this.gearWidth, this.languages, this.setLanguages, {Key key}) : super(key: key);
 
   @override
   State createState() => new LanguagesMultiselectionState();
@@ -25,9 +27,7 @@ class LanguagesMultiselectionState extends State<LanguagesMultiselection>
       if (index < itemsLangSelected.length) {
         return new LanguageListItem(itemsLangSelected[index], widget.gearWidth,
             (selected) {
-          setState(() {
             changeSelectedLangValue(itemsLangSelected[index].codigo, selected);
-          });
         });
       } else if (itemsLangSelected.length > 0 &&
           index == itemsLangSelected.length) {
@@ -52,34 +52,31 @@ class LanguagesMultiselectionState extends State<LanguagesMultiselection>
   }
 
   changeSelectedLangValue(codigo, selected) {
-    var langs = new MainFilter().filter.idiomas;
+    var langs = widget.languages;
     for (int i = 0; i < langs.length; i++) {
       if (langs[i].codigo == codigo) {
         if (!selected) {
-          new MainFilter()
-              .filter
-              .idiomas
-              .removeByValues(new Language(codigo: codigo));
+          widget.setLanguages(widget.languages.removeByValues(new Language(codigo: codigo)));
         } else {
           return;
         }
       }
     }
     if (selected) {
-      new MainFilter().filter.idiomas.add(new Language(codigo: codigo));
+      widget.setLanguages(widget.languages.add(new Language(codigo: codigo)));
     }
   }
 
   transformLangItems() {
     itemsLangSelected.clear();
     itemsLangGeneral.clear();
-    var languages = new MainFilter().filter.idiomas;
-    List<String> jj = new List();
+    var languages = widget.languages;
+    List<String> intemediateList = new List();
     for (Language l in languages) {
-      jj.add(l.codigo);
+      intemediateList.add(l.codigo);
     }
     for (Language l in respLang) {
-      bool selected = (jj.indexOf(l.codigo) != -1);
+      bool selected = (intemediateList.indexOf(l.codigo) != -1);
       if (selected) {
         itemsLangSelected.add(new LanguageListItemData(selected, l));
       }
@@ -93,7 +90,6 @@ class LanguagesMultiselectionState extends State<LanguagesMultiselection>
     respLang = await getLanguagesList();
     respLang.sort((a, b) => a.codigo.compareTo(b.codigo));
     transformLangItems();
-    setState(() {});
   }
 
   int _getLangLenght() {

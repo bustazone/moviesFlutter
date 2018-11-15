@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:pelis_busta/feats/filter/FilterScreen.dart';
+import 'package:pelis_busta/feats/navigation/OnNavigateRouteCustom/CustomNavigator.dart';
 import 'package:pelis_busta/state/AppState.dart';
 import 'package:pelis_busta/reducers/AppStateReducer.dart';
+import 'package:pelis_busta/support/services/middleware/ServicesMiddleware.dart';
 import 'package:redux/redux.dart';
+
+final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
 
 void main() {
   runApp(new PelisApp());
-
 
 //  final store = new Store<int>(counterReducer, initialState: 0,
 //      middleware: [new LoggingMiddleware.printer()]);
@@ -21,24 +23,23 @@ void main() {
 class PelisApp extends StatelessWidget {
   // This widget is the root of your application.
   final store = new Store<AppState>(appReducer,
-      initialState: new AppState.initial(),
-      middleware: [_stateLog()]);
+      initialState: new AppState.initial(), middleware: [servicesMiddleware, _stateLog()]);
 
   @override
   Widget build(BuildContext context) {
     return new StoreProvider<AppState>(
         store: store,
         child: new MaterialApp(
-          title: "pelis app",
-          theme: new ThemeData(
-              splashColor: const Color(0xFFEAEAEA),
-              primaryColor: const Color(0xFFCC9900),
-              backgroundColor: const Color(0xFFEAEAEA)),
-          home: new FilterScreen.main(),
-        ));
+            title: "pelis app",
+            theme: new ThemeData(
+                splashColor: const Color(0xFFEAEAEA),
+                primaryColor: const Color(0xFFCC9900),
+                backgroundColor: const Color(0xFFEAEAEA)),
+            onGenerateRoute: CustomNavigator.getCustomRoutes,
+            initialRoute: '/',
+            navigatorObservers: [routeObserver]));
   }
 }
-
 
 Middleware<AppState> _stateLog() {
   return (Store<AppState> store, action, NextDispatcher next) {
@@ -46,7 +47,7 @@ Middleware<AppState> _stateLog() {
     next(action);
     var pos = store.state.copyWith();
 
-    print ("{\n" +
+    print("{\n" +
         "  Previous State: $pre,\n" +
         "  Action: $action,\n" +
         "  Next State: $pos,\n" +
@@ -54,8 +55,6 @@ Middleware<AppState> _stateLog() {
         "}");
   };
 }
-
-
 
 // One simple action: Increment
 enum Actions { Increment }

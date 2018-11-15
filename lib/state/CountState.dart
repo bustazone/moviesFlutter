@@ -8,10 +8,10 @@ class CountState {
 
   const CountState(
       {
-        this.count = 0
+        this.count
       });
 
-  factory CountState.initial() => new CountState();
+  factory CountState.initial() => new CountState(count: 2);
 
   CountState copyWith({
     int count
