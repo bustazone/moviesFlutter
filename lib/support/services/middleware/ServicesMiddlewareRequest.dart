@@ -12,20 +12,22 @@ class ServicesMiddlewareRequest {
   final ServicesMiddlewareRequestStartAction actionStart;
   final ServicesMiddlewareRequestSuccessAction actionSuccess;
   final ServicesMiddlewareRequestFailureAction actionFailure;
+  final onSuccess;
+  final onFailure;
 
 
   const ServicesMiddlewareRequest(this.url, this.method, this.body, this.transformFunction, this.actionStart,
-      this.actionSuccess, this.actionFailure);
+      this.actionSuccess, this.actionFailure, this.onSuccess, this.onFailure);
 
   factory ServicesMiddlewareRequest.get(
-          url, actionStart, actionSuccess, actionFailure) =>
+          url, transformFunction, actionStart, actionSuccess, actionFailure, {onSuccess, onFailure}) =>
       new ServicesMiddlewareRequest(
-          url, RequestMethod.GET, null, null, actionStart, actionSuccess, actionFailure);
+          url, RequestMethod.GET, null, transformFunction, actionStart, actionSuccess, actionFailure, onSuccess, onFailure);
 
   factory ServicesMiddlewareRequest.post(
-      url, body, transformFunction, actionStart, actionSuccess, actionFailure) =>
+      url, body, transformFunction, actionStart, actionSuccess, actionFailure, {onSuccess, onFailure}) =>
       new ServicesMiddlewareRequest(
-          url, RequestMethod.POST, body, transformFunction, actionStart, actionSuccess, actionFailure);
+          url, RequestMethod.POST, body, transformFunction, actionStart, actionSuccess, actionFailure, onSuccess, onFailure);
 
   @override
   int get hashCode =>

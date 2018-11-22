@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pelis_busta/models/Film.dart';
+import 'package:pelis_busta/navigation/OnNavigateRouteCustom/CustomNavigator.dart';
 import 'package:pelis_busta/support/constants/DesignConstants.dart';
 import 'package:pelis_busta/support/utils/Utils.dart';
 
@@ -30,10 +31,11 @@ List<Widget> _fillImageList(
 }
 
 class FilmRow extends StatelessWidget {
+  final Function(int) setFilmId;
   final int itemNum;
   final Film film;
 
-  FilmRow(this.itemNum, this.film);
+  FilmRow(this.itemNum, this.film, this.setFilmId);
 
   @override
   Widget build(BuildContext context) {
@@ -311,15 +313,20 @@ class FilmRow extends StatelessWidget {
       ),
     );
 
-    return new Container(
-        height: DesignConstants.filmRowHeight * transformProportion,
-        width: screenWidth,
-        child: new Stack(
-          children: [
-            background,
-            dataContainer,
-          ],
-        ));
+    return new GestureDetector(
+        onTap: () {
+          this.setFilmId(film.peliculaId);
+          Navigator.of(context).pushNamed(DetailRouteName);
+        },
+        child: new Container(
+            height: DesignConstants.filmRowHeight * transformProportion,
+            width: screenWidth,
+            child: new Stack(
+              children: [
+                background,
+                dataContainer,
+              ],
+            )));
   }
 }
 

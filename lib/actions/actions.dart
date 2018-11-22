@@ -85,3 +85,9 @@ class SetFilterSeriesStateAction {
 class ResetWholeFilterStateAction {}
 
 class ResetListAction {}
+
+class SetSelectedFilmIdStateAction {
+  final int filmId;
+
+  SetSelectedFilmIdStateAction(this.filmId);
+}

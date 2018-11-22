@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:pelis_busta/feats/detail/DetailFilmScreenContainer.dart';
+import 'package:pelis_busta/feats/edit/EditFilmScreenContainer.dart';
 import 'package:pelis_busta/feats/filter/FilterScreen.dart';
 import 'package:pelis_busta/feats/filter/FilterScreenContainer.dart';
 import 'package:pelis_busta/feats/home/HomeScreen.dart';
 import 'package:pelis_busta/feats/list/ListScreenContainer.dart';
-import 'package:pelis_busta/feats/navigation/OnNavigateRouteCustom/CustomRoute.dart';
+import 'package:pelis_busta/navigation/OnNavigateRouteCustom/CustomRoute.dart';
 
 const String HomeRouteName = "/";
 const String FilterRouteName = "/filter";
@@ -17,6 +19,8 @@ const String FilterLocationRouteName = "/filter/location";
 const String FilterYearRouteName = "/filter/year";
 const String ListRouteName = "/list";
 const String RandomFilmRouteName = "/randomFilm";
+const String DetailRouteName = "/detail";
+const String EditRouteName = "/detail/edit";
 
 class CustomNavigator extends StatelessWidget {
   Widget build(BuildContext context) {
@@ -36,7 +40,9 @@ class CustomNavigator extends StatelessWidget {
     FilterLocationRouteName: (context) => FilterScreenContainer(FilterStates.LocationFilter, title: "LOCATION"),
     FilterYearRouteName: (context) => FilterScreenContainer(FilterStates.YearFilter, title: "YEAR"),
     ListRouteName: (context) => ListScreenContainer(),
-    RandomFilmRouteName: (context) => ListScreenContainer(randomFilm: true),
+    RandomFilmRouteName: (context) => DetailScreenContainer(randomFilm: true),
+    DetailRouteName: (context) => DetailScreenContainer(),
+    EditRouteName: (context) => EditFilmScreenContainer(),
   };
 
   static Route<BuildContext> getCustomRoutes(RouteSettings settings) {

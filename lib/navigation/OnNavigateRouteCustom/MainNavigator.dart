@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pelis_busta/feats/home/HomeScreen.dart';
-import 'package:pelis_busta/feats/navigation/OnNavigateRouteCustom/CustomRoute.dart';
-import 'package:pelis_busta/feats/navigation/OnNavigateRouteCustom/FilterNavigator.dart';
+import 'package:pelis_busta/navigation/OnNavigateRouteCustom/CustomRoute.dart';
+import 'package:pelis_busta/navigation/OnNavigateRouteCustom/FilterNavigator.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 

@@ -31,6 +31,7 @@ class ViewModel {
   final Function(bool) getFilms;
   final Function() getMoreFilms;
   final Function() resetList;
+  final Function(int) selectFilm;
   final List<Film> filmList;
   final bool loadingData;
 
@@ -40,6 +41,7 @@ class ViewModel {
       @required this.getFilms,
       @required this.getMoreFilms,
       @required this.resetList,
+      @required this.selectFilm,
       @required this.filmList,
       @required this.loadingData});
 
@@ -60,8 +62,12 @@ class ViewModel {
         resetList: () {
           store.dispatch(ResetListAction());
         },
+        selectFilm: (filmId) {
+          print("selectFilm $filmId");
+          store.dispatch(SetSelectedFilmIdStateAction(filmId));
+        },
         filmList: store.state.filmList.filmList,
-        loadingData: store.state.filmList.loading);
+        loadingData: store.state.loadingDataState.loadingProcesses > 0);
   }
 
   @override

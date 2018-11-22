@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pelis_busta/feats/filter/FilterScreen.dart';
-import 'package:pelis_busta/feats/navigation/OnNavigateRouteCustom/CustomRoute.dart';
+import 'package:pelis_busta/navigation/OnNavigateRouteCustom/CustomRoute.dart';
 
 const String FilterTitleRouteName = "/title";
 const String FilterDirectorRouteName = "/director";

@@ -1,11 +1,10 @@
 import 'dart:collection';
-
 import 'package:pelis_busta/models/Language.dart';
 
 class LanguageList extends ListBase<Language> {
-  final List<Language> l = [];
+  final List<Language> l;
 
-  LanguageList();
+  LanguageList({this.l = const <Language>[]});
 
   set length(int newLength) {
     l.length = newLength;

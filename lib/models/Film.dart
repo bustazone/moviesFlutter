@@ -85,4 +85,39 @@ class Film {
     }
     return f;
   }
+
+  @override
+  String toString() {
+    return 'Film{'
+        'peliculaId: $peliculaId,'
+        'titulo: $titulo,'
+        'size: $size,'
+        'location: $location,'
+        'vista: $vista,'
+        'formato: $formato,'
+        'year: $year,'
+        'director: $director,'
+        'imdbId: $imdbId,'
+        'filmaffinityId: $filmaffinityId,'
+        'tituloOriginal: $tituloOriginal,'
+        'serie: $serie,'
+        'nombreArchivo: $nombreArchivo,'
+        'punctFilmaffinity: $punctFilmaffinity,'
+        'punctImdb: $punctImdb,'
+        'duracion: $duracion,'
+        'countries: $countries,'
+        'casts: $casts,'
+        'plot: $plot,'
+        'imageUrl: $imageUrl,'
+        'idiomasStr: $idiomasStr,'
+        'subtitulosStr: $subtitulosStr,'
+        'generosStr: $generosStr,'
+        'punctuation: $punctuation,'
+        'idiomas: $idiomas,'
+        'subtitulos: $subtitulos,'
+        'generos: $generos,'
+        '}';
+  }
 }
+
+

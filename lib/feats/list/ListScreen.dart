@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pelis_busta/feats/list/FilmRow.dart';
 import 'package:pelis_busta/feats/list/ListScreenContainer.dart';
-import 'package:pelis_busta/feats/list/ProgressScreen.dart';
+import 'package:pelis_busta/support/custom_widgets/ProgressScreen.dart';
 
 class ListScreen extends StatefulWidget {
   ListScreen(this.vm, {Key key}) : super(key: key);
@@ -40,23 +40,8 @@ class ListScreenState extends State<ListScreen> {
       if (list[index] == null) {
         return new NoResultsRow();
       } else {
-        return new FilmRow(index, list[index]);
+        return new FilmRow(index, list[index], widget.vm.selectFilm);
       }
-    }
-  }
-
-  Widget _getReloadButton() {
-    if (widget.vm.randomFilmFilter) {
-      return new Container(
-          margin: new EdgeInsets.symmetric(horizontal: 4.0),
-          child: new IconButton(
-              color: new Color(0xFF564C19),
-              icon: new Icon(Icons.repeat),
-              onPressed: () {
-                reload();
-              }));
-    } else {
-      return new Container();
     }
   }
 
@@ -80,7 +65,6 @@ class ListScreenState extends State<ListScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     var list = List.from(widget.vm.filmList);
     if (list.length == 0) {
       list.addAll([null, null, null]);
@@ -104,7 +88,7 @@ class ListScreenState extends State<ListScreen> {
                       slivers: <Widget>[
                         new SliverList(
                           delegate: new SliverChildBuilderDelegate(
-                                (context, index) => getFilmItem(index, list),
+                            (context, index) => getFilmItem(index, list),
                             childCount: list.length,
                           ),
                         ),
@@ -113,10 +97,7 @@ class ListScreenState extends State<ListScreen> {
                     new Positioned(
                       child: new Container(
                           color: new Color(0x80CC9900),
-                          width: MediaQuery
-                              .of(context)
-                              .size
-                              .width,
+                          width: MediaQuery.of(context).size.width,
                           height: new AppBar().preferredSize.height,
                           child: new Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -130,25 +111,15 @@ class ListScreenState extends State<ListScreen> {
                                     }),
                               ),
                               new Expanded(child: new Container()),
-                              _getReloadButton(),
                             ],
                           )),
-                      top: MediaQuery
-                          .of(context)
-                          .padding
-                          .top,
+                      top: MediaQuery.of(context).padding.top,
                     ),
                     new Positioned(
                       child: new Container(
                         color: new Color(0xFFCC9900),
-                        width: MediaQuery
-                            .of(context)
-                            .size
-                            .width,
-                        height: MediaQuery
-                            .of(context)
-                            .padding
-                            .top,
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).padding.top,
                       ),
                     ),
                     _getLoadingScreen(),

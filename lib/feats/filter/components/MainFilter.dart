@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pelis_busta/feats/filter/FilterScreenContainer.dart';
 import 'package:pelis_busta/feats/filter/components/GearInnerIcon.dart';
-import 'package:pelis_busta/feats/navigation/OnNavigateRouteCustom/CustomNavigator.dart';
+import 'package:pelis_busta/navigation/OnNavigateRouteCustom/CustomNavigator.dart';
 import 'package:pelis_busta/support/utils/Utils.dart';
 
 class MainFilter extends StatefulWidget {

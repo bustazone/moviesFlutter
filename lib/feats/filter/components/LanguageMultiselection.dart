@@ -8,7 +8,7 @@ import 'package:pelis_busta/support/services/Services.dart';
 class LanguagesMultiselection extends StatefulWidget {
   final double gearWidth;
   final LanguageList languages;
-  final setLanguages;
+  final Function(LanguageList) setLanguages;
 
   LanguagesMultiselection(this.gearWidth, this.languages, this.setLanguages, {Key key}) : super(key: key);
 
@@ -56,14 +56,14 @@ class LanguagesMultiselectionState extends State<LanguagesMultiselection>
     for (int i = 0; i < langs.length; i++) {
       if (langs[i].codigo == codigo) {
         if (!selected) {
-          widget.setLanguages(widget.languages.removeByValues(new Language(codigo: codigo)));
+          widget.setLanguages(widget.languages..removeByValues(new Language(codigo: codigo)));
         } else {
           return;
         }
       }
     }
     if (selected) {
-      widget.setLanguages(widget.languages.add(new Language(codigo: codigo)));
+      widget.setLanguages(widget.languages..add(new Language(codigo: codigo)));
     }
   }
 

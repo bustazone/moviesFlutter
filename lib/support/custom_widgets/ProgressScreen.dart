@@ -16,7 +16,7 @@ class ProgressScreenState extends State<ProgressScreen>
     return new Container(
       decoration: new BoxDecoration (color: new Color(0xFFCC9900)),
       child: new Center(
-        child: new Text('Charging',
+        child: new Text('Loading...',
             style: new TextStyle(fontSize: 40.0, color: Colors.black87)),
       ),
     );

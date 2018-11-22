@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:pelis_busta/feats/navigation/OnNavigateRouteCustom/CustomNavigator.dart';
+import 'package:pelis_busta/navigation/OnNavigateRouteCustom/CustomNavigator.dart';
 import 'package:pelis_busta/state/AppState.dart';
 import 'package:pelis_busta/reducers/AppStateReducer.dart';
 import 'package:pelis_busta/support/services/middleware/ServicesMiddleware.dart';
