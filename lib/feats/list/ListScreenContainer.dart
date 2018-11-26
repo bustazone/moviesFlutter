@@ -26,6 +26,7 @@ class ListScreenContainer extends StatelessWidget {
 }
 
 class ViewModel {
+  final bool showLoader;
   final bool randomFilmFilter;
   final bool canQueryMore;
   final Function(bool) getFilms;
@@ -36,7 +37,8 @@ class ViewModel {
   final bool loadingData;
 
   ViewModel(
-      {@required this.randomFilmFilter,
+      {@required this.showLoader,
+      @required this.randomFilmFilter,
       @required this.canQueryMore,
       @required this.getFilms,
       @required this.getMoreFilms,
@@ -47,6 +49,7 @@ class ViewModel {
 
   static ViewModel fromStore(Store<AppState> store, bool randomFilm) {
     return ViewModel(
+        showLoader: store.state.loadingDataState.loadingProcesses > 0,
         randomFilmFilter: randomFilm,
         canQueryMore: randomFilm ? false : store.state.filmList.couldQueryMore,
         getFilms: (random) {
@@ -75,9 +78,11 @@ class ViewModel {
       identical(this, other) ||
       other is ViewModel &&
           runtimeType == other.runtimeType &&
+          showLoader == other.showLoader &&
           randomFilmFilter == other.randomFilmFilter &&
           filmList == other.filmList;
 
   @override
-  int get hashCode => randomFilmFilter.hashCode ^ filmList.hashCode;
+  int get hashCode =>
+      showLoader.hashCode ^ randomFilmFilter.hashCode ^ filmList.hashCode;
 }

@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:pelis_busta/support/utils/Utils.dart';
 
-
 class Genre {
   static const String TYPE_GENDER = "principal";
   static const String TYPE_SUBGENDER = "listas_filmaffinity";

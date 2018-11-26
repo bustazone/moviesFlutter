@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:pelis_busta/feats/edit/EditFilmScreenContainer.dart';
+import 'package:pelis_busta/feats/edit/components/CheckBoxInputWithLabel.dart';
 import 'package:pelis_busta/feats/edit/components/TextInputWithLabel.dart';
-import 'package:pelis_busta/feats/filter/components/LanguageMultiselection.dart';
-import 'package:pelis_busta/support/custom_widgets/IconGestureDetector.dart';
-
-final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
+import 'package:pelis_busta/feats/filter/components/LanguagesMultiselectionList.dart';
+import 'package:pelis_busta/loading_screen_component/LoadingScaffoldWrapperWidget.dart';
+import 'package:pelis_busta/models/LanguageList.dart';
 
 class EditFilmScreen extends StatefulWidget {
   final String title;
@@ -17,36 +17,9 @@ class EditFilmScreen extends StatefulWidget {
 }
 
 class EditFilmScreenState extends State<EditFilmScreen>
-    with TickerProviderStateMixin, RouteAware {
-  final TextEditingController _textController = new TextEditingController();
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    routeObserver.subscribe(this, ModalRoute.of(context));
-  }
-
-  @override
-  void didPush() {
-    // Route was pushed onto navigator and is now topmost route.
-    print("didPush");
-  }
-
-  @override
-  void didPopNext() {
-    // Covering route was popped off the navigator.
-    print("didPopNext");
-  }
-
-  @override
-  dispose() {
-    routeObserver.unsubscribe(this);
-    super.dispose();
-  }
-
+    with TickerProviderStateMixin {
   initState() {
     super.initState();
-    widget.vm.getFilm();
   }
 
   goBack() {
@@ -54,11 +27,10 @@ class EditFilmScreenState extends State<EditFilmScreen>
     Navigator.of(context).pop();
   }
 
-  void _handleSubmitted(String text) {}
-
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
+    return new LoadingScaffoldWrapperWidget(
+        showLoader: widget.vm.showLoader,
         appBar: AppBar(
           backgroundColor: new Color(0x80CC9900),
           leading: new Container(
@@ -69,33 +41,88 @@ class EditFilmScreenState extends State<EditFilmScreen>
                   goBack();
                 }),
           ),
+          actions: <Widget>[
+            new IconButton(
+                color: Color(0xFF564C19),
+                icon: new Icon(Icons.done),
+                onPressed: () {
+                  widget.vm.uploadChanges((response) {
+                    goBack();
+                  });
+                })
+          ],
         ),
-        body: new Container(
-          padding: new EdgeInsets.all(24.0),
-          color: const Color(0xFFEAEAEA),
-          child: new Column(children: <Widget>[
-            new TextInputWithLabel("location", (text){print("location $text");}),
-            new TextInputWithLabel("vista", (text){print("vista $text");}),//<---------------------------
-            new TextInputWithLabel("formato", (text){print("formato $text");}),
-            new TextInputWithLabel("size", (text){print("size $text");}),
-            new TextInputWithLabel("imdbId", (text){print("imdbId $text");}),
-            new TextInputWithLabel("filmaffinityId", (text){print("filmaffinityId $text");}),
-//            new TextInputWithLabel("serie", (text){print("serie $text");}),//<----------------------------
-//            new TextInputWithLabel("nombreArchivo", (text){print("nombreArchivo $text");}),
-//            new TextInputWithLabel("comentarios", (text){print("comentarios $text");}),
-//            new Container(
-//              margin: new EdgeInsets.only(top: 5.0),
-//              child: new Row(
-//                children: <Widget>[
-//                  new LanguagesMultiselection(widget.gearWidth,
-//                      widget.languages, widget.setLanguages),
-//                  new Expanded(child: new Container()),
-//                  new LanguagesMultiselection(widget.gearWidth,
-//                      widget.subtitles, widget.setSubtitles),
-//                ],
-//              ),
-//            ),
-          ]),
+        body: new CustomScrollView(
+          scrollDirection: Axis.vertical,
+          shrinkWrap: false,
+          slivers: <Widget>[
+            new SliverList(
+              delegate: new SliverChildListDelegate(<Widget>[
+                new TextInputWithLabel("location", (text) {
+                  widget.vm.setLocation(text);
+                }, value: widget.vm.location),
+                new CheckBoxInputWithLabel("vista", (selected) {
+                  widget.vm.setVista(selected);
+                }, value: widget.vm.vista), //<---------------------------
+                new TextInputWithLabel("formato", (text) {
+                  widget.vm.setFormato(text);
+                }, value: widget.vm.formato),
+                new TextInputWithLabel("size", (amount) {
+                  widget.vm.setSize(int.parse(amount));
+                },
+                    value: widget.vm.size == null
+                        ? ""
+                        : widget.vm.size.toString()),
+                new TextInputWithLabel("imdbId", (text) {
+                  widget.vm.setImdbId(text);
+                }, value: widget.vm.imdbId),
+                new TextInputWithLabel("filmaffinityId", (text) {
+                  widget.vm.setFilmaffinityId(text);
+                }, value: widget.vm.filmaffinityId),
+                new CheckBoxInputWithLabel("serie", (selected) {
+                  widget.vm.setSerie(selected);
+                }, value: widget.vm.serie), //<----------------------------
+                new TextInputWithLabel("nombreArchivo", (text) {
+                  widget.vm.setNombreArchivo(text);
+                }, value: widget.vm.nombreArchivo),
+                new TextInputWithLabel("comentarios", (text) {
+                  widget.vm.setComentarios(text);
+                }, value: widget.vm.comentarios),
+                new Container(
+                  decoration: BoxDecoration(color: Color(0xffffff00)),
+                  margin: new EdgeInsets.only(top: 5.0),
+                  height: 200,
+                  width: 300,
+                  child: new Row(
+                    children: <Widget>[
+                      Expanded(
+                          child: new Container(
+                        decoration: BoxDecoration(color: Color(0xffff0000)),
+                        width: 70,
+                        child: LanguagesMultiselectionList(
+                            LanguageList(l: widget.vm.idiomas), (values) {
+                          widget.vm.setIdiomas(values);
+                        }, widget.vm.allLangs),
+                      )),
+                      Expanded(
+                          child: new Container(
+                        decoration: BoxDecoration(color: Color(0xff00ff00)),
+                      )),
+                      Expanded(
+                          child: new Container(
+                        decoration: BoxDecoration(color: Color(0xff0000ff)),
+                        width: 70,
+                        child: LanguagesMultiselectionList(
+                            LanguageList(l: widget.vm.subtitulos), (values) {
+                          widget.vm.setSubtitulos(values);
+                        }, widget.vm.allSubs),
+                      )),
+                    ],
+                  ),
+                ),
+              ]),
+            ),
+          ],
         ));
   }
 }

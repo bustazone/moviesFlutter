@@ -28,16 +28,21 @@ class DetailScreenContainer extends StatelessWidget {
 }
 
 class ViewModel {
-  final bool loadingData;
+  final bool showLoader;
   final Film film;
   final bool randomFilmFilter;
   final Function() getFilm;
 
-  ViewModel({@required this.loadingData, @required this.film, @required this.randomFilmFilter, @required this.getFilm});
+  ViewModel(
+      {@required this.showLoader,
+      @required this.film,
+      @required this.randomFilmFilter,
+      @required this.getFilm});
 
   static ViewModel fromStore(Store<AppState> store, bool randomFilm) {
     return ViewModel(
-      loadingData: store.state.loadingDataState.loadingProcesses > 0,
+      showLoader: store.state.loadingDataState.loadingProcesses > 0 ||
+          store.state.filmDetail.selectedFilm == null,
       film: store.state.filmDetail.selectedFilm,
       randomFilmFilter: randomFilm,
       getFilm: () {
@@ -70,8 +75,9 @@ class ViewModel {
       identical(this, other) ||
       other is ViewModel &&
           runtimeType == other.runtimeType &&
+          showLoader == other.showLoader &&
           film == other.film;
 
   @override
-  int get hashCode => film.hashCode;
+  int get hashCode => showLoader.hashCode ^ film.hashCode;
 }

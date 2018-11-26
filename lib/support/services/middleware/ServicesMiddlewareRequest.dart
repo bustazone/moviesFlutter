@@ -15,19 +15,43 @@ class ServicesMiddlewareRequest {
   final onSuccess;
   final onFailure;
 
-
-  const ServicesMiddlewareRequest(this.url, this.method, this.body, this.transformFunction, this.actionStart,
-      this.actionSuccess, this.actionFailure, this.onSuccess, this.onFailure);
+  const ServicesMiddlewareRequest(
+      this.url,
+      this.method,
+      this.body,
+      this.transformFunction,
+      this.actionStart,
+      this.actionSuccess,
+      this.actionFailure,
+      this.onSuccess,
+      this.onFailure);
 
   factory ServicesMiddlewareRequest.get(
-          url, transformFunction, actionStart, actionSuccess, actionFailure, {onSuccess, onFailure}) =>
+          url, transformFunction, actionStart, actionSuccess, actionFailure,
+          {onSuccess, onFailure}) =>
       new ServicesMiddlewareRequest(
-          url, RequestMethod.GET, null, transformFunction, actionStart, actionSuccess, actionFailure, onSuccess, onFailure);
+          url,
+          RequestMethod.GET,
+          null,
+          transformFunction,
+          actionStart,
+          actionSuccess,
+          actionFailure,
+          onSuccess,
+          onFailure);
 
-  factory ServicesMiddlewareRequest.post(
-      url, body, transformFunction, actionStart, actionSuccess, actionFailure, {onSuccess, onFailure}) =>
+  factory ServicesMiddlewareRequest.post(url, body, transformFunction,
+          actionStart, actionSuccess, actionFailure, {onSuccess, onFailure}) =>
       new ServicesMiddlewareRequest(
-          url, RequestMethod.POST, body, transformFunction, actionStart, actionSuccess, actionFailure, onSuccess, onFailure);
+          url,
+          RequestMethod.POST,
+          body,
+          transformFunction,
+          actionStart,
+          actionSuccess,
+          actionFailure,
+          onSuccess,
+          onFailure);
 
   @override
   int get hashCode =>

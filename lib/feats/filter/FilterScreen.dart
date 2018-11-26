@@ -1,17 +1,18 @@
 import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:pelis_busta/feats/filter/FilterScreenContainer.dart';
-import 'package:pelis_busta/navigation/OnNavigateRouteCustom/CustomNavigator.dart';
-import 'package:pelis_busta/main.dart';
 import 'package:pelis_busta/feats/filter/components/GearInnerIcon.dart';
 import 'package:pelis_busta/feats/filter/components/GenresFilter.dart';
 import 'package:pelis_busta/feats/filter/components/LanguagesFilter.dart';
 import 'package:pelis_busta/feats/filter/components/MainFilter.dart';
 import 'package:pelis_busta/feats/filter/components/MoreGenreFilter.dart';
 import 'package:pelis_busta/feats/filter/components/TextFilter.dart';
+import 'package:pelis_busta/feats/filter/components/YearFilter.dart';
+import 'package:pelis_busta/main.dart';
+import 'package:pelis_busta/navigation/OnNavigateRouteCustom/CustomNavigator.dart';
 import 'package:pelis_busta/support/constants/DesignConstants.dart';
 import 'package:pelis_busta/support/custom_widgets/PressingButton.dart';
-import 'package:pelis_busta/feats/filter/components/YearFilter.dart';
 
 enum FilterStates {
   FilterSelector,
@@ -156,8 +157,8 @@ class FilterScreenState extends State<FilterScreen>
           return new TextFilter(gearWidth, widget.title, widget.vm.location,
               widget.vm.setLocation, widget.vm.resetLocation);
         case FilterStates.MoreGenreFilter:
-          return new MoreGenresFilter(
-              gearWidth, widget.title, widget.vm.genres, widget.vm.setGenres);
+          return new MoreGenresFilter(gearWidth, widget.title, widget.vm.genres,
+              widget.vm.setGenres, widget.vm.allSubGenres);
         case FilterStates.LanguagesFilter:
           return new LanguagesFilter(
               gearWidth,
@@ -165,9 +166,11 @@ class FilterScreenState extends State<FilterScreen>
               widget.vm.languages,
               widget.vm.setLanguages,
               widget.vm.resetLanguages,
+              widget.vm.allLangs,
               widget.vm.subtitles,
               widget.vm.setSubtitles,
-              widget.vm.resetSubtitles);
+              widget.vm.resetSubtitles,
+              widget.vm.allSubs);
         case FilterStates.YearFilter:
           return new YearFilter(
               gearWidth,

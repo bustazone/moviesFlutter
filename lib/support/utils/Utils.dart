@@ -1,3 +1,3 @@
 bool isNullOrEmpty(string) {
-  return string==null || string.length==0;
+  return string == null || string.length == 0;
 }

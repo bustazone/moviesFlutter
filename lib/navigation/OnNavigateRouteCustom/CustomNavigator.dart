@@ -32,13 +32,20 @@ class CustomNavigator extends StatelessWidget {
     FilterRouteName: (context) => FilterScreenContainer.main(),
     FilterTitleRouteName: (context) =>
         FilterScreenContainer(FilterStates.TitleFilter, title: "TITLE"),
-    FilterDirectorRouteName: (context) => FilterScreenContainer(FilterStates.DirectorFilter, title: "DIRECTOR"),
-    FilterCastRouteName: (context) => FilterScreenContainer(FilterStates.CastFilter, title: "CAST"),
-    FilterGenreRouteName: (context) => FilterScreenContainer(FilterStates.GenderFilter, title: "GENRES"),
-    FilterMoreGenreRouteName: (context) => FilterScreenContainer(FilterStates.MoreGenreFilter, title: "GENRES"),
-    FilterLangRouteName: (context) => FilterScreenContainer(FilterStates.LanguagesFilter, title: "LANGUAGES"),
-    FilterLocationRouteName: (context) => FilterScreenContainer(FilterStates.LocationFilter, title: "LOCATION"),
-    FilterYearRouteName: (context) => FilterScreenContainer(FilterStates.YearFilter, title: "YEAR"),
+    FilterDirectorRouteName: (context) =>
+        FilterScreenContainer(FilterStates.DirectorFilter, title: "DIRECTOR"),
+    FilterCastRouteName: (context) =>
+        FilterScreenContainer(FilterStates.CastFilter, title: "CAST"),
+    FilterGenreRouteName: (context) =>
+        FilterScreenContainer(FilterStates.GenderFilter, title: "GENRES"),
+    FilterMoreGenreRouteName: (context) =>
+        FilterScreenContainer(FilterStates.MoreGenreFilter, title: "GENRES"),
+    FilterLangRouteName: (context) =>
+        FilterScreenContainer(FilterStates.LanguagesFilter, title: "LANGUAGES"),
+    FilterLocationRouteName: (context) =>
+        FilterScreenContainer(FilterStates.LocationFilter, title: "LOCATION"),
+    FilterYearRouteName: (context) =>
+        FilterScreenContainer(FilterStates.YearFilter, title: "YEAR"),
     ListRouteName: (context) => ListScreenContainer(),
     RandomFilmRouteName: (context) => DetailScreenContainer(randomFilm: true),
     DetailRouteName: (context) => DetailScreenContainer(),

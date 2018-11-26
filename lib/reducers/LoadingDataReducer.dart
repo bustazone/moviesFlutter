@@ -19,6 +19,11 @@ final loadingDataReducer = combineReducers<LoadingDataState>([
   TypedReducer<LoadingDataState, GetFilmRequestSuccessAction>(
       _setNotLoadingData),
   TypedReducer<LoadingDataState, GetFilmRequestFailureAction>(
+      _setNotLoadingData),
+  TypedReducer<LoadingDataState, UpdateFilmRequestStartAction>(_setLoadingData),
+  TypedReducer<LoadingDataState, UpdateFilmRequestSuccessAction>(
+      _setNotLoadingData),
+  TypedReducer<LoadingDataState, UpdateFilmRequestFailureAction>(
       _setNotLoadingData)
 ]);
 

@@ -3,7 +3,6 @@ import 'package:pelis_busta/navigation/OnNavigateRouteCustom/CustomNavigator.dar
 import 'package:pelis_busta/support/custom_widgets/PressingButton.dart';
 
 class HomeScreen extends StatelessWidget {
-
   HomeScreen({Key key}) : super(key: key);
 
   @override
@@ -14,11 +13,8 @@ class HomeScreen extends StatelessWidget {
     Widget getMainButtons() {
       return new Stack(alignment: const FractionalOffset(0.0, 0.5), children: [
         new Positioned(
-          child: new PressingButton(
-              'assets/imgs/search.png',
-              'assets/imgs/search_selected.png',
-              200.0,
-              null, () {
+          child: new PressingButton('assets/imgs/search.png',
+              'assets/imgs/search_selected.png', 200.0, null, () {
             Navigator.of(context).pushNamed(FilterRouteName);
           }),
           left: (screenWidth / 2.0) - 100.0,
@@ -53,4 +49,3 @@ class HomeScreen extends StatelessWidget {
     ));
   }
 }
-

@@ -3,9 +3,9 @@ import 'dart:collection';
 import 'package:pelis_busta/models/Genre.dart';
 
 class GenreList extends ListBase<Genre> {
-  final List<Genre> l = [];
+  final List<Genre> l;
 
-  GenreList();
+  GenreList({this.l = const <Genre>[]});
 
   set length(int newLength) {
     l.length = newLength;

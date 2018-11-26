@@ -56,8 +56,8 @@ class YearFilterState extends State<YearFilter> with TickerProviderStateMixin {
       modeContainer = new Container(
         margin: new EdgeInsets.only(
             top: 41.0 * (widget.gearWidth / DesignConstants.gearWidth)),
-        child: new YearSelectorField(
-            widget.gearWidth, 80.0, widget.year, (year) {
+        child:
+            new YearSelectorField(widget.gearWidth, 80.0, widget.year, (year) {
           setState(() {
             widget.setYear(year);
           });
@@ -74,8 +74,7 @@ class YearFilterState extends State<YearFilter> with TickerProviderStateMixin {
             children: <Widget>[
               new Container(
                 child: new YearSelectorField(
-                    widget.gearWidth, 80.0, widget.minYear,
-                    (year) {
+                    widget.gearWidth, 80.0, widget.minYear, (year) {
                   setState(() {
                     widget.setMinYear(year);
                   });
@@ -91,8 +90,7 @@ class YearFilterState extends State<YearFilter> with TickerProviderStateMixin {
               ),
               new Container(
                 child: new YearSelectorField(
-                    widget.gearWidth, 80.0, widget.maxYear,
-                    (year) {
+                    widget.gearWidth, 80.0, widget.maxYear, (year) {
                   setState(() {
                     widget.setMaxYear(year);
                   });
@@ -177,7 +175,7 @@ class YearFilterState extends State<YearFilter> with TickerProviderStateMixin {
               DesignConstants.gearHoleWidth,
               widget.gearWidth,
               (selected) {
-                  _resetFilter();
+                _resetFilter();
               },
             ),
           ),

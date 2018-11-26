@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pelis_busta/actions/actions.dart';
 import 'package:pelis_busta/feats/filter/FilterScreen.dart';
+import 'package:pelis_busta/models/Genre.dart';
 import 'package:pelis_busta/models/GenreList.dart';
+import 'package:pelis_busta/models/Language.dart';
 import 'package:pelis_busta/models/LanguageList.dart';
 import 'package:pelis_busta/state/AppState.dart';
 import 'package:redux/redux.dart';
@@ -67,6 +69,10 @@ class ViewModel {
   final GenreList genres;
   final bool series;
 
+  final List<Language> allLangs;
+  final List<Language> allSubs;
+  final List<Genre> allSubGenres;
+
   ViewModel({
     @required this.setTitle,
     @required this.resetTitle,
@@ -98,6 +104,9 @@ class ViewModel {
     @required this.subtitles,
     @required this.genres,
     @required this.series,
+    @required this.allLangs,
+    @required this.allSubs,
+    @required this.allSubGenres,
   });
 
   static ViewModel fromStore(Store<AppState> store) {
@@ -169,7 +178,10 @@ class ViewModel {
         languages: store.state.filter.idiomas,
         subtitles: store.state.filter.subtitulos,
         genres: store.state.filter.generos,
-        series: store.state.filter.series);
+        series: store.state.filter.series,
+        allLangs: store.state.languages.languagesList,
+        allSubs: store.state.languages.subtitlesList,
+        allSubGenres: store.state.subGenres.genresList);
   }
 
   @override
@@ -187,7 +199,10 @@ class ViewModel {
           languages == other.languages &&
           subtitles == other.subtitles &&
           genres == other.genres &&
-          series == other.series;
+          series == other.series &&
+          allLangs == other.allLangs &&
+          allSubs == other.allSubs &&
+          allSubGenres == other.allSubGenres;
 
   @override
   int get hashCode =>
@@ -201,5 +216,8 @@ class ViewModel {
       languages.hashCode ^
       subtitles.hashCode ^
       genres.hashCode ^
-      series.hashCode;
+      series.hashCode ^
+      allLangs.hashCode ^
+      allSubs.hashCode ^
+      allSubGenres.hashCode;
 }

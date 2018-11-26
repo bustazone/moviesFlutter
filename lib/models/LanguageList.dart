@@ -1,4 +1,5 @@
 import 'dart:collection';
+
 import 'package:pelis_busta/models/Language.dart';
 
 class LanguageList extends ListBase<Language> {

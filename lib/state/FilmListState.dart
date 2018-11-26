@@ -1,5 +1,5 @@
-import 'package:pelis_busta/models/Film.dart';
 import 'package:meta/meta.dart';
+import 'package:pelis_busta/models/Film.dart';
 
 @immutable
 class FilmListState {
@@ -9,43 +9,31 @@ class FilmListState {
   final bool loading;
 
   const FilmListState(
-      {
-        this.filmList,
-        this.page,
-        this.couldQueryMore,
-        this.loading
-      });
+      {this.filmList, this.page, this.couldQueryMore, this.loading});
 
-  factory FilmListState.initial() => new FilmListState(filmList: const <Film>[], page: 0, couldQueryMore: true, loading: false);
+  factory FilmListState.initial() => new FilmListState(
+      filmList: const <Film>[], page: 0, couldQueryMore: true, loading: false);
 
-  FilmListState copyWith({
-    List<Film> filmList,
-    int page,
-    bool couldQueryMore,
-    bool loading
-  }) {
+  FilmListState copyWith(
+      {List<Film> filmList, int page, bool couldQueryMore, bool loading}) {
     return new FilmListState(
         filmList: filmList ?? this.filmList,
         page: page ?? this.page,
         couldQueryMore: couldQueryMore ?? this.couldQueryMore,
-        loading: loading ?? this.loading
-    );
+        loading: loading ?? this.loading);
   }
 
   @override
-  int get hashCode =>
-      filmList.hashCode ^
-      page.hashCode ^
-      loading.hashCode;
+  int get hashCode => filmList.hashCode ^ page.hashCode ^ loading.hashCode;
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is FilmListState &&
-              runtimeType == other.runtimeType &&
-              page == other.page &&
-              filmList == other.filmList &&
-              loading == other.loading;
+      other is FilmListState &&
+          runtimeType == other.runtimeType &&
+          page == other.page &&
+          filmList == other.filmList &&
+          loading == other.loading;
 
   @override
   String toString() {

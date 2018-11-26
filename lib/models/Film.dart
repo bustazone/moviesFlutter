@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:pelis_busta/models/Genre.dart';
 import 'package:pelis_busta/models/Language.dart';
 import 'package:pelis_busta/support/utils/Utils.dart';
@@ -15,6 +16,7 @@ class Film {
   String imdbId;
   String filmaffinityId;
   String tituloOriginal;
+  String comentarios;
   bool serie;
   String nombreArchivo;
   double punctFilmaffinity;
@@ -52,6 +54,7 @@ class Film {
     f.imdbId = dataConverted['imdbId'];
     f.filmaffinityId = dataConverted['filmaffinityId'];
     f.tituloOriginal = dataConverted['tituloOriginal'];
+    f.comentarios = dataConverted['comentarios'];
     f.serie = dataConverted['serie'];
     f.nombreArchivo = dataConverted['nombreArchivo'];
     f.punctFilmaffinity = dataConverted['punctFilmaffinity'];
@@ -100,6 +103,7 @@ class Film {
         'imdbId: $imdbId,'
         'filmaffinityId: $filmaffinityId,'
         'tituloOriginal: $tituloOriginal,'
+        'comentarios: $comentarios,'
         'serie: $serie,'
         'nombreArchivo: $nombreArchivo,'
         'punctFilmaffinity: $punctFilmaffinity,'
@@ -119,5 +123,3 @@ class Film {
         '}';
   }
 }
-
-

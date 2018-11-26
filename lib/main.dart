@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pelis_busta/navigation/OnNavigateRouteCustom/CustomNavigator.dart';
-import 'package:pelis_busta/state/AppState.dart';
 import 'package:pelis_busta/reducers/AppStateReducer.dart';
+import 'package:pelis_busta/state/AppState.dart';
+import 'package:pelis_busta/support/custom_widgets/PreloadWidget.dart';
+import 'package:pelis_busta/support/custom_widgets/ProgressScreen.dart';
 import 'package:pelis_busta/support/services/middleware/ServicesMiddleware.dart';
 import 'package:redux/redux.dart';
 
@@ -23,21 +26,48 @@ void main() {
 class PelisApp extends StatelessWidget {
   // This widget is the root of your application.
   final store = new Store<AppState>(appReducer,
-      initialState: new AppState.initial(), middleware: [servicesMiddleware, _stateLog()]);
+      initialState: new AppState.initial(),
+      middleware: [servicesMiddleware, _stateLog()]);
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
+      statusBarColor: Color(0xFFCC9900), //or set color with: Color(0xFF0000FF)
+    ));
     return new StoreProvider<AppState>(
-        store: store,
-        child: new MaterialApp(
-            title: "pelis app",
-            theme: new ThemeData(
-                splashColor: const Color(0xFFEAEAEA),
-                primaryColor: const Color(0xFFCC9900),
-                backgroundColor: const Color(0xFFEAEAEA)),
-            onGenerateRoute: CustomNavigator.getCustomRoutes,
-            initialRoute: '/',
-            navigatorObservers: [routeObserver]));
+      store: store,
+      child: PreloadWidget(_getMainWidget()),
+    );
+
+    //_getLoadingWidget());
+  }
+
+  List<Widget> _getMainStack() {}
+
+  Widget _getMainWidget() {
+    return new MaterialApp(
+        title: "pelis app",
+        theme: new ThemeData(
+            splashColor: const Color(0xFFEAEAEA),
+            primaryColor: const Color(0xFFCC9900),
+            backgroundColor: const Color(0xFFEAEAEA)),
+        onGenerateRoute: CustomNavigator.getCustomRoutes,
+        initialRoute: '/',
+        navigatorObservers: [routeObserver]);
+  }
+
+  Widget _getLoadingWidget() {
+    return new MaterialApp(
+      title: "pelis app",
+      theme: new ThemeData(
+          splashColor: const Color(0xFFEAEAEA),
+          primaryColor: const Color(0xFFCC9900),
+          backgroundColor: const Color(0xFFEAEAEA)),
+      home: new ProgressScreen(),
+    );
+//    return new Directionality(
+//            textDirection: TextDirection.rtl,
+//            child: new ProgressScreen());
   }
 }
 
@@ -47,12 +77,10 @@ Middleware<AppState> _stateLog() {
     next(action);
     var pos = store.state.copyWith();
 
-    print("{\n" +
-        "  Previous State: $pre,\n" +
-        "  Action: $action,\n" +
-        "  Next State: $pos,\n" +
-        "  Timestamp: ${new DateTime.now()}\n" +
-        "}");
+    debugPrint("Previous State: $pre");
+    debugPrint("Action: $action");
+    debugPrint("Next State: $pos");
+    debugPrint("Timestamp: ${new DateTime.now()}");
   };
 }
 

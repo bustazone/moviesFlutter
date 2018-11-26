@@ -1,8 +1,10 @@
 import 'dart:convert';
 
+import 'package:pelis_busta/models/EditFilm.dart';
 import 'package:pelis_busta/models/Film.dart';
 import 'package:pelis_busta/models/FilmFilter.dart';
-import 'package:pelis_busta/models/LanguageList.dart';
+import 'package:pelis_busta/models/Genre.dart';
+import 'package:pelis_busta/models/Language.dart';
 import 'package:pelis_busta/models/NetResponse.dart';
 import 'package:pelis_busta/support/services/middleware/ServicesMiddlewareRequest.dart';
 import 'package:pelis_busta/support/services/middleware/ServicesMiddlewareRequestFailureAction.dart';
@@ -16,9 +18,7 @@ ServicesMiddlewareRequest getFilteredListRequest(FilmFilter filter,
   final String listUrl = BASE_URL + "/list";
   final body = json.encode(filter.toMap());
   final transformFunc = (responseBody) {
-    return NetResponse
-        .fromResponseFilmString(responseBody)
-        .items;
+    return NetResponse.fromResponseFilmString(responseBody).items;
   };
   if (queryMore) {
     return new ServicesMiddlewareRequest.post(
@@ -59,21 +59,19 @@ class GetFilteredListNextPageRequestSuccessAction
 class GetFilteredListNextPageRequestFailureAction
     extends ServicesMiddlewareRequestFailureAction {}
 
-
-ServicesMiddlewareRequest getFilmDetailRequest(int id) {
+ServicesMiddlewareRequest getFilmDetailRequest(int id, {onSuccess}) {
   final String itemUrl = "$BASE_URL/$id";
   print(itemUrl);
   final transformFunc = (responseBody) {
-    return NetResponse
-        .fromResponseFilmString(responseBody)
-        .items;
+    return NetResponse.fromResponseFilmString(responseBody).items;
   };
   return new ServicesMiddlewareRequest.get(
       itemUrl,
       transformFunc,
       GetFilmRequestStartAction(),
       GetFilmRequestSuccessAction(),
-      GetFilmRequestFailureAction());
+      GetFilmRequestFailureAction(),
+      onSuccess: onSuccess);
 }
 
 class GetFilmRequestStartAction extends ServicesMiddlewareRequestStartAction {}
@@ -84,14 +82,11 @@ class GetFilmRequestSuccessAction
 class GetFilmRequestFailureAction
     extends ServicesMiddlewareRequestFailureAction {}
 
-
 ServicesMiddlewareRequest getLanguagesRequest() {
   final String itemUrl = "$BASE_URL/listLanguages?everything=false";
   print(itemUrl);
   final transformFunc = (responseBody) {
-    return NetResponse
-        .fromResponseLangString(responseBody)
-        .items;
+    return NetResponse.fromResponseLangString(responseBody).items;
   };
   return new ServicesMiddlewareRequest.get(
       itemUrl,
@@ -101,60 +96,81 @@ ServicesMiddlewareRequest getLanguagesRequest() {
       GetLanguagesListRequestFailureAction());
 }
 
-class GetLanguagesListRequestStartAction extends ServicesMiddlewareRequestStartAction {}
+class GetLanguagesListRequestStartAction
+    extends ServicesMiddlewareRequestStartAction {}
 
 class GetLanguagesListRequestSuccessAction
-    extends ServicesMiddlewareRequestSuccessAction<LanguageList> {}
+    extends ServicesMiddlewareRequestSuccessAction<List<Language>> {}
 
 class GetLanguagesListRequestFailureAction
     extends ServicesMiddlewareRequestFailureAction {}
-
 
 ServicesMiddlewareRequest getSubtitlesRequest() {
   final String itemUrl = "$BASE_URL/listSubtitles?everything=false";
   print(itemUrl);
   final transformFunc = (responseBody) {
-    return NetResponse
-        .fromResponseLangString(responseBody)
-        .items;
+    return NetResponse.fromResponseLangString(responseBody).items;
   };
   return new ServicesMiddlewareRequest.get(
       itemUrl,
       transformFunc,
       GetSubtitlesListRequestStartAction(),
-      GetSubtitlesListSuccessAction(),
-      GetSubtitlesListFailureAction());
+      GetSubtitlesListRequestSuccessAction(),
+      GetSubtitlesListRequestFailureAction());
 }
 
-class GetSubtitlesListRequestStartAction extends ServicesMiddlewareRequestStartAction {}
+class GetSubtitlesListRequestStartAction
+    extends ServicesMiddlewareRequestStartAction {}
 
-class GetSubtitlesListSuccessAction
-    extends ServicesMiddlewareRequestSuccessAction<LanguageList> {}
+class GetSubtitlesListRequestSuccessAction
+    extends ServicesMiddlewareRequestSuccessAction<List<Language>> {}
 
-class GetSubtitlesListFailureAction
+class GetSubtitlesListRequestFailureAction
     extends ServicesMiddlewareRequestFailureAction {}
 
-
 ServicesMiddlewareRequest getSubGenresRequest() {
-  final String itemUrl = "$BASE_URL/listGenders?everything=false&type=listas_filmaffinity";
+  final String itemUrl =
+      "$BASE_URL/listGenders?everything=false&type=listas_filmaffinity";
   print(itemUrl);
   final transformFunc = (responseBody) {
-    return NetResponse
-        .fromResponseGenreString(responseBody)
-        .items;
+    return NetResponse.fromResponseGenreString(responseBody).items;
   };
   return new ServicesMiddlewareRequest.get(
       itemUrl,
       transformFunc,
       GetSubGenresListRequestStartAction(),
-      GetSubGenresListSuccessAction(),
-      GetSubGenresListFailureAction());
+      GetSubGenresListRequestSuccessAction(),
+      GetSubGenresListRequestFailureAction());
 }
 
-class GetSubGenresListRequestStartAction extends ServicesMiddlewareRequestStartAction {}
+class GetSubGenresListRequestStartAction
+    extends ServicesMiddlewareRequestStartAction {}
 
-class GetSubGenresListSuccessAction
-    extends ServicesMiddlewareRequestSuccessAction<LanguageList> {}
+class GetSubGenresListRequestSuccessAction
+    extends ServicesMiddlewareRequestSuccessAction<List<Genre>> {}
 
-class GetSubGenresListFailureAction
+class GetSubGenresListRequestFailureAction
+    extends ServicesMiddlewareRequestFailureAction {}
+
+ServicesMiddlewareRequest updateFilmRequest(EditFilm filmData, {onSuccess}) {
+  final String itemUrl = "$BASE_URL/update?withRefs=true";
+  print(itemUrl);
+  final body = json.encode(filmData.toMap());
+  return new ServicesMiddlewareRequest.post(
+      itemUrl,
+      body,
+      null,
+      UpdateFilmRequestStartAction(),
+      UpdateFilmRequestSuccessAction(),
+      UpdateFilmRequestFailureAction(),
+      onSuccess: onSuccess);
+}
+
+class UpdateFilmRequestStartAction
+    extends ServicesMiddlewareRequestStartAction {}
+
+class UpdateFilmRequestSuccessAction
+    extends ServicesMiddlewareRequestSuccessAction<Null> {}
+
+class UpdateFilmRequestFailureAction
     extends ServicesMiddlewareRequestFailureAction {}

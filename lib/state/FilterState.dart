@@ -1,5 +1,5 @@
-import 'package:pelis_busta/models/FilmFilter.dart';
 import 'package:meta/meta.dart';
+import 'package:pelis_busta/models/FilmFilter.dart';
 import 'package:pelis_busta/models/GenreList.dart';
 import 'package:pelis_busta/models/LanguageList.dart';
 

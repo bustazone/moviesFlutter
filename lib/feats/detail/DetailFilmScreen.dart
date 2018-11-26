@@ -1,9 +1,12 @@
-import 'package:flutter/material.dart';
 import 'dart:ui';
+
+import 'package:flutter/material.dart';
 import 'package:pelis_busta/feats/detail/DetailFilmScreenContainer.dart';
+import 'package:pelis_busta/feats/detail/components/ImageListData.dart';
 import 'package:pelis_busta/feats/detail/components/TextData.dart';
+import 'package:pelis_busta/loading_screen_component/LoadingScaffoldWrapperWidget.dart';
 import 'package:pelis_busta/navigation/OnNavigateRouteCustom/CustomNavigator.dart';
-import 'package:pelis_busta/support/custom_widgets/ProgressScreen.dart';
+import 'package:pelis_busta/support/utils/Utils.dart';
 
 final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
 
@@ -68,7 +71,7 @@ class DetailScreenState extends State<DetailScreen>
     Navigator.of(context).pop();
   }
 
-  Color get _AppBarTextColor {
+  Color get _appBarTextColor {
     if (_scrollController.hasClients) {
       var minValue = (kExpandedHeight / 2);
       var maxValue = kExpandedHeight - kToolbarHeight;
@@ -106,11 +109,6 @@ class DetailScreenState extends State<DetailScreen>
     } else {
       return 0;
     }
-  }
-
-  bool get _showTitle {
-    return _scrollController.hasClients &&
-        _scrollController.offset > kExpandedHeight - kToolbarHeight;
   }
 
   Function(String, int) get _getShortedTitle {
@@ -167,7 +165,7 @@ class DetailScreenState extends State<DetailScreen>
       return new Container(
           margin: new EdgeInsets.symmetric(horizontal: 4.0),
           child: new IconButton(
-              color: _AppBarTextColor,
+              color: _appBarTextColor,
               icon: new Icon(Icons.repeat),
               onPressed: () {
                 reload();
@@ -181,23 +179,50 @@ class DetailScreenState extends State<DetailScreen>
     return new Container(
         margin: new EdgeInsets.symmetric(horizontal: 4.0),
         child: new IconButton(
-            color: _AppBarTextColor,
+            color: _appBarTextColor,
             icon: new Icon(Icons.edit),
             onPressed: () {
               Navigator.of(context).pushNamed(EditRouteName);
             }));
   }
 
-  Widget _getLoadingScreen() {
-    if (widget.vm.loadingData) {
-      return new ProgressScreen();
-    } else {
-      return new Container();
-    }
-  }
-
   List<Widget> _getDataWidgetList() {
     List<Widget> listOutput = <Widget>[];
+
+    if (widget.vm.film.duracion != null) {
+      listOutput.add(TextData("Time", widget.vm.film.duracion.toString()));
+    }
+    if (widget.vm.film.punctuation != null) {
+      listOutput.add(TextData("Rate", widget.vm.film.punctuation.toString()));
+    }
+    if (widget.vm.film.location != null) {
+      listOutput.add(TextData("Location", widget.vm.film.location));
+    }
+    if (!isNullOrEmpty(widget.vm.film.idiomas)) {
+      List<String> h = widget.vm.film.idiomas.map((lang) {
+        return lang.codigo;
+      }).toList();
+      listOutput.add(ImageListData("Languages", h, 'assets/languages/'));
+    }
+    if (!isNullOrEmpty(widget.vm.film.subtitulos)) {
+      List<String> h = widget.vm.film.subtitulos.map((lang) {
+        return lang.codigo;
+      }).toList();
+      listOutput.add(ImageListData("Subtitles", h, 'assets/languages/'));
+    }
+    if (!isNullOrEmpty(widget.vm.film.generos)) {
+      List<String> h = widget.vm.film.generos.where((genre) {
+        return genre.tipo == 'principal';
+      }).map((genre) {
+        return genre.id.toString();
+      }).toList();
+      listOutput.add(ImageListData(
+        "Genres",
+        h,
+        'assets/genderIcon/genderIcon_',
+        sizeItem: 48.0,
+      ));
+    }
     if (widget.vm.film.director != null) {
       listOutput.add(TextData("Director", widget.vm.film.director));
     }
@@ -213,69 +238,58 @@ class DetailScreenState extends State<DetailScreen>
   @override
   Widget build(BuildContext context) {
     kExpandedHeight = MediaQuery.of(context).size.height * 0.7;
-
-    if (widget.vm.film != null) {
-      return new Scaffold(
-          body: new Container(
-              color: const Color(0xFFEAEAEA),
-              child: new Stack(children: <Widget>[
-                new CustomScrollView(controller: _scrollController, slivers: <
-                    Widget>[
-                  SliverAppBar(
-                      forceElevated: true,
-                      pinned: true,
-                      backgroundColor: new Color(0x80CC9900),
-                      expandedHeight: kExpandedHeight,
-                      leading: new Container(
-                        child: new IconButton(
-                            color: _AppBarTextColor,
-                            icon: new Icon(Icons.arrow_back),
-                            onPressed: () {
-                              goBack();
-                            }),
-                      ),
-                      actions: <Widget>[_getEditButton(), _getReloadButton()],
-                      flexibleSpace: FlexibleSpaceBar(
-                          title: ConstrainedBox(
-                            constraints: BoxConstraints(
-                              maxWidth: MediaQuery.of(context).size.width -
-                                  (190 * _scrollLikeProportion),
+    return new LoadingScaffoldWrapperWidget(
+        showLoader: widget.vm.showLoader,
+        body: new Container(
+            color: const Color(0xFFEAEAEA),
+            child: new Stack(children: <Widget>[
+              new CustomScrollView(
+                  controller: _scrollController,
+                  slivers: <Widget>[
+                    SliverAppBar(
+                        forceElevated: true,
+                        pinned: true,
+                        backgroundColor: new Color(0x80CC9900),
+                        expandedHeight: kExpandedHeight,
+                        leading: new Container(
+                          child: new IconButton(
+                              color: _appBarTextColor,
+                              icon: new Icon(Icons.arrow_back),
+                              onPressed: () {
+                                goBack();
+                              }),
+                        ),
+                        actions: <Widget>[_getEditButton(), _getReloadButton()],
+                        flexibleSpace: FlexibleSpaceBar(
+                            title: ConstrainedBox(
+                              constraints: BoxConstraints(
+                                maxWidth: MediaQuery.of(context).size.width -
+                                    (190 * _scrollLikeProportion),
+                              ),
+                              child: Text(
+                                _getShortedTitle(
+                                    widget.vm.film.titulo, widget.vm.film.year),
+                                style: new TextStyle(color: _appBarTextColor),
+                              ),
                             ),
-                            child: Text(
-                              _getShortedTitle(
-                                  widget.vm.film.titulo, widget.vm.film.year),
-                              style: new TextStyle(color: _AppBarTextColor),
-                            ),
-                          ),
-                          background: new Stack(children: <Widget>[
-                            new Positioned.fill(
-                              child: (widget.vm.film != null &&
-                                      widget.vm.film.imageUrl != null)
-                                  ? new Image.network(
-                                      widget.vm.film.imageUrl,
-                                      fit: BoxFit.cover,
-                                      //height: DesignConstants.imageFilmRowHeight * transformProportion,
-                                    )
-                                  : new Container(),
-                            ),
-                            _getGradient()
-                          ]))),
-                  SliverList(
-                    delegate: SliverChildListDelegate(_getDataWidgetList()),
-                  )
-                ]),
-                new Positioned(
-                  child: new Container(
-                    color: new Color(0xFFCC9900),
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).padding.top,
-                  ),
-                ),
-                _getLoadingScreen()
-              ])));
-    } else {
-      return _getLoadingScreen();
-    }
+                            background: new Stack(children: <Widget>[
+                              new Positioned.fill(
+                                child: (widget.vm.film != null &&
+                                        widget.vm.film.imageUrl != null)
+                                    ? new Image.network(
+                                        widget.vm.film.imageUrl,
+                                        fit: BoxFit.cover,
+                                        //height: DesignConstants.imageFilmRowHeight * transformProportion,
+                                      )
+                                    : new Container(),
+                              ),
+                              _getGradient()
+                            ]))),
+                    SliverList(
+                      delegate: SliverChildListDelegate(_getDataWidgetList()),
+                    )
+                  ]),
+            ])));
   }
 
 //  @override

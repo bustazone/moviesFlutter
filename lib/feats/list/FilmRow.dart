@@ -2,33 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:pelis_busta/models/Film.dart';
 import 'package:pelis_busta/navigation/OnNavigateRouteCustom/CustomNavigator.dart';
 import 'package:pelis_busta/support/constants/DesignConstants.dart';
+import 'package:pelis_busta/support/custom_widgets/HorizontalmageList.dart';
 import 'package:pelis_busta/support/utils/Utils.dart';
-
-List<Widget> _fillImageList(
-    List<String> inputList, String imagePathFormat, double height, spaced) {
-  var list = new List<Widget>();
-  for (var g in inputList) {
-    Widget image;
-    try {
-      image = new Image.asset(
-        imagePathFormat + g + '.png',
-        height: height,
-        width: height,
-      );
-    } catch (Exception) {
-      image = new Image.asset(
-        'assets/languages/fake.png',
-        height: height,
-        width: height,
-      );
-    }
-    list.add(new Container(
-      margin: new EdgeInsets.symmetric(horizontal: spaced),
-      child: image,
-    ));
-  }
-  return list;
-}
 
 class FilmRow extends StatelessWidget {
   final Function(int) setFilmId;
@@ -44,30 +19,6 @@ class FilmRow extends StatelessWidget {
     final double screenWidth = MediaQuery.of(context).size.width;
     final transformProportion = (screenWidth / DesignConstants.filmRowWidth);
 
-    List<Widget> listGenderImages = new List();
-    List<Widget> listLangs = new List();
-    List<Widget> listSubs = new List();
-    if (!isNullOrEmpty(film.generosStr)) {
-      listGenderImages = _fillImageList(
-          film.generosStr.split(';'),
-          'assets/genderIcon/genderIcon_',
-          25.0 * transformProportion,
-          2.0 * transformProportion);
-    }
-    if (!isNullOrEmpty(film.idiomasStr)) {
-      listLangs = _fillImageList(
-          film.idiomasStr.split(';'),
-          'assets/languages/',
-          23.0 * transformProportion,
-          1.0 * transformProportion);
-    }
-    if (!isNullOrEmpty(film.subtitulosStr)) {
-      listSubs = _fillImageList(
-          film.subtitulosStr.split(';'),
-          'assets/languages/',
-          23.0 * transformProportion,
-          1.0 * transformProportion);
-    }
     int backgroundNumber = itemNum;
     String filmTitle = film.titulo ?? "";
     String filmImageURL = film.imageUrl ?? "";
@@ -126,9 +77,13 @@ class FilmRow extends StatelessWidget {
                   width: 11.0 * transformProportion,
                 ),
                 new Expanded(
-                    child: new Row(
-                  children: listLangs,
-                ))
+                    child: HorizontalImageList(
+                        (isNullOrEmpty(film.idiomasStr))
+                            ? []
+                            : film.idiomasStr.split(';'),
+                        'assets/languages/',
+                        23.0 * transformProportion,
+                        1.0 * transformProportion))
               ],
             )),
       ),
@@ -144,9 +99,13 @@ class FilmRow extends StatelessWidget {
                 width: 11.0 * transformProportion,
               ),
               new Expanded(
-                  child: new Row(
-                children: listSubs,
-              ))
+                  child: HorizontalImageList(
+                      (isNullOrEmpty(film.subtitulosStr))
+                          ? []
+                          : film.subtitulosStr.split(';'),
+                      'assets/languages/',
+                      23.0 * transformProportion,
+                      1.0 * transformProportion))
             ],
           ),
         ),
@@ -210,16 +169,16 @@ class FilmRow extends StatelessWidget {
                   margin: new EdgeInsets.only(bottom: 5.0),
                   child: new Column(
                     children: <Widget>[
-//              new Expanded(
-//                  child:
                       new Container(
                         height: 30.0 * transformProportion,
-                        child: new Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: listGenderImages,
-                        ),
-//              )
+                        child: HorizontalImageList(
+                            (isNullOrEmpty(film.generosStr))
+                                ? []
+                                : film.generosStr.split(';'),
+                            'assets/genderIcon/genderIcon_',
+                            25.0 * transformProportion,
+                            2.0 * transformProportion,
+                            mainAxisAlignment: MainAxisAlignment.end),
                       ),
                       new Expanded(
                           child: new Container(
@@ -334,7 +293,6 @@ class FirstRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
-    final transformProportion = (screenWidth / DesignConstants.filmRowWidth);
 
     return new Container(
       width: screenWidth,

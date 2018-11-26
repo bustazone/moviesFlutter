@@ -10,10 +10,9 @@ const String FilterLangRouteName = "/lang";
 const String FilterLocationRouteName = "/location";
 const String FilterYearRouteName = "/year";
 
-
 class FilterNavigator extends StatelessWidget {
-
-  static final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  static final GlobalKey<NavigatorState> navigatorKey =
+      GlobalKey<NavigatorState>();
 
   Widget build(BuildContext context) {
     return new Navigator(

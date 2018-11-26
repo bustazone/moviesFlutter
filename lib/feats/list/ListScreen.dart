@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pelis_busta/feats/list/FilmRow.dart';
 import 'package:pelis_busta/feats/list/ListScreenContainer.dart';
-import 'package:pelis_busta/support/custom_widgets/ProgressScreen.dart';
+import 'package:pelis_busta/loading_screen_component/LoadingScaffoldWrapperWidget.dart';
 
 class ListScreen extends StatefulWidget {
   ListScreen(this.vm, {Key key}) : super(key: key);
@@ -45,14 +45,6 @@ class ListScreenState extends State<ListScreen> {
     }
   }
 
-  Widget _getLoadingScreen() {
-    if (widget.vm.loadingData && widget.vm.filmList.length == 0) {
-      return new ProgressScreen();
-    } else {
-      return new Container();
-    }
-  }
-
   goBack() {
     widget.vm.resetList();
     Navigator.of(context).pop();
@@ -77,7 +69,8 @@ class ListScreenState extends State<ListScreen> {
         onWillPop: () {
           _handleBack();
         },
-        child: new Scaffold(
+        child: new LoadingScaffoldWrapperWidget(
+            showLoader: widget.vm.showLoader,
             body: new Container(
                 color: const Color(0xFFCC9900),
                 child: new Stack(
@@ -115,14 +108,6 @@ class ListScreenState extends State<ListScreen> {
                           )),
                       top: MediaQuery.of(context).padding.top,
                     ),
-                    new Positioned(
-                      child: new Container(
-                        color: new Color(0xFFCC9900),
-                        width: MediaQuery.of(context).size.width,
-                        height: MediaQuery.of(context).padding.top,
-                      ),
-                    ),
-                    _getLoadingScreen(),
                   ],
                 ))));
   }

@@ -4,15 +4,18 @@ import 'package:pelis_busta/models/GenreList.dart';
 import 'package:pelis_busta/support/constants/DesignConstants.dart';
 import 'package:pelis_busta/support/custom_widgets/CustomCheckbox.dart';
 import 'package:pelis_busta/support/custom_widgets/PressingButton.dart';
-import 'package:pelis_busta/support/services/Services.dart';
 
 class MoreGenresFilter extends StatefulWidget {
   final String title;
   final double gearWidth;
   final GenreList genres;
   final setGenres;
+  final List<Genre> allSubGenres;
 
-  MoreGenresFilter(this.gearWidth, this.title, this.genres, this.setGenres, {Key key}) : super(key: key);
+  MoreGenresFilter(this.gearWidth, this.title, this.genres, this.setGenres,
+      this.allSubGenres,
+      {Key key})
+      : super(key: key);
 
   @override
   State createState() => new MoreGenresFilterState();
@@ -93,7 +96,7 @@ class MoreGenresFilterState extends State<MoreGenresFilter>
   _getItems() async {
     itemsGeneral.clear();
     itemsSelected.clear();
-    resp = await getSubGenresList();
+    resp = widget.allSubGenres;
     resp.sort((a, b) => a.nombre.compareTo(b.nombre));
     transformItems(resp);
     setState(() {});
@@ -251,11 +254,7 @@ class MoreGenresListItemState extends State<MoreGenresListItem>
       children: <Widget>[
         new Container(
             padding: new EdgeInsets.all(5.0),
-            child: new CustomCheckbox(
-                widget.item.selected,
-                20.0 * (widget.gearWidth / DesignConstants.gearWidth),
-                20.0 * (widget.gearWidth / DesignConstants.gearWidth),
-                (selected) {
+            child: new CustomCheckbox(widget.item.selected, (selected) {
               widget.onTap(selected);
             })),
         new Flexible(

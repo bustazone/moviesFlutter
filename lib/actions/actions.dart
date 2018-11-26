@@ -1,4 +1,5 @@
 import 'package:pelis_busta/models/GenreList.dart';
+import 'package:pelis_busta/models/Language.dart';
 import 'package:pelis_busta/models/LanguageList.dart';
 
 class SetFilterTitleStateAction {
@@ -75,7 +76,6 @@ class SetFilterGenresStateAction {
   SetFilterGenresStateAction(this.genres);
 }
 
-
 class SetFilterSeriesStateAction {
   final bool series;
 
@@ -90,4 +90,71 @@ class SetSelectedFilmIdStateAction {
   final int filmId;
 
   SetSelectedFilmIdStateAction(this.filmId);
+}
+
+//edit
+class SetEditFilmLocation {
+  final String location;
+
+  SetEditFilmLocation(this.location);
+}
+
+class SetEditFilmVista {
+  final bool seen;
+
+  SetEditFilmVista(this.seen);
+}
+
+class SetEditFilmFormato {
+  final String format;
+
+  SetEditFilmFormato(this.format);
+}
+
+class SetEditFilmSize {
+  final int size;
+
+  SetEditFilmSize(this.size);
+}
+
+class SetEditFilmImdbId {
+  final String imdbId;
+
+  SetEditFilmImdbId(this.imdbId);
+}
+
+class SetEditFilmFilmaffinityId {
+  final String filmaffinityId;
+
+  SetEditFilmFilmaffinityId(this.filmaffinityId);
+}
+
+class SetEditFilmSerie {
+  final bool series;
+
+  SetEditFilmSerie(this.series);
+}
+
+class SetEditFilmNombreArchivo {
+  final String filename;
+
+  SetEditFilmNombreArchivo(this.filename);
+}
+
+class SetEditFilmComentarios {
+  final String comentaries;
+
+  SetEditFilmComentarios(this.comentaries);
+}
+
+class SetEditFilmIdiomas {
+  final List<Language> languages;
+
+  SetEditFilmIdiomas(this.languages);
+}
+
+class SetEditFilmSubtitulos {
+  final List<Language> subtitules;
+
+  SetEditFilmSubtitulos(this.subtitules);
 }

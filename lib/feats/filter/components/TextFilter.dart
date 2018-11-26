@@ -26,7 +26,8 @@ class TextFilterState extends State<TextFilter> with TickerProviderStateMixin {
   }
 
   void _initTextController() {
-    _textController.value = new TextEditingValue(text: widget.value == null ? "" : widget.value);
+    _textController.value =
+        new TextEditingValue(text: widget.value == null ? "" : widget.value);
   }
 
   void _resetFilter() {

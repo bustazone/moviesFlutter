@@ -5,46 +5,52 @@ import 'package:pelis_busta/models/LanguageList.dart';
 class LanguagesListState {
   final LanguageList languagesList;
   final LanguageList subtitlesList;
-  final bool loading;
+  final bool loadingLanguages;
+  final bool loadingSubtitles;
 
   const LanguagesListState(
-      {
-        this.languagesList,
-        this.subtitlesList,
-        this.loading
-      });
+      {this.languagesList,
+      this.subtitlesList,
+      this.loadingLanguages,
+      this.loadingSubtitles});
 
-  factory LanguagesListState.initial() => new LanguagesListState(languagesList: LanguageList(), subtitlesList: LanguageList(), loading: false);
+  factory LanguagesListState.initial() => new LanguagesListState(
+      languagesList: LanguageList(),
+      subtitlesList: LanguageList(),
+      loadingLanguages: false,
+      loadingSubtitles: false);
 
-  LanguagesListState copyWith({
-    LanguageList languagesList,
-    LanguageList subtitlesList,
-    bool loading
-  }) {
+  LanguagesListState copyWith(
+      {LanguageList languagesList,
+      LanguageList subtitlesList,
+      bool loadingLanguages,
+      bool loadingSubtitles}) {
     return new LanguagesListState(
         languagesList: languagesList ?? this.languagesList,
         subtitlesList: subtitlesList ?? this.subtitlesList,
-        loading: loading ?? this.loading
-    );
+        loadingLanguages: loadingLanguages ?? this.loadingLanguages,
+        loadingSubtitles: loadingSubtitles ?? this.loadingSubtitles);
   }
 
   @override
   int get hashCode =>
       languagesList.hashCode ^
       subtitlesList.hashCode ^
-      loading.hashCode;
+      loadingLanguages.hashCode ^
+      loadingSubtitles.hashCode;
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is LanguagesListState &&
-              runtimeType == other.runtimeType &&
-              languagesList == other.languagesList &&
-              subtitlesList == other.subtitlesList &&
-              loading == other.loading;
+      other is LanguagesListState &&
+          runtimeType == other.runtimeType &&
+          languagesList == other.languagesList &&
+          subtitlesList == other.subtitlesList &&
+          loadingLanguages == other.loadingLanguages &&
+          loadingSubtitles == other.loadingSubtitles;
 
   @override
   String toString() {
-    return 'LanguagesListState{languagesList: $languagesList, subtitlesList: $subtitlesList, loading: $loading}';
+    return 'LanguagesListState{languagesList: ${languagesList.length}, subtitlesList: ${subtitlesList.length}, loadingLanguages: $loadingLanguages, loadingSubtitles: $loadingSubtitles}';
   }
 }

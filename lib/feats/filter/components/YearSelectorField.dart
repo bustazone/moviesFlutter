@@ -34,23 +34,23 @@ class YearSelectorFieldState extends State<YearSelectorField>
                   initialDate: (widget.currentYear == null)
                       ? new DateTime.now()
                       : new DateTime.utc(widget.currentYear,
-                      new DateTime.now().month, new DateTime.now().day),
+                          new DateTime.now().month, new DateTime.now().day),
                   firstDate: new DateTime.utc(1900, 1, 1),
                   lastDate: new DateTime.now());
               widget.onChange(newYear.year);
             },
             child: new Center(
                 child: new Text(
-                  (widget.currentYear == null)
-                      ? "_ _ _ _"
-                      : widget.currentYear.toString(),
-                  style: Theme.of(context).textTheme.display1.copyWith(
-                      textBaseline: TextBaseline.alphabetic,
-                      color: new Color(0xFF564C19),
-                      fontSize:
+              (widget.currentYear == null)
+                  ? "_ _ _ _"
+                  : widget.currentYear.toString(),
+              style: Theme.of(context).textTheme.display1.copyWith(
+                  textBaseline: TextBaseline.alphabetic,
+                  color: new Color(0xFF564C19),
+                  fontSize:
                       16.0 * (widget.gearWidth / DesignConstants.gearWidth),
-                      fontWeight: FontWeight.bold),
-                ))),
+                  fontWeight: FontWeight.bold),
+            ))),
         decoration: new BoxDecoration(
           color: new Color(0xFFCC9900),
           border: new Border.all(color: new Color(0xFF564C19), width: 2.0),

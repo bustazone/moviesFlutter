@@ -3,7 +3,6 @@ import 'package:pelis_busta/feats/filter/components/LanguageMultiselection.dart'
 import 'package:pelis_busta/models/Language.dart';
 import 'package:pelis_busta/models/LanguageList.dart';
 import 'package:pelis_busta/support/constants/DesignConstants.dart';
-import 'package:pelis_busta/support/custom_widgets/CustomCheckbox.dart';
 import 'package:pelis_busta/support/custom_widgets/IconGestureDetector.dart';
 
 class LanguagesFilter extends StatefulWidget {
@@ -12,9 +11,11 @@ class LanguagesFilter extends StatefulWidget {
   final LanguageList languages;
   final setLanguages;
   final resetLanguages;
+  final List<Language> allLangs;
   final LanguageList subtitles;
   final setSubtitles;
   final resetSubtitles;
+  final List<Language> allSubs;
 
   LanguagesFilter(
       this.gearWidth,
@@ -22,9 +23,11 @@ class LanguagesFilter extends StatefulWidget {
       this.languages,
       this.setLanguages,
       this.resetLanguages,
+      this.allLangs,
       this.subtitles,
       this.setSubtitles,
       this.resetSubtitles,
+      this.allSubs,
       {Key key})
       : super(key: key);
 
@@ -77,11 +80,21 @@ class LanguagesFilterState extends State<LanguagesFilter>
                     margin: new EdgeInsets.only(top: 5.0),
                     child: new Row(
                       children: <Widget>[
-                        new LanguagesMultiselection(widget.gearWidth,
-                            widget.languages, widget.setLanguages),
+                        new LanguagesMultiselection(
+                            widget.languages,
+                            widget.setLanguages,
+                            widget.allLangs,
+                            'assets/icons/icon_audio.png',
+                            gearBasedProportion:
+                                widget.gearWidth / DesignConstants.gearWidth),
                         new Expanded(child: new Container()),
-                        new LanguagesMultiselection(widget.gearWidth,
-                            widget.subtitles, widget.setSubtitles),
+                        new LanguagesMultiselection(
+                            widget.subtitles,
+                            widget.setSubtitles,
+                            widget.allSubs,
+                            'assets/icons/icon_subs.png',
+                            gearBasedProportion:
+                                widget.gearWidth / DesignConstants.gearWidth),
                       ],
                     ),
                   ),
@@ -110,81 +123,4 @@ class LanguagesFilterState extends State<LanguagesFilter>
       ),
     );
   }
-}
-
-class ListDivisor extends StatelessWidget {
-  final double gearWidth;
-
-  ListDivisor(this.gearWidth);
-
-  @override
-  Widget build(BuildContext context) {
-    return new Container(
-      margin: new EdgeInsets.all(2.0 * (gearWidth / DesignConstants.gearWidth)),
-      height: 2.0 * (gearWidth / DesignConstants.gearWidth),
-      color: new Color(0xFF564C19),
-    );
-  }
-}
-
-class LanguageListItem extends StatefulWidget {
-  final double gearWidth;
-  final LanguageListItemData item;
-  final onTap;
-
-  LanguageListItem(this.item, this.gearWidth, this.onTap, {Key key})
-      : super(key: key);
-
-  @override
-  State createState() => new LanguageListItemState();
-}
-
-class LanguageListItemState extends State<LanguageListItem>
-    with TickerProviderStateMixin {
-  initState() {
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    Widget image;
-    try {
-      //image = new Image(image: new ImageProvider<AssetImage>())
-      image = new Image.asset(
-        'assets/languages/' + widget.item.codigo + '.png',
-        height: 30.0,
-        width: 30.0,
-      );
-    } catch (Exception) {
-      image = new Image.asset(
-        'assets/languages/fake.png',
-        height: 30.0,
-        width: 30.0,
-      );
-    }
-    return new Row(
-      children: <Widget>[
-        new Container(
-            padding: new EdgeInsets.all(5.0),
-            child: new CustomCheckbox(
-                widget.item.selected,
-                20.0 * (widget.gearWidth / DesignConstants.gearWidth),
-                20.0 * (widget.gearWidth / DesignConstants.gearWidth),
-                (selected) {
-              widget.onTap(selected);
-            })),
-        new Container(
-          margin: new EdgeInsets.symmetric(horizontal: 1.0),
-          child: image,
-        ),
-      ],
-    );
-  }
-}
-
-class LanguageListItemData extends Language {
-  bool selected = false;
-
-  LanguageListItemData(this.selected, Language genre)
-      : super(codigo: genre.codigo, nombre: genre.nombre);
 }

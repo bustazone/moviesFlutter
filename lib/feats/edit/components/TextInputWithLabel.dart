@@ -7,7 +7,8 @@ class TextInputWithLabel extends StatefulWidget {
   final String value;
   final Function(String) setValue;
 
-  TextInputWithLabel(this.label, this.setValue, {Key key, this.value}) : super(key: key);
+  TextInputWithLabel(this.label, this.setValue, {Key key, this.value})
+      : super(key: key);
 
   @override
   State createState() => new TextInputWithLabelState();
@@ -19,7 +20,8 @@ class TextInputWithLabelState extends State<TextInputWithLabel>
 
   initState() {
     super.initState();
-    _textController.value = new TextEditingValue(text: widget.value == null ? "" : widget.value);
+    _textController.value =
+        new TextEditingValue(text: widget.value == null ? "" : widget.value);
   }
 
   @override
@@ -39,17 +41,13 @@ class TextInputWithLabelState extends State<TextInputWithLabel>
         margin: new EdgeInsets.symmetric(vertical: 8),
         child: new Center(
             child: new Text(
-              widget.label,
-              style: Theme
-                  .of(context)
-                  .textTheme
-                  .display1
-                  .copyWith(
-                  textBaseline: TextBaseline.alphabetic,
-                  color: new Color(0xFF564C19),
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.bold),
-            )),
+          widget.label,
+          style: Theme.of(context).textTheme.display1.copyWith(
+              textBaseline: TextBaseline.alphabetic,
+              color: new Color(0xFF564C19),
+              fontSize: 16.0,
+              fontWeight: FontWeight.bold),
+        )),
       ),
       new Container(
           child: new TextField(
@@ -60,11 +58,7 @@ class TextInputWithLabelState extends State<TextInputWithLabel>
               hintText: '_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _',
             ),
             textAlign: TextAlign.center,
-            style: Theme
-                .of(context)
-                .textTheme
-                .display1
-                .copyWith(
+            style: Theme.of(context).textTheme.display1.copyWith(
                 textBaseline: TextBaseline.alphabetic,
                 color: new Color(0xFF564C19),
                 fontSize: 16.0,
@@ -72,10 +66,8 @@ class TextInputWithLabelState extends State<TextInputWithLabel>
           ),
           decoration: new BoxDecoration(
             color: new Color(0xFFCC9900),
-            border:
-            new Border.all(color: new Color(0xFF564C19), width: 2.0),
-          )
-      )
+            border: new Border.all(color: new Color(0xFF564C19), width: 2.0),
+          ))
     ]);
   }
 }

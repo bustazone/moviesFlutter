@@ -3,7 +3,6 @@
 // found in the LICENSE file.
 
 import 'dart:async';
-import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -50,8 +49,7 @@ class _DatePickerHeader extends StatelessWidget {
     Key key,
     @required this.selectedDate,
     @required this.orientation,
-  })
-      : assert(selectedDate != null),
+  })  : assert(selectedDate != null),
         assert(orientation != null),
         super(key: key);
 
@@ -137,8 +135,7 @@ class YearPicker extends StatefulWidget {
     @required this.onChanged,
     @required this.firstDate,
     @required this.lastDate,
-  })
-      : assert(selectedDate != null),
+  })  : assert(selectedDate != null),
         assert(onChanged != null),
         assert(!firstDate.isAfter(lastDate)),
         super(key: key);
@@ -212,8 +209,7 @@ class _DatePickerDialog extends StatefulWidget {
     this.firstDate,
     this.lastDate,
     this.selectableDayPredicate,
-  })
-      : super(key: key);
+  }) : super(key: key);
 
   final DateTime initialDate;
   final DateTime firstDate;

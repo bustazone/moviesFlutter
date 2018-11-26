@@ -32,13 +32,13 @@ FilterState _resetTitle(FilterState state, ResetFilterTitleStateAction action) {
   return state.copyWith(tituloFilter: null);
 }
 
-FilterState _setDirector(FilterState state,
-    SetFilterDirectorStateAction action) {
+FilterState _setDirector(
+    FilterState state, SetFilterDirectorStateAction action) {
   return state.copyWith(director: action.director);
 }
 
-FilterState _resetDirector(FilterState state,
-    ResetFilterDirectorStateAction action) {
+FilterState _resetDirector(
+    FilterState state, ResetFilterDirectorStateAction action) {
   return state.copyWith(director: null);
 }
 
@@ -50,13 +50,13 @@ FilterState _resetCast(FilterState state, ResetFilterCastStateAction action) {
   return state.copyWith(casts: null);
 }
 
-FilterState _setLocation(FilterState state,
-    SetFilterLocationStateAction action) {
+FilterState _setLocation(
+    FilterState state, SetFilterLocationStateAction action) {
   return state.copyWith(location: action.location);
 }
 
-FilterState _resetLocation(FilterState state,
-    ResetFilterLocationStateAction action) {
+FilterState _resetLocation(
+    FilterState state, ResetFilterLocationStateAction action) {
   return state.copyWith(location: null);
 }
 
@@ -76,23 +76,23 @@ FilterState _resetYears(FilterState state, ResetFilterYearsStateAction action) {
   return state.copyWith(year: null, minYear: null, maxYear: null);
 }
 
-FilterState _setLanguages(FilterState state,
-    SetFilterLanguagesStateAction action) {
+FilterState _setLanguages(
+    FilterState state, SetFilterLanguagesStateAction action) {
   return state.copyWith(idiomas: action.languages);
 }
 
-FilterState _resetLanguages(FilterState state,
-    ResetFilterLanguagesStateAction action) {
+FilterState _resetLanguages(
+    FilterState state, ResetFilterLanguagesStateAction action) {
   return state.copyWith(idiomas: null);
 }
 
-FilterState _setSubtitles(FilterState state,
-    SetFilterSubtitlesStateAction action) {
+FilterState _setSubtitles(
+    FilterState state, SetFilterSubtitlesStateAction action) {
   return state.copyWith(subtitulos: action.subtitles);
 }
 
-FilterState _resetSubtitles(FilterState state,
-    ResetFilterSubtitlesStateAction action) {
+FilterState _resetSubtitles(
+    FilterState state, ResetFilterSubtitlesStateAction action) {
   return state.copyWith(subtitulos: null);
 }
 
@@ -110,7 +110,7 @@ FilterState _setSeries(FilterState state, SetFilterSeriesStateAction action) {
   return f;
 }
 
-FilterState _resetWholeFilter(FilterState state,
-    ResetWholeFilterStateAction action) {
+FilterState _resetWholeFilter(
+    FilterState state, ResetWholeFilterStateAction action) {
   return FilterState.initial();
 }

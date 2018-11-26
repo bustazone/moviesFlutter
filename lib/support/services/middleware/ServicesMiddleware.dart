@@ -5,15 +5,20 @@ import 'package:redux/redux.dart';
 
 void servicesMiddleware(Store<AppState> store, action, NextDispatcher next) {
   final onSuccess = (castedAction, response) {
-
     print(response);
     print('Response status: ${response.statusCode}');
     print(response.body);
-    castedAction.actionSuccess.response =
-        castedAction.transformFunction(response.body);
-    print(castedAction.actionSuccess.response);
-    if (castedAction.onSuccess != null)
+    if (castedAction.transformFunction != null) {
+      castedAction.actionSuccess.response =
+          castedAction.transformFunction(response.body);
+      print(castedAction.actionSuccess.response);
+    }
+    if (castedAction.onSuccess !=
+        null) if (castedAction.actionSuccess.response != null) {
       castedAction.onSuccess(castedAction.actionSuccess.response);
+    } else {
+      castedAction.onSuccess();
+    }
     next(castedAction.actionSuccess);
   };
 
@@ -27,6 +32,8 @@ void servicesMiddleware(Store<AppState> store, action, NextDispatcher next) {
     next(castedAction.actionFailure);
   };
 
+  print("action");
+  print(action);
   if (action is ServicesMiddlewareRequest) {
     final ServicesMiddlewareRequest castedAction = action;
     next(castedAction.actionStart);

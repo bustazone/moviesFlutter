@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 class CustomCheckbox extends StatefulWidget {
-  final width, height, onTap, selected;
+  final Function(bool) onTap;
+  final bool selected;
 
-  CustomCheckbox(this.selected, this.width, this.height, this.onTap);
+  CustomCheckbox(this.selected, this.onTap);
 
   @override
   State createState() {
@@ -40,8 +41,8 @@ class _CustomCheckboxState extends State<CustomCheckbox>
       },
       child: new Image.asset(
         getCurrentImage(widget.selected, _highlighted),
-        width: widget.width,
-        height: widget.height,
+        width: 20,
+        height: 20,
       ),
     );
   }

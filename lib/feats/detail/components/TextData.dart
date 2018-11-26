@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class TextData extends StatelessWidget {
-
   final String name;
   final String value;
 
@@ -17,17 +16,12 @@ class TextData extends StatelessWidget {
             children: <Widget>[
               new Text(
                 name,
-                style: new TextStyle(
-                    color: Color(0xFFCC9900), fontSize: 14),
+                style: new TextStyle(color: Color(0xFFCC9900), fontSize: 14),
               ),
               new Text(
-                value != null
-                    ? value
-                    : "",
-                style: new TextStyle(
-                    color: Color(0xFF564C19), fontSize: 20),
+                value != null ? value : "",
+                style: new TextStyle(color: Color(0xFF564C19), fontSize: 20),
               ),
             ]));
   }
-
 }

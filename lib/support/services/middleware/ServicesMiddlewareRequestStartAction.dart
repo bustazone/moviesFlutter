@@ -1,2 +1,1 @@
-class ServicesMiddlewareRequestStartAction {
-}
+class ServicesMiddlewareRequestStartAction {}
