@@ -291,15 +291,4 @@ class DetailScreenState extends State<DetailScreen>
                   ]),
             ])));
   }
-
-//  @override
-//  Widget build(BuildContext context) {
-//    return new Scaffold(
-//        body: new Container(
-//          color: const Color(0xFFEAEAEA),
-//          child: new Center(
-//            child: new Text(widget.vm.film != null ? widget.vm.film.toString() : ""),
-//          ),
-//        ));
-//  }
 }

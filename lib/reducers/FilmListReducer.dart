@@ -35,7 +35,7 @@ FilmListState _setFilms(
 FilmListState _addFilms(
     FilmListState state, GetFilteredListNextPageRequestSuccessAction action) {
   List<Film> list = List.from(state.filmList)..addAll(action.response);
-  return state.copyWith(filmList: list);
+  return state.copyWith(filmList: list, couldQueryMore: action.response.length > 0);
 }
 
 FilmListState _setPage(FilmListState state, dynamic action) {

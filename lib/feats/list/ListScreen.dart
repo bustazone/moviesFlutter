@@ -15,8 +15,12 @@ class ListScreen extends StatefulWidget {
 }
 
 class ListScreenState extends State<ListScreen> {
+
+  bool loadingData;
+
   initState() {
     super.initState();
+    loadingData = widget.vm.loadingData;
     widget.vm.getFilms(widget.vm.randomFilmFilter);
   }
 
@@ -29,7 +33,7 @@ class ListScreenState extends State<ListScreen> {
     if (widget.vm.canQueryMore &&
         list.length > 3 &&
         index > list.length - 10 &&
-        !widget.vm.loadingData) {
+        loadingData) {
       widget.vm.getMoreFilms();
     }
     if (index == 0) {
@@ -57,6 +61,7 @@ class ListScreenState extends State<ListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    loadingData = widget.vm.loadingData;
     var list = List.from(widget.vm.filmList);
     if (list.length == 0) {
       list.addAll([null, null, null]);

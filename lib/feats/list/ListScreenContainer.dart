@@ -70,7 +70,7 @@ class ViewModel {
           store.dispatch(SetSelectedFilmIdStateAction(filmId));
         },
         filmList: store.state.filmList.filmList,
-        loadingData: store.state.loadingDataState.loadingProcesses > 0);
+        loadingData: store.state.filmList.loading);
   }
 
   @override
