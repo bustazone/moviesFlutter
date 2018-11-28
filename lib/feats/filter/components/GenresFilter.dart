@@ -25,10 +25,10 @@ class GenresFilterState extends State<GenresFilter>
   void updateFilterGenders(bool selected, {int codigo, String nombre}) {
     if (selected) {
       widget
-          .setGenres(widget.genres.add(new Genre(id: codigo, nombre: nombre)));
+          .setGenres(GenreList(l: List.from(widget.genres.l))..add(new Genre(id: codigo, nombre: nombre)));
     } else {
       widget.setGenres(
-          widget.genres..removeByValues(new Genre(id: codigo, nombre: nombre)));
+          GenreList(l: List.from(widget.genres.l))..removeByValues(new Genre(id: codigo, nombre: nombre)));
     }
   }
 

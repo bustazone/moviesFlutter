@@ -15,7 +15,6 @@ class ListScreen extends StatefulWidget {
 }
 
 class ListScreenState extends State<ListScreen> {
-
   bool loadingData;
 
   initState() {
