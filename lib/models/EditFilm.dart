@@ -12,6 +12,7 @@ class EditFilm {
   String imdbId;
   String filmaffinityId;
   bool serie;
+  bool completed;
   String nombreArchivo;
   String comentarios;
   List<Language> idiomas = new List();
@@ -34,6 +35,7 @@ class EditFilm {
     f.imdbId = dataConverted['imdbId'];
     f.filmaffinityId = dataConverted['filmaffinityId'];
     f.serie = dataConverted['serie'];
+    f.completed = dataConverted['completed'];
     f.nombreArchivo = dataConverted['nombreArchivo'];
     f.comentarios = dataConverted['comentarios'];
     List listIdiomas = dataConverted['idiomas'];
@@ -77,6 +79,9 @@ class EditFilm {
     if (serie != null) {
       m.putIfAbsent('serie', () => serie);
     }
+    if (completed != null) {
+      m.putIfAbsent('completed', () => completed);
+    }
     if (!isNullOrEmpty(nombreArchivo)) {
       m.putIfAbsent('nombreArchivo', () => nombreArchivo);
     }
@@ -111,6 +116,7 @@ class EditFilm {
         'imdbId: $imdbId,'
         'filmaffinityId: $filmaffinityId,'
         'serie: $serie,'
+        'completed: $completed,'
         'nombreArchivo: $nombreArchivo,'
         'comentarios: $comentarios,'
         'idiomas: $idiomas,'

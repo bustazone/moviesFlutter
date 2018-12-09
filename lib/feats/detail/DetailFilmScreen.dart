@@ -107,7 +107,7 @@ class DetailScreenState extends State<DetailScreen>
         return percentage;
       }
     } else {
-      return 0;
+      return 1;
     }
   }
 
@@ -138,26 +138,25 @@ class DetailScreenState extends State<DetailScreen>
 
   Container _getGradient() {
     final topOffset = kExpandedHeight * 0.7;
+    final height = kExpandedHeight - topOffset;
+    var top = MediaQuery.of(context).padding.top + topOffset;
     if (_scrollController.hasClients) {
-      final height = kExpandedHeight - topOffset;
-      final top = MediaQuery.of(context).padding.top +
+      top = MediaQuery.of(context).padding.top +
           topOffset -
           (_scrollController.offset * (3 / 4));
-      return new Container(
-        margin: new EdgeInsets.only(top: top < 0 ? 0 : top),
-        height: height < 0 ? 0 : height,
-        decoration: new BoxDecoration(
-          gradient: new LinearGradient(
-            colors: <Color>[new Color(0x00CC9900), new Color(0xFFCC9900)],
-            stops: [0.0, 1.0],
-            begin: const FractionalOffset(0.0, 0.0),
-            end: const FractionalOffset(0.0, 1.0),
-          ),
-        ),
-      );
-    } else {
-      return new Container();
     }
+    return new Container(
+      margin: new EdgeInsets.only(top: top < 0 ? 0 : top),
+      height: height < 0 ? 0 : height,
+      decoration: new BoxDecoration(
+        gradient: new LinearGradient(
+          colors: <Color>[new Color(0x00CC9900), new Color(0xFFCC9900)],
+          stops: [0.0, 1.0],
+          begin: const FractionalOffset(0.0, 0.0),
+          end: const FractionalOffset(0.0, 1.0),
+        ),
+      ),
+    );
   }
 
   Widget _getReloadButton() {
@@ -235,60 +234,61 @@ class DetailScreenState extends State<DetailScreen>
     return listOutput;
   }
 
+  _getBody() {
+    return new Container(
+        color: const Color(0xFFEAEAEA),
+        child: new Stack(children: <Widget>[
+          new CustomScrollView(controller: _scrollController, slivers: <Widget>[
+            SliverAppBar(
+                forceElevated: true,
+                pinned: true,
+                backgroundColor: new Color(0x80CC9900),
+                expandedHeight: kExpandedHeight,
+                leading: new Container(
+                  child: new IconButton(
+                      color: _appBarTextColor,
+                      icon: new Icon(Icons.arrow_back),
+                      onPressed: () {
+                        goBack();
+                      }),
+                ),
+                actions: <Widget>[_getEditButton(), _getReloadButton()],
+                flexibleSpace: FlexibleSpaceBar(
+                    title: ConstrainedBox(
+                      constraints: BoxConstraints(
+                        maxWidth: MediaQuery.of(context).size.width -
+                            (190 * _scrollLikeProportion),
+                      ),
+                      child: Text(
+                        _getShortedTitle(
+                            widget.vm.film.titulo, widget.vm.film.year),
+                        style: new TextStyle(color: _appBarTextColor),
+                      ),
+                    ),
+                    background: new Stack(children: <Widget>[
+                      new Positioned.fill(
+                        child: (widget.vm.film != null &&
+                                widget.vm.film.imageUrl != null)
+                            ? new Image.network(
+                                widget.vm.film.imageUrl,
+                                fit: BoxFit.cover,
+                                //height: DesignConstants.imageFilmRowHeight * transformProportion,
+                              )
+                            : new Container(),
+                      ),
+                      _getGradient()
+                    ]))),
+            SliverList(
+              delegate: SliverChildListDelegate(_getDataWidgetList()),
+            )
+          ]),
+        ]));
+  }
+
   @override
   Widget build(BuildContext context) {
     kExpandedHeight = MediaQuery.of(context).size.height * 0.7;
     return new LoadingScaffoldWrapperWidget(
-        showLoader: widget.vm.showLoader,
-        body: new Container(
-            color: const Color(0xFFEAEAEA),
-            child: new Stack(children: <Widget>[
-              new CustomScrollView(
-                  controller: _scrollController,
-                  slivers: <Widget>[
-                    SliverAppBar(
-                        forceElevated: true,
-                        pinned: true,
-                        backgroundColor: new Color(0x80CC9900),
-                        expandedHeight: kExpandedHeight,
-                        leading: new Container(
-                          child: new IconButton(
-                              color: _appBarTextColor,
-                              icon: new Icon(Icons.arrow_back),
-                              onPressed: () {
-                                goBack();
-                              }),
-                        ),
-                        actions: <Widget>[_getEditButton(), _getReloadButton()],
-                        flexibleSpace: FlexibleSpaceBar(
-                            title: ConstrainedBox(
-                              constraints: BoxConstraints(
-                                maxWidth: MediaQuery.of(context).size.width -
-                                    (190 * _scrollLikeProportion),
-                              ),
-                              child: Text(
-                                _getShortedTitle(
-                                    widget.vm.film.titulo, widget.vm.film.year),
-                                style: new TextStyle(color: _appBarTextColor),
-                              ),
-                            ),
-                            background: new Stack(children: <Widget>[
-                              new Positioned.fill(
-                                child: (widget.vm.film != null &&
-                                        widget.vm.film.imageUrl != null)
-                                    ? new Image.network(
-                                        widget.vm.film.imageUrl,
-                                        fit: BoxFit.cover,
-                                        //height: DesignConstants.imageFilmRowHeight * transformProportion,
-                                      )
-                                    : new Container(),
-                              ),
-                              _getGradient()
-                            ]))),
-                    SliverList(
-                      delegate: SliverChildListDelegate(_getDataWidgetList()),
-                    )
-                  ]),
-            ])));
+        showLoader: widget.vm.showLoader, body: _getBody);
   }
 }

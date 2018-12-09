@@ -58,8 +58,7 @@ class ListScreenState extends State<ListScreen> {
     return false;
   }
 
-  @override
-  Widget build(BuildContext context) {
+  _getBody() {
     loadingData = widget.vm.loadingData;
     var list = List.from(widget.vm.filmList);
     if (list.length == 0) {
@@ -69,50 +68,54 @@ class ListScreenState extends State<ListScreen> {
       list.addAll(widget.vm.filmList);
       list.add(null);
     }
+    return new Container(
+        color: const Color(0xFFCC9900),
+        child: new Stack(
+          children: <Widget>[
+            new CustomScrollView(
+              scrollDirection: Axis.vertical,
+              shrinkWrap: false,
+              slivers: <Widget>[
+                new SliverList(
+                  delegate: new SliverChildBuilderDelegate(
+                    (context, index) => getFilmItem(index, list),
+                    childCount: list.length,
+                  ),
+                ),
+              ],
+            ),
+            new Positioned(
+              child: new Container(
+                  color: new Color(0x80CC9900),
+                  width: MediaQuery.of(context).size.width,
+                  height: new AppBar().preferredSize.height,
+                  child: new Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      new Container(
+                        child: new IconButton(
+                            color: new Color(0xFF564C19),
+                            icon: new Icon(Icons.arrow_back),
+                            onPressed: () {
+                              goBack();
+                            }),
+                      ),
+                      new Expanded(child: new Container()),
+                    ],
+                  )),
+              top: MediaQuery.of(context).padding.top,
+            ),
+          ],
+        ));
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return new WillPopScope(
         onWillPop: () {
           _handleBack();
         },
         child: new LoadingScaffoldWrapperWidget(
-            showLoader: widget.vm.showLoader,
-            body: new Container(
-                color: const Color(0xFFCC9900),
-                child: new Stack(
-                  children: <Widget>[
-                    new CustomScrollView(
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: false,
-                      slivers: <Widget>[
-                        new SliverList(
-                          delegate: new SliverChildBuilderDelegate(
-                            (context, index) => getFilmItem(index, list),
-                            childCount: list.length,
-                          ),
-                        ),
-                      ],
-                    ),
-                    new Positioned(
-                      child: new Container(
-                          color: new Color(0x80CC9900),
-                          width: MediaQuery.of(context).size.width,
-                          height: new AppBar().preferredSize.height,
-                          child: new Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
-                              new Container(
-                                child: new IconButton(
-                                    color: new Color(0xFF564C19),
-                                    icon: new Icon(Icons.arrow_back),
-                                    onPressed: () {
-                                      goBack();
-                                    }),
-                              ),
-                              new Expanded(child: new Container()),
-                            ],
-                          )),
-                      top: MediaQuery.of(context).padding.top,
-                    ),
-                  ],
-                ))));
+            showLoader: widget.vm.showLoader, body: _getBody));
   }
 }

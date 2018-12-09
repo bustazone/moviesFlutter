@@ -135,6 +135,12 @@ class SetEditFilmSerie {
   SetEditFilmSerie(this.series);
 }
 
+class SetEditFilmCompleted {
+  final bool completed;
+
+  SetEditFilmCompleted(this.completed);
+}
+
 class SetEditFilmNombreArchivo {
   final String filename;
 

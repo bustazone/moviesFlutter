@@ -9,14 +9,14 @@ import 'package:pelis_busta/navigation/OnNavigateRouteCustom/CustomRoute.dart';
 
 const String HomeRouteName = "/";
 const String FilterRouteName = "/filter";
-const String FilterTitleRouteName = "/filter/title";
-const String FilterDirectorRouteName = "/filter/director";
-const String FilterCastRouteName = "/filter/cast";
-const String FilterGenreRouteName = "/filter/genre";
-const String FilterMoreGenreRouteName = "/filter/genre/more";
-const String FilterLangRouteName = "/filter/lang";
-const String FilterLocationRouteName = "/filter/location";
-const String FilterYearRouteName = "/filter/year";
+const String FilterTitleRouteName = "/filtertitle";
+const String FilterDirectorRouteName = "/filterdirector";
+const String FilterCastRouteName = "/filtercast";
+const String FilterGenreRouteName = "/filtergenre";
+const String FilterMoreGenreRouteName = "/filtergenre/more";
+const String FilterLangRouteName = "/filterlang";
+const String FilterLocationRouteName = "/filterlocation";
+const String FilterYearRouteName = "/filteryear";
 const String ListRouteName = "/list";
 const String RandomFilmRouteName = "/randomFilm";
 const String DetailRouteName = "/detail";
@@ -28,8 +28,8 @@ class CustomNavigator extends StatelessWidget {
   }
 
   static var routes = <String, WidgetBuilder>{
-    HomeRouteName: (context) => HomeScreen(),
-    FilterRouteName: (context) => FilterScreenContainer.main(),
+    HomeRouteName: (context) => FilterScreenContainer.main(),
+    //FilterRouteName: (context) => FilterScreenContainer.main(),
     FilterTitleRouteName: (context) =>
         FilterScreenContainer(FilterStates.TitleFilter, title: "TITLE"),
     FilterDirectorRouteName: (context) =>

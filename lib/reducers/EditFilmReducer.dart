@@ -13,6 +13,7 @@ final editFilmReducer = combineReducers<EditFilmState>([
   TypedReducer<EditFilmState, SetEditFilmImdbId>(_setImdbId),
   TypedReducer<EditFilmState, SetEditFilmFilmaffinityId>(_setFilmaffinityId),
   TypedReducer<EditFilmState, SetEditFilmSerie>(_setSerie),
+  TypedReducer<EditFilmState, SetEditFilmCompleted>(_setComplete),
   TypedReducer<EditFilmState, SetEditFilmNombreArchivo>(_setNombreArchivo),
   TypedReducer<EditFilmState, SetEditFilmComentarios>(_setComentarios),
   TypedReducer<EditFilmState, SetEditFilmIdiomas>(_setIdiomas),
@@ -62,6 +63,12 @@ EditFilmState _setSerie(EditFilmState state, SetEditFilmSerie action) {
   return ef;
 }
 
+EditFilmState _setComplete(EditFilmState state, SetEditFilmCompleted action) {
+  EditFilmState ef = state.copyWith();
+  ef.editFilmData.completed = action.completed;
+  return ef;
+}
+
 EditFilmState _setNombreArchivo(
     EditFilmState state, SetEditFilmNombreArchivo action) {
   EditFilmState ef = state.copyWith();
@@ -102,6 +109,7 @@ EditFilmState _setFilmData(
     data.imdbId = action.response[0].imdbId;
     data.filmaffinityId = action.response[0].filmaffinityId;
     data.serie = action.response[0].serie;
+    data.completed = action.response[0].completed;
     data.nombreArchivo = action.response[0].nombreArchivo;
     data.comentarios = action.response[0].comentarios;
     data.idiomas = action.response[0].idiomas;

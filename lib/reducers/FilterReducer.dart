@@ -29,7 +29,7 @@ FilterState _setTitle(FilterState state, SetFilterTitleStateAction action) {
 }
 
 FilterState _resetTitle(FilterState state, ResetFilterTitleStateAction action) {
-  return state.copyWith(tituloFilter: null);
+  return state.copyWith(tituloFilter: "");
 }
 
 FilterState _setDirector(
@@ -39,7 +39,7 @@ FilterState _setDirector(
 
 FilterState _resetDirector(
     FilterState state, ResetFilterDirectorStateAction action) {
-  return state.copyWith(director: null);
+  return state.copyWith(director: "");
 }
 
 FilterState _setCast(FilterState state, SetFilterCastStateAction action) {
@@ -47,7 +47,7 @@ FilterState _setCast(FilterState state, SetFilterCastStateAction action) {
 }
 
 FilterState _resetCast(FilterState state, ResetFilterCastStateAction action) {
-  return state.copyWith(casts: null);
+  return state.copyWith(casts: "");
 }
 
 FilterState _setLocation(
@@ -57,7 +57,7 @@ FilterState _setLocation(
 
 FilterState _resetLocation(
     FilterState state, ResetFilterLocationStateAction action) {
-  return state.copyWith(location: null);
+  return state.copyWith(location: "");
 }
 
 FilterState _setYear(FilterState state, SetFilterYearStateAction action) {
@@ -73,7 +73,7 @@ FilterState _setMaxYear(FilterState state, SetFilterMaxYearStateAction action) {
 }
 
 FilterState _resetYears(FilterState state, ResetFilterYearsStateAction action) {
-  return state.copyWith(year: null, minYear: null, maxYear: null);
+  return state.copyWith(year: 0, minYear: 0, maxYear: 0);
 }
 
 FilterState _setLanguages(
@@ -101,13 +101,7 @@ FilterState _setGenres(FilterState state, SetFilterGenresStateAction action) {
 }
 
 FilterState _setSeries(FilterState state, SetFilterSeriesStateAction action) {
-  print(action.series);
-  print("state");
-  print(state);
-  final f = state.copyWith(series: action.series);
-  print("f");
-  print(f);
-  return f;
+  return state.copyWith(series: action.series);
 }
 
 FilterState _resetWholeFilter(

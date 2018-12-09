@@ -41,6 +41,7 @@ class ViewModel {
   final String imdbId;
   final String filmaffinityId;
   final bool serie;
+  final bool completed;
   final String nombreArchivo;
   final String comentarios;
   final List<Language> idiomas;
@@ -52,6 +53,7 @@ class ViewModel {
   final Function(String) setImdbId;
   final Function(String) setFilmaffinityId;
   final Function(bool) setSerie;
+  final Function(bool) setCompleted;
   final Function(String) setNombreArchivo;
   final Function(String) setComentarios;
   final Function(List<Language>) setIdiomas;
@@ -70,6 +72,7 @@ class ViewModel {
       @required this.imdbId,
       @required this.filmaffinityId,
       @required this.serie,
+      @required this.completed,
       @required this.nombreArchivo,
       @required this.comentarios,
       @required this.idiomas,
@@ -81,6 +84,7 @@ class ViewModel {
       @required this.setImdbId,
       @required this.setFilmaffinityId,
       @required this.setSerie,
+      @required this.setCompleted,
       @required this.setNombreArchivo,
       @required this.setComentarios,
       @required this.setIdiomas,
@@ -100,6 +104,7 @@ class ViewModel {
         imdbId: store.state.editFilm.editFilmData.imdbId,
         filmaffinityId: store.state.editFilm.editFilmData.filmaffinityId,
         serie: store.state.editFilm.editFilmData.serie,
+        completed: store.state.editFilm.editFilmData.completed,
         nombreArchivo: store.state.editFilm.editFilmData.nombreArchivo,
         comentarios: store.state.editFilm.editFilmData.comentarios,
         idiomas: store.state.editFilm.editFilmData.idiomas,
@@ -124,6 +129,9 @@ class ViewModel {
         },
         setSerie: (bool v) {
           store.dispatch(SetEditFilmSerie(v));
+        },
+        setCompleted: (bool v) {
+          store.dispatch(SetEditFilmCompleted(v));
         },
         setNombreArchivo: (String v) {
           store.dispatch(SetEditFilmNombreArchivo(v));
@@ -167,6 +175,7 @@ class ViewModel {
           imdbId == other.imdbId &&
           filmaffinityId == other.filmaffinityId &&
           serie == other.serie &&
+          completed == other.completed &&
           nombreArchivo == other.nombreArchivo &&
           comentarios == other.comentarios &&
           idiomas == other.idiomas &&
@@ -185,6 +194,7 @@ class ViewModel {
       imdbId.hashCode ^
       filmaffinityId.hashCode ^
       serie.hashCode ^
+      completed.hashCode ^
       nombreArchivo.hashCode ^
       comentarios.hashCode ^
       idiomas.hashCode ^

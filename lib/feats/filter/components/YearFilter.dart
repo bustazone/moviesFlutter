@@ -25,8 +25,6 @@ class YearFilter extends StatefulWidget {
 }
 
 class YearFilterState extends State<YearFilter> with TickerProviderStateMixin {
-  final TextEditingController _textController = new TextEditingController();
-
   YearFilterMode mode = YearFilterMode.year;
 
   void _initFilter() {
@@ -103,7 +101,6 @@ class YearFilterState extends State<YearFilter> with TickerProviderStateMixin {
     return new Positioned(
       child: new Container(
         width: widget.gearWidth,
-        //height: 30.0 * (gearWidth / DesignConstants.gearWidth),
         margin: null,
         child: new Column(children: <Widget>[
           new Container(
@@ -184,11 +181,5 @@ class YearFilterState extends State<YearFilter> with TickerProviderStateMixin {
       left: 0.0,
       top: (widget.gearWidth * 27.0) / DesignConstants.gearWidth,
     );
-  }
-
-  @override
-  dispose() {
-    _textController.dispose();
-    super.dispose();
   }
 }

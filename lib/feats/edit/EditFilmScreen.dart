@@ -27,32 +27,10 @@ class EditFilmScreenState extends State<EditFilmScreen>
     Navigator.of(context).pop();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return new LoadingScaffoldWrapperWidget(
-        showLoader: widget.vm.showLoader,
-        appBar: AppBar(
-          backgroundColor: new Color(0x80CC9900),
-          leading: new Container(
-            child: new IconButton(
-                color: Color(0xFF564C19),
-                icon: new Icon(Icons.arrow_back),
-                onPressed: () {
-                  goBack();
-                }),
-          ),
-          actions: <Widget>[
-            new IconButton(
-                color: Color(0xFF564C19),
-                icon: new Icon(Icons.done),
-                onPressed: () {
-                  widget.vm.uploadChanges((response) {
-                    goBack();
-                  });
-                })
-          ],
-        ),
-        body: new CustomScrollView(
+  _getBody() {
+    return new Container(
+        margin: EdgeInsets.symmetric(horizontal: 16.0),
+        child: new CustomScrollView(
           scrollDirection: Axis.vertical,
           shrinkWrap: false,
           slivers: <Widget>[
@@ -81,7 +59,10 @@ class EditFilmScreenState extends State<EditFilmScreen>
                 }, value: widget.vm.filmaffinityId),
                 new CheckBoxInputWithLabel("serie", (selected) {
                   widget.vm.setSerie(selected);
-                }, value: widget.vm.serie), //<----------------------------
+                }, value: widget.vm.serie), //
+                new CheckBoxInputWithLabel("serie completa", (selected) {
+                  widget.vm.setCompleted(selected);
+                }, value: widget.vm.completed),
                 new TextInputWithLabel("nombreArchivo", (text) {
                   widget.vm.setNombreArchivo(text);
                 }, value: widget.vm.nombreArchivo),
@@ -89,34 +70,76 @@ class EditFilmScreenState extends State<EditFilmScreen>
                   widget.vm.setComentarios(text);
                 }, value: widget.vm.comentarios),
                 new Container(
-                  decoration: BoxDecoration(color: Color(0xffffff00)),
-                  margin: new EdgeInsets.only(top: 5.0),
+                  margin: new EdgeInsets.symmetric(
+                      vertical: 16.0, horizontal: 40.0),
                   height: 200,
                   width: 300,
                   child: new Row(
                     children: <Widget>[
-                      Expanded(
-                          child: new Container(
-                        decoration: BoxDecoration(color: Color(0xffff0000)),
-                        width: 70,
-                        child: LanguagesMultiselectionList(
-                            LanguageList(l: widget.vm.idiomas), (values) {
-                          widget.vm.setIdiomas(values);
-                        }, widget.vm.allLangs),
-                      )),
-                      Expanded(
-                          child: new Container(
-                        decoration: BoxDecoration(color: Color(0xff00ff00)),
-                      )),
-                      Expanded(
-                          child: new Container(
-                        decoration: BoxDecoration(color: Color(0xff0000ff)),
-                        width: 70,
-                        child: LanguagesMultiselectionList(
-                            LanguageList(l: widget.vm.subtitulos), (values) {
-                          widget.vm.setSubtitulos(values);
-                        }, widget.vm.allSubs),
-                      )),
+                      Column(
+                        children: <Widget>[
+                          new Container(
+                            margin: new EdgeInsets.symmetric(vertical: 8),
+                            child: new Center(
+                                child: new Text(
+                              "languages",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .display1
+                                  .copyWith(
+                                      textBaseline: TextBaseline.alphabetic,
+                                      color: new Color(0xFF564C19),
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.bold),
+                            )),
+                          ),
+                          Expanded(
+                              child: new Container(
+                            decoration: BoxDecoration(
+                              border: new Border.all(
+                                  color: new Color(0xffcc9900), width: 2.0),
+                            ),
+                            width: 70,
+                            child: LanguagesMultiselectionList(
+                                LanguageList(l: widget.vm.idiomas), (values) {
+                              widget.vm.setIdiomas(values);
+                            }, widget.vm.allLangs),
+                          ))
+                        ],
+                      ),
+                      Expanded(child: new Container()),
+                      Column(
+                        children: <Widget>[
+                          new Container(
+                            margin: new EdgeInsets.symmetric(vertical: 8),
+                            child: new Center(
+                                child: new Text(
+                              "subtitles",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .display1
+                                  .copyWith(
+                                      textBaseline: TextBaseline.alphabetic,
+                                      color: new Color(0xFF564C19),
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.bold),
+                            )),
+                          ),
+                          Expanded(
+                              child: new Container(
+                            decoration: BoxDecoration(
+                              border: new Border.all(
+                                  color: new Color(0xffcc9900), width: 2.0),
+                            ),
+                            width: 70,
+                            child: LanguagesMultiselectionList(
+                                LanguageList(l: widget.vm.subtitulos),
+                                (values) {
+                              widget.vm.setSubtitulos(values);
+                            }, widget.vm.allSubs),
+                          ))
+                        ],
+                      ),
                     ],
                   ),
                 ),
@@ -124,5 +147,33 @@ class EditFilmScreenState extends State<EditFilmScreen>
             ),
           ],
         ));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return new LoadingScaffoldWrapperWidget(
+        showLoader: widget.vm.showLoader,
+        appBar: AppBar(
+          backgroundColor: new Color(0x80CC9900),
+          leading: new Container(
+            child: new IconButton(
+                color: Color(0xFF564C19),
+                icon: new Icon(Icons.arrow_back),
+                onPressed: () {
+                  goBack();
+                }),
+          ),
+          actions: <Widget>[
+            new IconButton(
+                color: Color(0xFF564C19),
+                icon: new Icon(Icons.done),
+                onPressed: () {
+                  widget.vm.uploadChanges((response) {
+                    goBack();
+                  });
+                })
+          ],
+        ),
+        body: _getBody);
   }
 }

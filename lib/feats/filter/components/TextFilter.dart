@@ -36,11 +36,11 @@ class TextFilterState extends State<TextFilter> with TickerProviderStateMixin {
 
   initState() {
     super.initState();
-    _initTextController();
   }
 
   @override
   Widget build(BuildContext context) {
+    _initTextController();
     return new Positioned(
       child: new Container(
         width: 220.0 * (widget.gearWidth / DesignConstants.gearWidth),
@@ -76,8 +76,7 @@ class TextFilterState extends State<TextFilter> with TickerProviderStateMixin {
               ),
               child: new TextField(
                 controller: _textController,
-                //onSubmitted: _handleSubmitted,
-                onChanged: _handleSubmitted,
+                onSubmitted: _handleSubmitted,
                 decoration: new InputDecoration.collapsed(
                   hintText: '_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _',
                 ),

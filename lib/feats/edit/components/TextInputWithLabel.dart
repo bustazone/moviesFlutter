@@ -20,6 +20,9 @@ class TextInputWithLabelState extends State<TextInputWithLabel>
 
   initState() {
     super.initState();
+  }
+
+  void _initTextController() {
     _textController.value =
         new TextEditingValue(text: widget.value == null ? "" : widget.value);
   }
@@ -36,6 +39,7 @@ class TextInputWithLabelState extends State<TextInputWithLabel>
 
   @override
   Widget build(BuildContext context) {
+    _initTextController();
     return new Column(children: <Widget>[
       new Container(
         margin: new EdgeInsets.symmetric(vertical: 8),

@@ -7,17 +7,16 @@ class LoadingScaffoldWrapperWidget extends StatefulWidget {
   LoadingScaffoldWrapperWidget(
       {Key key,
       this.body,
-      this.showLoader = false,
+      this.showLoader,
       this.handlePush,
       this.handlePop,
       this.appBar})
       : super(key: key);
-
+  final Function() body;
   final bool showLoader;
   final Function() handlePush;
   final Function() handlePop;
   final AppBar appBar;
-  final Widget body;
 
   @override
   State createState() => new LoadingScaffoldWrapperWidgetState();
@@ -58,7 +57,7 @@ class LoadingScaffoldWrapperWidgetState
     } else {
       return new Scaffold(
         appBar: widget.appBar,
-        body: widget.body,
+        body: widget.body(),
       );
     }
   }

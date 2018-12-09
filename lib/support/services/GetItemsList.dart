@@ -17,6 +17,8 @@ ServicesMiddlewareRequest getFilteredListRequest(FilmFilter filter,
     {bool queryMore = false, onSuccess}) {
   final String listUrl = BASE_URL + "/list";
   final body = json.encode(filter.toMap());
+  print("filter");
+  print(body);
   final transformFunc = (responseBody) {
     return NetResponse.fromResponseFilmString(responseBody).items;
   };

@@ -41,7 +41,6 @@ Future<List<Language>> getLanguagesList() async {
   var response = await httpClient.get(listLangs);
   print('Response status: ${response.statusCode}');
   print(response.body);
-  print("jhljhgkjhgkjhgkjhv");
   var fromResponseFilm = NetResponse.fromResponseLangString(response.body);
   httpClient.close();
   return fromResponseFilm.items;
@@ -52,7 +51,6 @@ Future<List<Language>> getSubtitlesList() async {
   var response = await httpClient.get(listSubs);
   print('Response status: ${response.statusCode}');
   print(response.body);
-  print("jhljhgkjhgkjhgkjhv");
   var fromResponseFilm = NetResponse.fromResponseLangString(response.body);
   httpClient.close();
   return fromResponseFilm.items;

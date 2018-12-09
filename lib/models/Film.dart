@@ -18,6 +18,7 @@ class Film {
   String tituloOriginal;
   String comentarios;
   bool serie;
+  bool completed;
   String nombreArchivo;
   double punctFilmaffinity;
   double punctImdb;
@@ -56,6 +57,7 @@ class Film {
     f.tituloOriginal = dataConverted['tituloOriginal'];
     f.comentarios = dataConverted['comentarios'];
     f.serie = dataConverted['serie'];
+    f.completed = dataConverted['completed'];
     f.nombreArchivo = dataConverted['nombreArchivo'];
     f.punctFilmaffinity = dataConverted['punctFilmaffinity'];
     f.punctImdb = dataConverted['punctImdb'];
@@ -105,6 +107,7 @@ class Film {
         'tituloOriginal: $tituloOriginal,'
         'comentarios: $comentarios,'
         'serie: $serie,'
+        'completed: $completed,'
         'nombreArchivo: $nombreArchivo,'
         'punctFilmaffinity: $punctFilmaffinity,'
         'punctImdb: $punctImdb,'

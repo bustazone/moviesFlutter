@@ -24,11 +24,11 @@ class GenresFilterState extends State<GenresFilter>
     with TickerProviderStateMixin {
   void updateFilterGenders(bool selected, {int codigo, String nombre}) {
     if (selected) {
-      widget
-          .setGenres(GenreList(l: List.from(widget.genres.l))..add(new Genre(id: codigo, nombre: nombre)));
+      widget.setGenres(GenreList(l: List.from(widget.genres.l))
+        ..add(new Genre(id: codigo, nombre: nombre)));
     } else {
-      widget.setGenres(
-          GenreList(l: List.from(widget.genres.l))..removeByValues(new Genre(id: codigo, nombre: nombre)));
+      widget.setGenres(GenreList(l: List.from(widget.genres.l))
+        ..removeByValues(new Genre(id: codigo, nombre: nombre)));
     }
   }
 

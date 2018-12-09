@@ -60,13 +60,15 @@ class MoreGenresFilterState extends State<MoreGenresFilter>
     for (int i = 0; i < generos.length; i++) {
       if (generos[i].id == id) {
         if (!selected) {
-          widget.setGenres(GenreList(l: List.from(widget.genres.l))..removeByValues(new Genre(id: id)));
+          widget.setGenres(GenreList(l: List.from(widget.genres.l))
+            ..removeByValues(new Genre(id: id)));
         }
         return;
       }
     }
     if (selected) {
-      widget.setGenres(GenreList(l: List.from(widget.genres.l))..add(new Genre(id: id)));
+      widget.setGenres(
+          GenreList(l: List.from(widget.genres.l))..add(new Genre(id: id)));
     }
   }
 
@@ -89,7 +91,8 @@ class MoreGenresFilterState extends State<MoreGenresFilter>
 
   _reset() {
     for (GenreListItemData g in itemsSelected) {
-      widget.setGenres(GenreList(l: List.from(widget.genres.l))..removeByValues(new Genre(id: g.id)));
+      widget.setGenres(GenreList(l: List.from(widget.genres.l))
+        ..removeByValues(new Genre(id: g.id)));
     }
   }
 

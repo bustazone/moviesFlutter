@@ -35,7 +35,16 @@ class FilterState {
       this.generos});
 
   factory FilterState.initial() => new FilterState(
+      tituloFilter: "",
+      location: "",
+      formato: "",
+      year: null,
+      minYear: null,
+      maxYear: null,
+      director: "",
       series: false,
+      countries: "",
+      casts: "",
       idiomas: new LanguageList(),
       subtitulos: new LanguageList(),
       generos: new GenreList());
@@ -57,9 +66,9 @@ class FilterState {
         tituloFilter: tituloFilter ?? this.tituloFilter,
         location: location ?? this.location,
         formato: formato ?? this.formato,
-        year: year ?? this.year,
-        minYear: minYear ?? this.minYear,
-        maxYear: maxYear ?? this.maxYear,
+        year: (year != null && year > 0) ? year : null,
+        minYear: (minYear != null && minYear > 0) ? minYear : null,
+        maxYear: (maxYear != null && maxYear > 0) ? maxYear : null,
         director: director ?? this.director,
         series: series ?? this.series,
         casts: casts ?? this.casts,
