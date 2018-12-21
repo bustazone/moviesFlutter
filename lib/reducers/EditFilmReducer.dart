@@ -6,6 +6,7 @@ import 'package:redux/redux.dart';
 
 final editFilmReducer = combineReducers<EditFilmState>([
   TypedReducer<EditFilmState, GetFilmRequestSuccessAction>(_setFilmData),
+  TypedReducer<EditFilmState, GetRandomFilmFilteredRequestSuccessAction>(_setFilmData),
   TypedReducer<EditFilmState, SetEditFilmLocation>(_setLocation),
   TypedReducer<EditFilmState, SetEditFilmVista>(_setVista),
   TypedReducer<EditFilmState, SetEditFilmFormato>(_setFormato),
@@ -28,13 +29,13 @@ EditFilmState _setLocation(EditFilmState state, SetEditFilmLocation action) {
 
 EditFilmState _setVista(EditFilmState state, SetEditFilmVista action) {
   EditFilmState ef = state.copyWith();
-  ef.editFilmData.vista = action.seen;
+  ef.editFilmData.seen = action.seen;
   return ef;
 }
 
 EditFilmState _setFormato(EditFilmState state, SetEditFilmFormato action) {
   EditFilmState ef = state.copyWith();
-  ef.editFilmData.formato = action.format;
+  ef.editFilmData.format = action.format;
   return ef;
 }
 
@@ -46,20 +47,20 @@ EditFilmState _setSize(EditFilmState state, SetEditFilmSize action) {
 
 EditFilmState _setImdbId(EditFilmState state, SetEditFilmImdbId action) {
   EditFilmState ef = state.copyWith();
-  ef.editFilmData.imdbId = action.imdbId;
+  ef.editFilmData.imdb_id = action.imdbId;
   return ef;
 }
 
 EditFilmState _setFilmaffinityId(
     EditFilmState state, SetEditFilmFilmaffinityId action) {
   EditFilmState ef = state.copyWith();
-  ef.editFilmData.filmaffinityId = action.filmaffinityId;
+  ef.editFilmData.filmaffinity_id = action.filmaffinityId;
   return ef;
 }
 
 EditFilmState _setSerie(EditFilmState state, SetEditFilmSerie action) {
   EditFilmState ef = state.copyWith();
-  ef.editFilmData.serie = action.series;
+  ef.editFilmData.series = action.series;
   return ef;
 }
 
@@ -72,48 +73,48 @@ EditFilmState _setComplete(EditFilmState state, SetEditFilmCompleted action) {
 EditFilmState _setNombreArchivo(
     EditFilmState state, SetEditFilmNombreArchivo action) {
   EditFilmState ef = state.copyWith();
-  ef.editFilmData.nombreArchivo = action.filename;
+  ef.editFilmData.filename = action.filename;
   return ef;
 }
 
 EditFilmState _setComentarios(
     EditFilmState state, SetEditFilmComentarios action) {
   EditFilmState ef = state.copyWith();
-  ef.editFilmData.comentarios = action.comentaries;
+  ef.editFilmData.comment = action.comentaries;
   return ef;
 }
 
 EditFilmState _setIdiomas(EditFilmState state, SetEditFilmIdiomas action) {
   EditFilmState ef = state.copyWith();
-  ef.editFilmData.idiomas = action.languages;
+  ef.editFilmData.languages = action.languages;
   return ef;
 }
 
 EditFilmState _setSubtitulos(
     EditFilmState state, SetEditFilmSubtitulos action) {
   EditFilmState ef = state.copyWith();
-  ef.editFilmData.subtitulos = action.subtitules;
+  ef.editFilmData.subtitles = action.subtitules;
   return ef;
 }
 
 EditFilmState _setFilmData(
-    EditFilmState state, GetFilmRequestSuccessAction action) {
+    EditFilmState state, dynamic action) {
   EditFilm data;
   if (action.response != null && action.response.length > 0) {
     data = EditFilm();
-    data.peliculaId = action.response[0].peliculaId;
+    data.film_Id = action.response[0].filmId;
     data.location = action.response[0].location;
-    data.vista = action.response[0].vista;
-    data.formato = action.response[0].formato;
+    data.seen = action.response[0].seen;
+    data.format = action.response[0].format;
     data.size = action.response[0].size;
-    data.imdbId = action.response[0].imdbId;
-    data.filmaffinityId = action.response[0].filmaffinityId;
-    data.serie = action.response[0].serie;
+    data.imdb_id = action.response[0].imdbId;
+    data.filmaffinity_id = action.response[0].filmaffinityId;
+    data.series = action.response[0].series;
     data.completed = action.response[0].completed;
-    data.nombreArchivo = action.response[0].nombreArchivo;
-    data.comentarios = action.response[0].comentarios;
-    data.idiomas = action.response[0].idiomas;
-    data.subtitulos = action.response[0].subtitulos;
+    data.filename = action.response[0].filename;
+    data.comment = action.response[0].comment;
+    data.languages = action.response[0].languages;
+    data.subtitles = action.response[0].subtitles;
   }
   return state.copyWith(editFilmData: data);
 }

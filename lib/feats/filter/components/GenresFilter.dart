@@ -25,15 +25,15 @@ class GenresFilterState extends State<GenresFilter>
   void updateFilterGenders(bool selected, {int codigo, String nombre}) {
     if (selected) {
       widget.setGenres(GenreList(l: List.from(widget.genres.l))
-        ..add(new Genre(id: codigo, nombre: nombre)));
+        ..add(new Genre(id: codigo, name: nombre)));
     } else {
       widget.setGenres(GenreList(l: List.from(widget.genres.l))
-        ..removeByValues(new Genre(id: codigo, nombre: nombre)));
+        ..removeByValues(new Genre(id: codigo, name: nombre)));
     }
   }
 
   bool checkFilterGenders({int codigo, String nombre}) {
-    return widget.genres.hasByValues(new Genre(id: codigo, nombre: nombre));
+    return widget.genres.hasByValues(new Genre(id: codigo, name: nombre));
   }
 
   List<GearInnerIcon> createGenderIconsList() {

@@ -24,7 +24,7 @@ class LanguageListItemState extends State<LanguageListItem>
     try {
       //image = new Image(image: new ImageProvider<AssetImage>())
       image = new Image.asset(
-        'assets/languages/' + widget.item.codigo + '.png',
+        'assets/languages/' + widget.item.code + '.png',
         height: 30.0,
         width: 30.0,
       );
@@ -68,5 +68,5 @@ class LanguageListItemData extends Language {
   bool selected = false;
 
   LanguageListItemData(this.selected, Language language)
-      : super(codigo: language.codigo, nombre: language.nombre);
+      : super(code: language.code, name: language.name);
 }

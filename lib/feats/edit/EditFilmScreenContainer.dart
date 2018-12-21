@@ -96,19 +96,19 @@ class ViewModel {
         showLoader: store.state.loadingDataState.loadingProcesses > 0,
         allLangs: LanguageList(l: store.state.languages.languagesList),
         allSubs: LanguageList(l: store.state.languages.subtitlesList),
-        peliculaId: store.state.editFilm.editFilmData.peliculaId,
+        peliculaId: store.state.editFilm.editFilmData.film_Id,
         location: store.state.editFilm.editFilmData.location,
-        vista: store.state.editFilm.editFilmData.vista,
-        formato: store.state.editFilm.editFilmData.formato,
+        vista: store.state.editFilm.editFilmData.seen,
+        formato: store.state.editFilm.editFilmData.format,
         size: store.state.editFilm.editFilmData.size,
-        imdbId: store.state.editFilm.editFilmData.imdbId,
-        filmaffinityId: store.state.editFilm.editFilmData.filmaffinityId,
-        serie: store.state.editFilm.editFilmData.serie,
+        imdbId: store.state.editFilm.editFilmData.imdb_id,
+        filmaffinityId: store.state.editFilm.editFilmData.filmaffinity_id,
+        serie: store.state.editFilm.editFilmData.series,
         completed: store.state.editFilm.editFilmData.completed,
-        nombreArchivo: store.state.editFilm.editFilmData.nombreArchivo,
-        comentarios: store.state.editFilm.editFilmData.comentarios,
-        idiomas: store.state.editFilm.editFilmData.idiomas,
-        subtitulos: store.state.editFilm.editFilmData.subtitulos,
+        nombreArchivo: store.state.editFilm.editFilmData.filename,
+        comentarios: store.state.editFilm.editFilmData.comment,
+        idiomas: store.state.editFilm.editFilmData.languages,
+        subtitulos: store.state.editFilm.editFilmData.subtitles,
         setLocation: (String v) {
           store.dispatch(SetEditFilmLocation(v));
         },
@@ -154,7 +154,7 @@ class ViewModel {
 //              print("done update");
 //            }));
             store.dispatch(
-                getFilmDetailRequest(ef.peliculaId, onSuccess: onSuccessFinal));
+                getFilmDetailRequest(ef.film_Id, onSuccess: onSuccessFinal));
           }));
         });
   }

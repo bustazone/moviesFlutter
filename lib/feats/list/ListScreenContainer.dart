@@ -2,21 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pelis_busta/actions/actions.dart';
 import 'package:pelis_busta/feats/list/ListScreen.dart';
-import 'package:pelis_busta/models/Film.dart';
+import 'package:pelis_busta/models/UserList.dart';
 import 'package:pelis_busta/state/AppState.dart';
 import 'package:pelis_busta/support/services/GetItemsList.dart';
 import 'package:redux/redux.dart';
 
 class ListScreenContainer extends StatelessWidget {
-  final bool randomFilm;
 
-  ListScreenContainer({this.randomFilm = false});
+  ListScreenContainer();
 
   @override
   build(BuildContext context) {
     return new StoreConnector<AppState, ViewModel>(
       converter: (store) {
-        return ViewModel.fromStore(store, randomFilm);
+        return ViewModel.fromStore(store);
       },
       builder: (context, vm) {
         return ListScreen(vm);
@@ -27,62 +26,49 @@ class ListScreenContainer extends StatelessWidget {
 
 class ViewModel {
   final bool showLoader;
-  final bool randomFilmFilter;
-  final bool canQueryMore;
-  final Function(bool) getFilms;
-  final Function() getMoreFilms;
-  final Function() resetList;
-  final Function(int) selectFilm;
-  final List<Film> filmList;
+  final List<UserList> userLists;
+  final Function(int) selectList;
+  final Function() addList;
+  final Function() getList;
   final bool loadingData;
 
   ViewModel(
       {@required this.showLoader,
-      @required this.randomFilmFilter,
-      @required this.canQueryMore,
-      @required this.getFilms,
-      @required this.getMoreFilms,
-      @required this.resetList,
-      @required this.selectFilm,
-      @required this.filmList,
-      @required this.loadingData});
+        @required this.userLists,
+        @required this.selectList,
+        @required this.addList,
+        @required this.getList,
+        @required this.loadingData});
 
-  static ViewModel fromStore(Store<AppState> store, bool randomFilm) {
+  static ViewModel fromStore(Store<AppState> store) {
     return ViewModel(
         showLoader: store.state.loadingDataState.loadingProcesses > 0,
-        randomFilmFilter: randomFilm,
-        canQueryMore: randomFilm ? false : store.state.filmList.couldQueryMore,
-        getFilms: (random) {
-          var filter = store.state.filter.getFilmFilter();
-          filter.randomFilm = random;
-          store.dispatch(getFilteredListRequest(filter));
+        userLists: store.state.userState.user.lists,
+        selectList: (listId) {
+          store.dispatch(SetSelectedListIdStateAction(listId));
         },
-        getMoreFilms: () {
+        addList: () {
           var filter = store.state.filter.getFilmFilter();
           filter.page = store.state.filmList.page + 1;
           store.dispatch(getFilteredListRequest(filter, queryMore: true));
         },
-        resetList: () {
-          store.dispatch(ResetListAction());
+        getList: () {
+          var filter = store.state.filter.getFilmFilter();
+          store.dispatch(getFilteredListRequest(filter));
         },
-        selectFilm: (filmId) {
-          print("selectFilm $filmId");
-          store.dispatch(SetSelectedFilmIdStateAction(filmId));
-        },
-        filmList: store.state.filmList.filmList,
         loadingData: store.state.filmList.loading);
   }
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ViewModel &&
-          runtimeType == other.runtimeType &&
-          showLoader == other.showLoader &&
-          randomFilmFilter == other.randomFilmFilter &&
-          filmList == other.filmList;
+          other is ViewModel &&
+              runtimeType == other.runtimeType &&
+              showLoader == other.showLoader &&
+              userLists == other.userLists &&
+              loadingData == other.loadingData;
 
   @override
   int get hashCode =>
-      showLoader.hashCode ^ randomFilmFilter.hashCode ^ filmList.hashCode;
+      showLoader.hashCode ^ loadingData.hashCode ^ userLists.hashCode;
 }

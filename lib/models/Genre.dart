@@ -25,10 +25,10 @@ class Genre {
   static const int GENDER_WESTERN_CODE = 109;
 
   int id;
-  String nombre;
-  String tipo;
+  String name;
+  String type;
 
-  Genre({this.id, this.nombre, this.tipo});
+  Genre({this.id, this.name, this.type});
 
   factory Genre.fromString(String data) {
     Map dataConverted = json.decode(data);
@@ -38,8 +38,8 @@ class Genre {
   factory Genre.fromMap(Map dataConverted) {
     Genre g = new Genre();
     g.id = dataConverted['id'];
-    g.nombre = dataConverted['nombre'];
-    g.tipo = dataConverted['tipo'];
+    g.name = dataConverted['name'];
+    g.type = dataConverted['type'];
     return g;
   }
 
@@ -48,23 +48,23 @@ class Genre {
     if (id != null) {
       m.putIfAbsent('id', () => id);
     }
-    if (!isNullOrEmpty(nombre)) {
-      m.putIfAbsent('nombre', () => nombre);
+    if (!isNullOrEmpty(name)) {
+      m.putIfAbsent('name', () => name);
     }
-    if (!isNullOrEmpty(tipo)) {
-      m.putIfAbsent('tipo', () => tipo);
+    if (!isNullOrEmpty(type)) {
+      m.putIfAbsent('type', () => type);
     }
     return m;
   }
 
   bool equals(Genre g) {
-    if (this.nombre != null && (g.nombre == null || this.nombre != g.nombre)) {
+    if (this.name != null && (g.name == null || this.name != g.name)) {
       return false;
     }
     if (this.id != null && (g.id == null || this.id != g.id)) {
       return false;
     }
-    if (this.tipo != null && (g.tipo == null || this.tipo != g.tipo)) {
+    if (this.type != null && (g.type == null || this.type != g.type)) {
       return false;
     }
     return true;

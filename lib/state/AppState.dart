@@ -5,8 +5,10 @@ import 'package:pelis_busta/state/FilmDetailState.dart';
 import 'package:pelis_busta/state/FilmListState.dart';
 import 'package:pelis_busta/state/FilterState.dart';
 import 'package:pelis_busta/state/LanguagesListState.dart';
+import 'package:pelis_busta/state/ListState.dart';
 import 'package:pelis_busta/state/LoadingDataState.dart';
 import 'package:pelis_busta/state/SubGenresListState.dart';
+import 'package:pelis_busta/state/UserState.dart';
 
 @immutable
 class AppState {
@@ -17,6 +19,8 @@ class AppState {
   final LanguagesListState languages;
   final SubGenresListState subGenres;
   final LoadingDataState loadingDataState;
+  final UserState userState;
+  final ListState listState;
 
   const AppState(
       {this.filter = const FilterState(),
@@ -25,7 +29,9 @@ class AppState {
       this.editFilm = const EditFilmState(),
       this.languages = const LanguagesListState(),
       this.subGenres = const SubGenresListState(),
-      this.loadingDataState = const LoadingDataState()});
+      this.loadingDataState = const LoadingDataState(),
+      this.userState = const UserState(),
+      this.listState = const ListState()});
 
   factory AppState.initial() => new AppState(
       filter: FilterState.initial(),
@@ -34,7 +40,9 @@ class AppState {
       editFilm: EditFilmState.initial(),
       languages: LanguagesListState.initial(),
       subGenres: SubGenresListState.initial(),
-      loadingDataState: LoadingDataState.initial());
+      loadingDataState: LoadingDataState.initial(),
+      userState: UserState.initial(),
+      listState: ListState.initial());
 
   AppState copyWith(
       {FilterState filter,
@@ -43,7 +51,9 @@ class AppState {
       EditFilmState editFilm,
       LanguagesListState languages,
       SubGenresListState subGenres,
-      LoadingDataState loadingDataState}) {
+      LoadingDataState loadingDataState,
+      UserState userState,
+      UserState listState}) {
     return new AppState(
         filter: filter ?? this.filter,
         filmList: filmList ?? this.filmList,
@@ -51,7 +61,9 @@ class AppState {
         editFilm: editFilm ?? this.editFilm,
         languages: languages ?? this.languages,
         subGenres: subGenres ?? this.subGenres,
-        loadingDataState: loadingDataState ?? this.loadingDataState);
+        loadingDataState: loadingDataState ?? this.loadingDataState,
+        userState: userState ?? this.userState,
+        listState: listState ?? this.listState);
   }
 
   @override
@@ -62,7 +74,9 @@ class AppState {
       editFilm.hashCode ^
       languages.hashCode ^
       subGenres.hashCode ^
-      loadingDataState.hashCode;
+      loadingDataState.hashCode ^
+      userState.hashCode ^
+      listState.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -75,10 +89,12 @@ class AppState {
           editFilm == other.editFilm &&
           languages == other.languages &&
           subGenres == other.subGenres &&
-          loadingDataState == other.loadingDataState;
+          loadingDataState == other.loadingDataState &&
+          userState == other.userState &&
+          listState == other.listState;
 
   @override
   String toString() {
-    return 'AppState{filter: $filter, filmList: $filmList, filmDetail: $filmDetail, editFilm: $editFilm, languages: $languages, subGenres: $subGenres, loadingDataState: $loadingDataState}';
+    return 'AppState{filter: $filter, filmList: $filmList, filmDetail: $filmDetail, editFilm: $editFilm, languages: $languages, subGenres: $subGenres, loadingDataState: $loadingDataState, userState: $userState, listState: $listState}';
   }
 }

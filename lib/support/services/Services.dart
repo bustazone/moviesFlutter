@@ -8,12 +8,12 @@ import 'package:pelis_busta/models/Genre.dart';
 import 'package:pelis_busta/models/Language.dart';
 import 'package:pelis_busta/models/NetResponse.dart';
 
-const String BASE_URL = "http://bustazone.com:8080/pelisBustaWS/peliculas";
-final String listUrl = BASE_URL + "/list";
+const String BASE_URL = "http://bustazone.com:8080/pelisBustaWS";
+final String listUrl = BASE_URL + "/film";
 final String listSubGenre =
-    BASE_URL + "/listGenders?everything=false&type=listas_filmaffinity";
-final String listLangs = BASE_URL + "/listLanguages?everything=false";
-final String listSubs = BASE_URL + "/listSubtitles?everything=false";
+    BASE_URL + "/genre?everything=false&type=listas_filmaffinity";
+final String listLangs = BASE_URL + "/language?everything=false";
+final String listSubs = BASE_URL + "/subtitle?everything=false";
 
 Future<List<Film>> getItemsList(FilmFilter filter) async {
   var httpClient = Client();

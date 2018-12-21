@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:pelis_busta/feats/detail/DetailFilmScreenContainer.dart';
 import 'package:pelis_busta/feats/edit/EditFilmScreenContainer.dart';
+import 'package:pelis_busta/feats/filmList/UserFilmListScreenContainer.dart';
 import 'package:pelis_busta/feats/filter/FilterScreen.dart';
 import 'package:pelis_busta/feats/filter/FilterScreenContainer.dart';
-import 'package:pelis_busta/feats/home/HomeScreen.dart';
+import 'package:pelis_busta/feats/filmList/FilmListScreenContainer.dart';
 import 'package:pelis_busta/feats/list/ListScreenContainer.dart';
 import 'package:pelis_busta/navigation/OnNavigateRouteCustom/CustomRoute.dart';
 
@@ -17,10 +18,13 @@ const String FilterMoreGenreRouteName = "/filtergenre/more";
 const String FilterLangRouteName = "/filterlang";
 const String FilterLocationRouteName = "/filterlocation";
 const String FilterYearRouteName = "/filteryear";
-const String ListRouteName = "/list";
+const String FilmListRouteName = "/filmList";
 const String RandomFilmRouteName = "/randomFilm";
 const String DetailRouteName = "/detail";
 const String EditRouteName = "/detail/edit";
+const String ListRouteName = "/list";
+const String UserListRouteName = "/list/filmList";
+
 
 class CustomNavigator extends StatelessWidget {
   Widget build(BuildContext context) {
@@ -46,10 +50,12 @@ class CustomNavigator extends StatelessWidget {
         FilterScreenContainer(FilterStates.LocationFilter, title: "LOCATION"),
     FilterYearRouteName: (context) =>
         FilterScreenContainer(FilterStates.YearFilter, title: "YEAR"),
-    ListRouteName: (context) => ListScreenContainer(),
+    FilmListRouteName: (context) => FilmListScreenContainer(),
     RandomFilmRouteName: (context) => DetailScreenContainer(randomFilm: true),
     DetailRouteName: (context) => DetailScreenContainer(),
     EditRouteName: (context) => EditFilmScreenContainer(),
+    ListRouteName: (context) => ListScreenContainer(),
+    UserListRouteName: (context) => UserFilmListScreenContainer(),
   };
 
   static Route<BuildContext> getCustomRoutes(RouteSettings settings) {

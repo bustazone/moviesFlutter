@@ -9,17 +9,26 @@ final loadingDataReducer = combineReducers<LoadingDataState>([
       _setNotLoadingData),
   TypedReducer<LoadingDataState, GetFilteredListRequestFailureAction>(
       _setNotLoadingData),
+
   TypedReducer<LoadingDataState, GetFilteredListNextPageRequestStartAction>(
       _setLoadingData),
   TypedReducer<LoadingDataState, GetFilteredListNextPageRequestSuccessAction>(
       _setNotLoadingData),
   TypedReducer<LoadingDataState, GetFilteredListNextPageRequestFailureAction>(
       _setNotLoadingData),
+
   TypedReducer<LoadingDataState, GetFilmRequestStartAction>(_setLoadingData),
   TypedReducer<LoadingDataState, GetFilmRequestSuccessAction>(
       _setNotLoadingData),
   TypedReducer<LoadingDataState, GetFilmRequestFailureAction>(
       _setNotLoadingData),
+
+  TypedReducer<LoadingDataState, GetRandomFilmFilteredRequestStartAction>(_setLoadingData),
+  TypedReducer<LoadingDataState, GetRandomFilmFilteredRequestSuccessAction>(
+      _setNotLoadingData),
+  TypedReducer<LoadingDataState, GetRandomFilmFilteredRequestFailureAction>(
+      _setNotLoadingData),
+
   TypedReducer<LoadingDataState, UpdateFilmRequestStartAction>(_setLoadingData),
   TypedReducer<LoadingDataState, UpdateFilmRequestSuccessAction>(
       _setNotLoadingData),

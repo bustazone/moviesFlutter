@@ -100,7 +100,7 @@ class MoreGenresFilterState extends State<MoreGenresFilter>
     itemsGeneral.clear();
     itemsSelected.clear();
     resp = widget.allSubGenres;
-    resp.sort((a, b) => a.nombre.compareTo(b.nombre));
+    resp.sort((a, b) => a.name.compareTo(b.name));
     transformItems(resp);
     setState(() {});
   }
@@ -262,7 +262,7 @@ class MoreGenresListItemState extends State<MoreGenresListItem>
             })),
         new Flexible(
           child: new Text(
-            widget.item.nombre,
+            widget.item.name,
             overflow: TextOverflow.ellipsis,
             style: Theme.of(context).textTheme.display1.copyWith(
                 textBaseline: TextBaseline.alphabetic,
@@ -280,5 +280,5 @@ class GenreListItemData extends Genre {
   bool selected = false;
 
   GenreListItemData(this.selected, Genre genre)
-      : super(id: genre.id, nombre: genre.nombre, tipo: genre.tipo);
+      : super(id: genre.id, name: genre.name, type: genre.type);
 }

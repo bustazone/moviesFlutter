@@ -164,3 +164,10 @@ class SetEditFilmSubtitulos {
 
   SetEditFilmSubtitulos(this.subtitules);
 }
+
+//List
+class SetSelectedListIdStateAction {
+  final int listId;
+
+  SetSelectedListIdStateAction(this.listId);
+}

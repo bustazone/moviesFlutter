@@ -52,7 +52,7 @@ class PelisApp extends StatelessWidget {
             primaryColor: const Color(0xFFCC9900),
             backgroundColor: const Color(0xFFEAEAEA)),
         onGenerateRoute: CustomNavigator.getCustomRoutes,
-        initialRoute: RandomFilmRouteName,
+        initialRoute: HomeRouteName,
         navigatorObservers: [routeObserver]);
   }
 

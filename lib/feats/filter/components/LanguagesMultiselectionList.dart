@@ -26,7 +26,7 @@ class LanguagesMultiselectionListState
     if (itemsLangSelected.length > 0) {
       if (index < itemsLangSelected.length) {
         return new LanguageListItem(itemsLangSelected[index], (selected) {
-          changeSelectedLangValue(itemsLangSelected[index].codigo, selected);
+          changeSelectedLangValue(itemsLangSelected[index].code, selected);
         });
       } else if (itemsLangSelected.length > 0 &&
           index == itemsLangSelected.length) {
@@ -35,13 +35,13 @@ class LanguagesMultiselectionListState
         return new LanguageListItem(
             itemsLangGeneral[index - itemsLangSelected.length - 1], (selected) {
           changeSelectedLangValue(
-              itemsLangGeneral[index - itemsLangSelected.length - 1].codigo,
+              itemsLangGeneral[index - itemsLangSelected.length - 1].code,
               selected);
         });
       }
     } else {
       return new LanguageListItem(itemsLangGeneral[index], (selected) {
-        changeSelectedLangValue(itemsLangGeneral[index].codigo, selected);
+        changeSelectedLangValue(itemsLangGeneral[index].code, selected);
       });
     }
   }
@@ -49,10 +49,10 @@ class LanguagesMultiselectionListState
   changeSelectedLangValue(codigo, selected) {
     var langs = widget.languages;
     for (int i = 0; i < langs.length; i++) {
-      if (langs[i].codigo == codigo) {
+      if (langs[i].code == codigo) {
         if (!selected) {
           widget.setLanguages(LanguageList(l: List.from(widget.languages))
-            ..removeByValues(new Language(codigo: codigo)));
+            ..removeByValues(new Language(code: codigo)));
         } else {
           return;
         }
@@ -60,7 +60,7 @@ class LanguagesMultiselectionListState
     }
     if (selected) {
       widget.setLanguages(LanguageList(l: List.from(widget.languages))
-        ..add(new Language(codigo: codigo)));
+        ..add(new Language(code: codigo)));
     }
   }
 
@@ -70,10 +70,10 @@ class LanguagesMultiselectionListState
     var languages = widget.languages;
     List<String> intemediateList = new List();
     for (Language l in languages) {
-      intemediateList.add(l.codigo);
+      intemediateList.add(l.code);
     }
     for (Language l in respLang) {
-      bool selected = (intemediateList.indexOf(l.codigo) != -1);
+      bool selected = (intemediateList.indexOf(l.code) != -1);
       if (selected) {
         itemsLangSelected.add(new LanguageListItemData(selected, l));
       }
@@ -85,7 +85,7 @@ class LanguagesMultiselectionListState
     itemsLangGeneral.clear();
     itemsLangSelected.clear();
     respLang = List.from(widget.allLangs);
-    respLang.sort((a, b) => a.codigo.compareTo(b.codigo));
+    respLang.sort((a, b) => a.code.compareTo(b.code));
     transformLangItems();
   }
 

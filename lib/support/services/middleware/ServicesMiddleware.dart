@@ -13,11 +13,12 @@ void servicesMiddleware(Store<AppState> store, action, NextDispatcher next) {
           castedAction.transformFunction(response.body);
       print(castedAction.actionSuccess.response);
     }
-    if (castedAction.onSuccess !=
-        null) if (castedAction.actionSuccess.response != null) {
-      castedAction.onSuccess(castedAction.actionSuccess.response);
-    } else {
-      castedAction.onSuccess();
+    if (castedAction.onSuccess != null) {
+      if (castedAction.actionSuccess.response != null) {
+        castedAction.onSuccess(castedAction.actionSuccess.response);
+      } else {
+        castedAction.onSuccess();
+      }
     }
     next(castedAction.actionSuccess);
   };

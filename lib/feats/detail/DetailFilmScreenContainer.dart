@@ -41,25 +41,24 @@ class ViewModel {
 
   static ViewModel fromStore(Store<AppState> store, bool randomFilm) {
     return ViewModel(
+      //showLoader: store.state.filmDetail.selectedFilm == null || store.state.filmDetail.selectedFilm == null,
       showLoader: store.state.filmDetail.selectedFilm == null,
-      // || store.state.loadingDataState.loadingProcesses > 0,
       film: store.state.filmDetail.selectedFilm,
       randomFilmFilter: randomFilm,
       getFilm: () {
+
         final onSuccess = (response) {
-          final filmId = response[0].peliculaId;
+          final filmId = response[0].filmId;
           store.dispatch(SetSelectedFilmIdStateAction(filmId));
           store.dispatch(getFilmDetailRequest(filmId));
         };
 
         var filmId = store.state.filmDetail.selectedFilmId;
         var film = store.state.filmDetail.selectedFilm;
-        if (film == null || film.peliculaId != filmId || randomFilm) {
+        if (film == null || film.filmId != filmId || randomFilm) {
           if (randomFilm) {
             var filter = store.state.filter.getFilmFilter();
-            filter.randomFilm = true;
-            store
-                .dispatch(getFilteredListRequest(filter, onSuccess: onSuccess));
+            store.dispatch(getRandomFilmFilteredRequest(filter));
           } else {
             store.dispatch(getFilmDetailRequest(filmId));
           }

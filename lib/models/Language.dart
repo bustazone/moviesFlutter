@@ -3,10 +3,10 @@ import 'dart:convert';
 import 'package:pelis_busta/support/utils/Utils.dart';
 
 class Language {
-  String codigo;
-  String nombre;
+  String code;
+  String name;
 
-  Language({this.codigo, this.nombre});
+  Language({this.code, this.name});
 
   factory Language.fromString(String data) {
     Map dataConverted = json.decode(data);
@@ -15,29 +15,29 @@ class Language {
 
   factory Language.fromMap(Map dataConverted) {
     Language l = new Language();
-    l.codigo = dataConverted['codigo'];
-    l.nombre = dataConverted['nombre'];
+    l.code = dataConverted['code'];
+    l.name = dataConverted['name'];
     return l;
   }
 
   Map toMap() {
     Map m = new Map();
-    if (!isNullOrEmpty(codigo)) {
-      m.putIfAbsent('codigo', () => codigo);
+    if (!isNullOrEmpty(code)) {
+      m.putIfAbsent('code', () => code);
     }
-    if (!isNullOrEmpty(nombre)) {
-      m.putIfAbsent('nombre', () => nombre);
+    if (!isNullOrEmpty(name)) {
+      m.putIfAbsent('name', () => name);
     }
     return m;
   }
 
   bool equals(Language lang) {
-    if (this.nombre != null &&
-        (lang.nombre == null || this.nombre != lang.nombre)) {
+    if (this.name != null &&
+        (lang.name == null || this.name != lang.name)) {
       return false;
     }
-    if (this.codigo != null &&
-        (lang.codigo == null || this.codigo != lang.codigo)) {
+    if (this.code != null &&
+        (lang.code == null || this.code != lang.code)) {
       return false;
     }
     return true;

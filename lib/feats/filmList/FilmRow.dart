@@ -20,15 +20,15 @@ class FilmRow extends StatelessWidget {
     final transformProportion = (screenWidth / DesignConstants.filmRowWidth);
 
     int backgroundNumber = itemNum;
-    String filmTitle = film.titulo ?? "";
+    String filmTitle = film.title ?? "";
     String filmImageURL = film.imageUrl ?? "";
     String filmYear = "";
     if (film.year != null) {
       filmYear = "(" + film.year.toString() + ")";
     }
     String filmTime = "";
-    if (film.duracion != null) {
-      filmTime = film.duracion.toString() + "'";
+    if (film.duration != null) {
+      filmTime = film.duration.toString() + "'";
     }
     String filmPunc = film.punctuation?.toStringAsFixed(1) ?? "";
     String filmLoc = film.location ?? "";
@@ -78,9 +78,9 @@ class FilmRow extends StatelessWidget {
                 ),
                 new Expanded(
                     child: HorizontalImageList(
-                        (isNullOrEmpty(film.idiomasStr))
+                        (isNullOrEmpty(film.languagesStr))
                             ? []
-                            : film.idiomasStr.split(';'),
+                            : film.languagesStr.split(';'),
                         'assets/languages/',
                         23.0 * transformProportion,
                         1.0 * transformProportion))
@@ -100,9 +100,9 @@ class FilmRow extends StatelessWidget {
               ),
               new Expanded(
                   child: HorizontalImageList(
-                      (isNullOrEmpty(film.subtitulosStr))
+                      (isNullOrEmpty(film.subtitlesStr))
                           ? []
-                          : film.subtitulosStr.split(';'),
+                          : film.subtitlesStr.split(';'),
                       'assets/languages/',
                       23.0 * transformProportion,
                       1.0 * transformProportion))
@@ -172,9 +172,9 @@ class FilmRow extends StatelessWidget {
                       new Container(
                         height: 30.0 * transformProportion,
                         child: HorizontalImageList(
-                            (isNullOrEmpty(film.generosStr))
+                            (isNullOrEmpty(film.genresStr))
                                 ? []
-                                : film.generosStr.split(';'),
+                                : film.genresStr.split(';'),
                             'assets/genderIcon/genderIcon_',
                             25.0 * transformProportion,
                             2.0 * transformProportion,
@@ -274,7 +274,7 @@ class FilmRow extends StatelessWidget {
 
     return new GestureDetector(
         onTap: () {
-          this.setFilmId(film.peliculaId);
+          this.setFilmId(film.filmId);
           Navigator.of(context).pushNamed(DetailRouteName);
         },
         child: new Container(

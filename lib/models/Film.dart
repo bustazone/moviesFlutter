@@ -5,35 +5,35 @@ import 'package:pelis_busta/models/Language.dart';
 import 'package:pelis_busta/support/utils/Utils.dart';
 
 class Film {
-  int peliculaId;
-  String titulo;
+  int filmId;
+  String title;
   int size;
   String location;
-  bool vista;
-  String formato;
+  bool seen;
+  String format;
   int year;
   String director;
   String imdbId;
   String filmaffinityId;
-  String tituloOriginal;
-  String comentarios;
-  bool serie;
+  String originalTitle;
+  String comment;
+  bool series;
   bool completed;
-  String nombreArchivo;
+  String filename;
   double punctFilmaffinity;
   double punctImdb;
-  int duracion;
+  int duration;
   String countries;
-  String casts;
+  String mainCast;
   String plot;
   String imageUrl;
-  String idiomasStr;
-  String subtitulosStr;
-  String generosStr;
+  String languagesStr;
+  String subtitlesStr;
+  String genresStr;
   double punctuation;
-  List<Language> idiomas = new List();
-  List<Language> subtitulos = new List();
-  List<Genre> generos = new List();
+  List<Language> languages = new List();
+  List<Language> subtitles = new List();
+  List<Genre> genres = new List();
 
   Film();
 
@@ -44,48 +44,48 @@ class Film {
 
   factory Film.fromMap(Map dataConverted) {
     Film f = new Film();
-    f.peliculaId = dataConverted['peliculaId'];
-    f.titulo = dataConverted['titulo'];
+    f.filmId = dataConverted['film_id'];
+    f.title = dataConverted['title'];
     f.size = dataConverted['size'];
     f.location = dataConverted['location'];
-    f.vista = dataConverted['vista'];
-    f.formato = dataConverted['formato'];
+    f.seen = dataConverted['seen'];
+    f.format = dataConverted['format'];
     f.year = dataConverted['year'];
     f.director = dataConverted['director'];
-    f.imdbId = dataConverted['imdbId'];
-    f.filmaffinityId = dataConverted['filmaffinityId'];
-    f.tituloOriginal = dataConverted['tituloOriginal'];
-    f.comentarios = dataConverted['comentarios'];
-    f.serie = dataConverted['serie'];
+    f.imdbId = dataConverted['imdb_id'];
+    f.filmaffinityId = dataConverted['filmaffinity_id'];
+    f.originalTitle = dataConverted['original_title'];
+    f.comment = dataConverted['comment'];
+    f.series = dataConverted['series'];
     f.completed = dataConverted['completed'];
-    f.nombreArchivo = dataConverted['nombreArchivo'];
-    f.punctFilmaffinity = dataConverted['punctFilmaffinity'];
-    f.punctImdb = dataConverted['punctImdb'];
-    f.duracion = dataConverted['duracion'];
+    f.filename = dataConverted['filename'];
+    f.punctFilmaffinity = dataConverted['punct_filmaffinity'];
+    f.punctImdb = dataConverted['punct_imdb'];
+    f.duration = dataConverted['duration'];
     f.countries = dataConverted['countries'];
-    f.casts = dataConverted['casts'];
+    f.mainCast = dataConverted['main_cast'];
     f.plot = dataConverted['plot'];
-    f.imageUrl = dataConverted['imageUrl'];
-    f.idiomasStr = dataConverted['idiomasStr'];
-    f.subtitulosStr = dataConverted['subtitulosStr'];
-    f.generosStr = dataConverted['generosStr'];
+    f.imageUrl = dataConverted['image_url'];
+    f.languagesStr = dataConverted['languages_str'];
+    f.subtitlesStr = dataConverted['subtitles_str'];
+    f.genresStr = dataConverted['genres_str'];
     f.punctuation = dataConverted['punctuation'];
-    List listIdiomas = dataConverted['idiomas'];
-    List listSubtitulos = dataConverted['subtitulos'];
-    List listGeneros = dataConverted['generos'];
+    List listIdiomas = dataConverted['languages'];
+    List listSubtitulos = dataConverted['subtitles'];
+    List listGeneros = dataConverted['genres'];
     if (!isNullOrEmpty(listIdiomas)) {
       for (Map i in listIdiomas) {
-        f.idiomas.add(new Language.fromMap(i));
+        f.languages.add(new Language.fromMap(i));
       }
     }
     if (!isNullOrEmpty(listSubtitulos)) {
       for (Map i in listSubtitulos) {
-        f.subtitulos.add(new Language.fromMap(i));
+        f.subtitles.add(new Language.fromMap(i));
       }
     }
     if (!isNullOrEmpty(listGeneros)) {
       for (Map i in listGeneros) {
-        f.generos.add(new Genre.fromMap(i));
+        f.genres.add(new Genre.fromMap(i));
       }
     }
     return f;
@@ -94,35 +94,35 @@ class Film {
   @override
   String toString() {
     return 'Film{'
-        'peliculaId: $peliculaId,'
-        'titulo: $titulo,'
+        'film_id: $filmId,'
+        'title: $title,'
         'size: $size,'
         'location: $location,'
-        'vista: $vista,'
-        'formato: $formato,'
+        'seen: $seen,'
+        'format: $format,'
         'year: $year,'
         'director: $director,'
-        'imdbId: $imdbId,'
-        'filmaffinityId: $filmaffinityId,'
-        'tituloOriginal: $tituloOriginal,'
-        'comentarios: $comentarios,'
-        'serie: $serie,'
+        'imdb_id: $imdbId,'
+        'filmaffinity_id: $filmaffinityId,'
+        'original_title: $originalTitle,'
+        'comment: $comment,'
+        'series: $series,'
         'completed: $completed,'
-        'nombreArchivo: $nombreArchivo,'
-        'punctFilmaffinity: $punctFilmaffinity,'
-        'punctImdb: $punctImdb,'
-        'duracion: $duracion,'
+        'filename: $filename,'
+        'punct_filmaffinity: $punctFilmaffinity,'
+        'punct_imdb: $punctImdb,'
+        'duration: $duration,'
         'countries: $countries,'
-        'casts: $casts,'
+        'main_cast: $mainCast,'
         'plot: $plot,'
-        'imageUrl: $imageUrl,'
-        'idiomasStr: $idiomasStr,'
-        'subtitulosStr: $subtitulosStr,'
-        'generosStr: $generosStr,'
+        'image_url: $imageUrl,'
+        'languages_str: $languagesStr,'
+        'subtitles_str: $subtitlesStr,'
+        'genres_str: $genresStr,'
         'punctuation: $punctuation,'
-        'idiomas: $idiomas,'
-        'subtitulos: $subtitulos,'
-        'generos: $generos,'
+        'languages: $languages,'
+        'subtitles: $subtitles,'
+        'genres: $genres,'
         '}';
   }
 }

@@ -11,6 +11,7 @@ import 'package:pelis_busta/feats/filter/components/TextFilter.dart';
 import 'package:pelis_busta/feats/filter/components/YearFilter.dart';
 import 'package:pelis_busta/main.dart';
 import 'package:pelis_busta/navigation/OnNavigateRouteCustom/CustomNavigator.dart';
+import 'package:pelis_busta/navigation/actions/NavigationActions.dart';
 import 'package:pelis_busta/support/constants/DesignConstants.dart';
 import 'package:pelis_busta/support/custom_widgets/PressingButton.dart';
 
@@ -198,7 +199,7 @@ class FilterScreenState extends State<FilterScreen>
               124.0 * (gearWidth / DesignConstants.gearWidth),
               //75.0 * (gearWidth / DesignConstants.gearWidth)
               null, () {
-            Navigator.of(context).pushNamed(ListRouteName);
+            navigateToFilmList(context);
           }),
           left: screenWidth / 2.0,
           top: (screenHeight / 2.0) +
@@ -219,6 +220,22 @@ class FilterScreenState extends State<FilterScreen>
           top: (screenHeight / 2.0) +
               (gearWidth / 2.0) -
               (35 * (gearWidth / DesignConstants.gearWidth)),
+        ),
+        new Positioned(
+          child: new PressingButton(
+              'assets/imgs/random.png',
+              'assets/imgs/random_selected.png',
+              124.0 * (gearWidth / DesignConstants.gearWidth),
+              //75.0 * (gearWidth / DesignConstants.gearWidth)
+              null, () {
+            //Navigator.of(context).pushNamed(RandomFilmRouteName);
+            Navigator.of(context).pushNamed(ListRouteName);
+          }),
+          left: (screenWidth / 2.0) -
+              (124.0 * (gearWidth / DesignConstants.gearWidth)),
+          top: (screenHeight / 2.0) +
+              (gearWidth / 2.0) -
+              (-30 * (gearWidth / DesignConstants.gearWidth)),
         ),
         new Positioned(
           child: new Stack(

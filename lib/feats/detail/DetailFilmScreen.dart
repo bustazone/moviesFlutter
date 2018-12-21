@@ -188,8 +188,8 @@ class DetailScreenState extends State<DetailScreen>
   List<Widget> _getDataWidgetList() {
     List<Widget> listOutput = <Widget>[];
 
-    if (widget.vm.film.duracion != null) {
-      listOutput.add(TextData("Time", widget.vm.film.duracion.toString()));
+    if (widget.vm.film.duration != null) {
+      listOutput.add(TextData("Time", widget.vm.film.duration.toString()));
     }
     if (widget.vm.film.punctuation != null) {
       listOutput.add(TextData("Rate", widget.vm.film.punctuation.toString()));
@@ -197,21 +197,21 @@ class DetailScreenState extends State<DetailScreen>
     if (widget.vm.film.location != null) {
       listOutput.add(TextData("Location", widget.vm.film.location));
     }
-    if (!isNullOrEmpty(widget.vm.film.idiomas)) {
-      List<String> h = widget.vm.film.idiomas.map((lang) {
-        return lang.codigo;
+    if (!isNullOrEmpty(widget.vm.film.languages)) {
+      List<String> h = widget.vm.film.languages.map((lang) {
+        return lang.code;
       }).toList();
       listOutput.add(ImageListData("Languages", h, 'assets/languages/'));
     }
-    if (!isNullOrEmpty(widget.vm.film.subtitulos)) {
-      List<String> h = widget.vm.film.subtitulos.map((lang) {
-        return lang.codigo;
+    if (!isNullOrEmpty(widget.vm.film.subtitles)) {
+      List<String> h = widget.vm.film.subtitles.map((lang) {
+        return lang.code;
       }).toList();
       listOutput.add(ImageListData("Subtitles", h, 'assets/languages/'));
     }
-    if (!isNullOrEmpty(widget.vm.film.generos)) {
-      List<String> h = widget.vm.film.generos.where((genre) {
-        return genre.tipo == 'principal';
+    if (!isNullOrEmpty(widget.vm.film.genres)) {
+      List<String> h = widget.vm.film.genres.where((genre) {
+        return genre.type == 'principal';
       }).map((genre) {
         return genre.id.toString();
       }).toList();
@@ -226,7 +226,7 @@ class DetailScreenState extends State<DetailScreen>
       listOutput.add(TextData("Director", widget.vm.film.director));
     }
     if (widget.vm.film.director != null) {
-      listOutput.add(TextData("Cast", widget.vm.film.casts));
+      listOutput.add(TextData("Cast", widget.vm.film.mainCast));
     }
     if (widget.vm.film.plot != null) {
       listOutput.add(TextData("Plot", widget.vm.film.plot));
@@ -261,7 +261,7 @@ class DetailScreenState extends State<DetailScreen>
                       ),
                       child: Text(
                         _getShortedTitle(
-                            widget.vm.film.titulo, widget.vm.film.year),
+                            widget.vm.film.title, widget.vm.film.year),
                         style: new TextStyle(color: _appBarTextColor),
                       ),
                     ),

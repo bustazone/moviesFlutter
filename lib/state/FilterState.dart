@@ -5,142 +5,142 @@ import 'package:pelis_busta/models/LanguageList.dart';
 
 @immutable
 class FilterState {
-  final String tituloFilter;
+  final String titleFilter;
   final String location;
-  final String formato;
+  final String format;
   final int year;
   final int minYear;
   final int maxYear;
   final String director;
   final bool series;
   final String countries;
-  final String casts;
-  final LanguageList idiomas;
-  final LanguageList subtitulos;
-  final GenreList generos;
+  final String mainCast;
+  final LanguageList languages;
+  final LanguageList subtitles;
+  final GenreList genres;
 
   const FilterState(
-      {this.tituloFilter,
+      {this.titleFilter,
       this.location,
-      this.formato,
+      this.format,
       this.year,
       this.minYear,
       this.maxYear,
       this.director,
       this.series,
       this.countries,
-      this.casts,
-      this.idiomas,
-      this.subtitulos,
-      this.generos});
+      this.mainCast,
+      this.languages,
+      this.subtitles,
+      this.genres});
 
   factory FilterState.initial() => new FilterState(
-      tituloFilter: "",
+      titleFilter: "",
       location: "",
-      formato: "",
+      format: "",
       year: null,
       minYear: null,
       maxYear: null,
       director: "",
       series: false,
       countries: "",
-      casts: "",
-      idiomas: new LanguageList(),
-      subtitulos: new LanguageList(),
-      generos: new GenreList());
+      mainCast: "",
+      languages: new LanguageList(),
+      subtitles: new LanguageList(),
+      genres: new GenreList());
 
   FilterState copyWith(
-      {String tituloFilter,
+      {String titleFilter,
       String location,
-      String formato,
+      String format,
       int year,
       int minYear,
       int maxYear,
       String director,
-      String casts,
-      LanguageList idiomas,
-      LanguageList subtitulos,
-      GenreList generos,
+      String mainCast,
+      LanguageList languages,
+      LanguageList subtitles,
+      GenreList genres,
       bool series}) {
     return new FilterState(
-        tituloFilter: tituloFilter ?? this.tituloFilter,
+        titleFilter: titleFilter ?? this.titleFilter,
         location: location ?? this.location,
-        formato: formato ?? this.formato,
+        format: format ?? this.format,
         year: (year != null && year > 0) ? year : null,
         minYear: (minYear != null && minYear > 0) ? minYear : null,
         maxYear: (maxYear != null && maxYear > 0) ? maxYear : null,
         director: director ?? this.director,
         series: series ?? this.series,
-        casts: casts ?? this.casts,
-        idiomas: idiomas ?? this.idiomas,
-        subtitulos: subtitulos ?? this.subtitulos,
-        generos: generos ?? this.generos);
+        mainCast: mainCast ?? this.mainCast,
+        languages: languages ?? this.languages,
+        subtitles: subtitles ?? this.subtitles,
+        genres: genres ?? this.genres);
   }
 
   @override
   int get hashCode =>
-      tituloFilter.hashCode ^
+      titleFilter.hashCode ^
       location.hashCode ^
-      formato.hashCode ^
+      format.hashCode ^
       year.hashCode ^
       minYear.hashCode ^
       maxYear.hashCode ^
       director.hashCode ^
       series.hashCode ^
-      casts.hashCode ^
-      idiomas.hashCode ^
-      subtitulos.hashCode ^
-      generos.hashCode;
+      mainCast.hashCode ^
+      languages.hashCode ^
+      subtitles.hashCode ^
+      genres.hashCode;
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is FilterState &&
           runtimeType == other.runtimeType &&
-          tituloFilter == other.tituloFilter &&
+          titleFilter == other.titleFilter &&
           location == other.location &&
-          formato == other.formato &&
+          format == other.format &&
           year == other.year &&
           minYear == other.minYear &&
           maxYear == other.maxYear &&
           director == other.director &&
           series == other.series &&
-          casts == other.casts &&
-          idiomas == other.idiomas &&
-          subtitulos == other.subtitulos &&
-          generos == other.generos;
+          mainCast == other.mainCast &&
+          languages == other.languages &&
+          subtitles == other.subtitles &&
+          genres == other.genres;
 
   @override
   String toString() {
     return 'FilterState{'
-        'tituloFilter: $tituloFilter,'
+        'titleFilter: $titleFilter,'
         'location: $location,'
-        'formato: $formato,'
+        'format: $format,'
         'year: $year,'
         'minYear: $minYear,'
         'maxYear: $maxYear,'
         'director: $director,'
         'series: $series,'
-        'casts: $casts,'
-        'idiomas: $idiomas,'
-        'subtitulos: $subtitulos,'
-        'generos: $generos,'
+        'mainCast: $mainCast,'
+        'languages: $languages,'
+        'subtitles: $subtitles,'
+        'genres: $genres,'
         '}';
   }
 
   FilmFilter getFilmFilter() {
     return new FilmFilter(
-        tituloFilter: tituloFilter ?? this.tituloFilter,
+        titleFilter: titleFilter ?? this.titleFilter,
         location: location ?? this.location,
-        formato: formato ?? this.formato,
+        format: format ?? this.format,
         year: year ?? this.year,
         minYear: minYear ?? this.minYear,
         maxYear: maxYear ?? this.maxYear,
         director: director ?? this.director,
-        serie: series ?? this.series,
-        casts: casts ?? this.casts,
-        idiomas: idiomas ?? this.idiomas,
-        subtitulos: subtitulos ?? this.subtitulos,
-        generos: generos ?? this.generos);
+        series: series ?? this.series,
+        mainCast: mainCast ?? this.mainCast,
+        languages: languages ?? this.languages,
+        subtitles: subtitles ?? this.subtitles,
+        genres: genres ?? this.genres);
   }
 }
