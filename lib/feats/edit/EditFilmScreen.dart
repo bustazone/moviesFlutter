@@ -3,7 +3,7 @@ import 'package:pelis_busta/feats/edit/EditFilmScreenContainer.dart';
 import 'package:pelis_busta/feats/edit/components/CheckBoxInputWithLabel.dart';
 import 'package:pelis_busta/feats/edit/components/TextInputWithLabel.dart';
 import 'package:pelis_busta/feats/filter/components/LanguagesMultiselectionList.dart';
-import 'package:pelis_busta/loading_screen_component/LoadingScaffoldWrapperWidget.dart';
+import 'package:pelis_busta/components/loading_screen_component/LoadingScaffoldWrapperWidget.dart';
 import 'package:pelis_busta/models/LanguageList.dart';
 
 class EditFilmScreen extends StatefulWidget {
@@ -38,37 +38,36 @@ class EditFilmScreenState extends State<EditFilmScreen>
               delegate: new SliverChildListDelegate(<Widget>[
                 new TextInputWithLabel("location", (text) {
                   widget.vm.setLocation(text);
-                }, value: widget.vm.location),
+                }, widget.vm.location),
                 new CheckBoxInputWithLabel("vista", (selected) {
                   widget.vm.setVista(selected);
-                }, value: widget.vm.vista), //<---------------------------
+                }, widget.vm.vista), //<---------------------------
                 new TextInputWithLabel("formato", (text) {
                   widget.vm.setFormato(text);
-                }, value: widget.vm.formato),
+                }, widget.vm.formato),
                 new TextInputWithLabel("size", (amount) {
                   widget.vm.setSize(int.parse(amount));
-                },
-                    value: widget.vm.size == null
+                }, widget.vm.size == null
                         ? ""
                         : widget.vm.size.toString()),
                 new TextInputWithLabel("imdbId", (text) {
                   widget.vm.setImdbId(text);
-                }, value: widget.vm.imdbId),
+                }, widget.vm.imdbId),
                 new TextInputWithLabel("filmaffinityId", (text) {
                   widget.vm.setFilmaffinityId(text);
-                }, value: widget.vm.filmaffinityId),
+                }, widget.vm.filmaffinityId),
                 new CheckBoxInputWithLabel("serie", (selected) {
                   widget.vm.setSerie(selected);
-                }, value: widget.vm.serie), //
+                }, widget.vm.serie), //
                 new CheckBoxInputWithLabel("serie completa", (selected) {
                   widget.vm.setCompleted(selected);
-                }, value: widget.vm.completed),
+                }, widget.vm.completed),
                 new TextInputWithLabel("nombreArchivo", (text) {
                   widget.vm.setNombreArchivo(text);
-                }, value: widget.vm.nombreArchivo),
+                }, widget.vm.nombreArchivo),
                 new TextInputWithLabel("comentarios", (text) {
                   widget.vm.setComentarios(text);
-                }, value: widget.vm.comentarios),
+                }, widget.vm.comentarios),
                 new Container(
                   margin: new EdgeInsets.symmetric(
                       vertical: 16.0, horizontal: 40.0),

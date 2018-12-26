@@ -6,7 +6,8 @@ import 'package:redux/redux.dart';
 
 final editFilmReducer = combineReducers<EditFilmState>([
   TypedReducer<EditFilmState, GetFilmRequestSuccessAction>(_setFilmData),
-  TypedReducer<EditFilmState, GetRandomFilmFilteredRequestSuccessAction>(_setFilmData),
+  TypedReducer<EditFilmState, GetRandomFilmFilteredRequestSuccessAction>(
+      _setFilmData),
   TypedReducer<EditFilmState, SetEditFilmLocation>(_setLocation),
   TypedReducer<EditFilmState, SetEditFilmVista>(_setVista),
   TypedReducer<EditFilmState, SetEditFilmFormato>(_setFormato),
@@ -97,8 +98,7 @@ EditFilmState _setSubtitulos(
   return ef;
 }
 
-EditFilmState _setFilmData(
-    EditFilmState state, dynamic action) {
+EditFilmState _setFilmData(EditFilmState state, dynamic action) {
   EditFilm data;
   if (action.response != null && action.response.length > 0) {
     data = EditFilm();

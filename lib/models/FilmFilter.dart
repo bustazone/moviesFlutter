@@ -22,24 +22,23 @@ class FilmFilter {
   int page;
   bool randomFilm = false;
 
-  FilmFilter({
-    this.titleFilter,
-    this.location,
-    this.seen,
-    this.format,
-    this.year,
-    this.minYear,
-    this.maxYear,
-    this.director,
-    this.series,
-    this.countries,
-    this.mainCast,
-    this.languages,
-    this.subtitles,
-    this.genres,
-    this.page,
-    this.randomFilm
-  });
+  FilmFilter(
+      {this.titleFilter,
+      this.location,
+      this.seen,
+      this.format,
+      this.year,
+      this.minYear,
+      this.maxYear,
+      this.director,
+      this.series,
+      this.countries,
+      this.mainCast,
+      this.languages,
+      this.subtitles,
+      this.genres,
+      this.page,
+      this.randomFilm});
 
   Map toMap() {
     Map m = new Map();

@@ -171,3 +171,5 @@ class SetSelectedListIdStateAction {
 
   SetSelectedListIdStateAction(this.listId);
 }
+
+class ResetUserListAction {}

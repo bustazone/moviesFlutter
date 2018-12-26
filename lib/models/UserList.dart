@@ -4,7 +4,6 @@ import 'package:pelis_busta/models/Film.dart';
 import 'package:pelis_busta/support/utils/Utils.dart';
 
 class UserList {
-
   int id;
   String name;
   List<Film> films = new List();

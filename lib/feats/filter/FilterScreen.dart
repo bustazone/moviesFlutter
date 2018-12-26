@@ -194,6 +194,22 @@ class FilterScreenState extends State<FilterScreen>
       return new Stack(alignment: const FractionalOffset(0.0, 0.5), children: [
         new Positioned(
           child: new PressingButton(
+              'assets/imgs/list.png',
+              'assets/imgs/list_selected.png',
+              310.0 * (gearWidth / DesignConstants.gearWidth),
+              //75.0 * (gearWidth / DesignConstants.gearWidth)
+              null, () {
+            //Navigator.of(context).pushNamed(RandomFilmRouteName);
+            Navigator.of(context).pushNamed(ListRouteName);
+          }),
+          left: (screenWidth / 2.0) -
+              (155.0 * (gearWidth / DesignConstants.gearWidth)),
+          top: (screenHeight / 2.0) +
+              (gearWidth / 2.0) -
+              (5 * (gearWidth / DesignConstants.gearWidth)),
+        ),
+        new Positioned(
+          child: new PressingButton(
               'assets/imgs/search.png',
               'assets/imgs/search_selected.png',
               124.0 * (gearWidth / DesignConstants.gearWidth),
@@ -220,22 +236,6 @@ class FilterScreenState extends State<FilterScreen>
           top: (screenHeight / 2.0) +
               (gearWidth / 2.0) -
               (35 * (gearWidth / DesignConstants.gearWidth)),
-        ),
-        new Positioned(
-          child: new PressingButton(
-              'assets/imgs/random.png',
-              'assets/imgs/random_selected.png',
-              124.0 * (gearWidth / DesignConstants.gearWidth),
-              //75.0 * (gearWidth / DesignConstants.gearWidth)
-              null, () {
-            //Navigator.of(context).pushNamed(RandomFilmRouteName);
-            Navigator.of(context).pushNamed(ListRouteName);
-          }),
-          left: (screenWidth / 2.0) -
-              (124.0 * (gearWidth / DesignConstants.gearWidth)),
-          top: (screenHeight / 2.0) +
-              (gearWidth / 2.0) -
-              (-30 * (gearWidth / DesignConstants.gearWidth)),
         ),
         new Positioned(
           child: new Stack(

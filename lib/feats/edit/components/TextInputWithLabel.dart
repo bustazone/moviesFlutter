@@ -7,7 +7,7 @@ class TextInputWithLabel extends StatefulWidget {
   final String value;
   final Function(String) setValue;
 
-  TextInputWithLabel(this.label, this.setValue, {Key key, this.value})
+  TextInputWithLabel(this.label, this.setValue, this.value, {Key key})
       : super(key: key);
 
   @override
@@ -20,9 +20,11 @@ class TextInputWithLabelState extends State<TextInputWithLabel>
 
   initState() {
     super.initState();
+    _initTextController();
   }
 
   void _initTextController() {
+    print("_initTextController");
     _textController.value =
         new TextEditingValue(text: widget.value == null ? "" : widget.value);
   }
@@ -34,12 +36,13 @@ class TextInputWithLabelState extends State<TextInputWithLabel>
   }
 
   void _handleSubmitted(String text) {
+    print("text");
+    print(text);
     widget.setValue(text);
   }
 
   @override
   Widget build(BuildContext context) {
-    _initTextController();
     return new Column(children: <Widget>[
       new Container(
         margin: new EdgeInsets.symmetric(vertical: 8),

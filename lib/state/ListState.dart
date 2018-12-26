@@ -7,14 +7,12 @@ class ListState {
   final UserList list;
   final bool loading;
 
-  const ListState(
-      {this.selectedList, this.list, this.loading});
+  const ListState({this.selectedList, this.list, this.loading});
 
-  factory ListState.initial() => new ListState(
-      selectedList: null, list: null, loading: false);
+  factory ListState.initial() =>
+      new ListState(selectedList: null, list: null, loading: false);
 
-  ListState copyWith(
-      {int selectedList, UserList list, bool loading}) {
+  ListState copyWith({int selectedList, UserList list, bool loading}) {
     return new ListState(
         selectedList: selectedList ?? this.selectedList,
         list: list ?? this.list,

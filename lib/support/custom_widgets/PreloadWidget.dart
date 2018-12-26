@@ -87,7 +87,11 @@ class ViewModel {
           hasUser == other.hasUser;
 
   @override
-  int get hashCode => hasLanguages.hashCode ^ hasSubtitles.hashCode ^ hasGenres.hashCode ^ hasUser.hashCode;
+  int get hashCode =>
+      hasLanguages.hashCode ^
+      hasSubtitles.hashCode ^
+      hasGenres.hashCode ^
+      hasUser.hashCode;
 }
 
 class PreloadWidgetView extends StatelessWidget {

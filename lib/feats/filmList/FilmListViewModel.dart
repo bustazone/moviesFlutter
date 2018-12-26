@@ -15,16 +15,20 @@ class ViewModel {
   final Function(int) selectFilm;
   final List<Film> filmList;
   final bool loadingData;
+  final bool dismissable;
+  final Function(int) onDismiss;
 
   ViewModel(
       {@required this.showLoader,
-        @required this.canQueryMore,
-        @required this.getFilms,
-        @required this.getMoreFilms,
-        @required this.resetList,
-        @required this.selectFilm,
-        @required this.filmList,
-        @required this.loadingData});
+      @required this.canQueryMore,
+      @required this.getFilms,
+      @required this.getMoreFilms,
+      @required this.resetList,
+      @required this.selectFilm,
+      @required this.filmList,
+      @required this.loadingData,
+      @required this.dismissable,
+      @required this.onDismiss});
 
   static ViewModel fromFilmListStore(Store<AppState> store) {
     return ViewModel(
@@ -47,7 +51,9 @@ class ViewModel {
           store.dispatch(SetSelectedFilmIdStateAction(filmId));
         },
         filmList: store.state.filmList.filmList,
-        loadingData: store.state.filmList.loading);
+        loadingData: store.state.filmList.loading,
+        dismissable: false,
+        onDismiss: null);
   }
 
   static ViewModel fromUserFilmListStore(Store<AppState> store) {
@@ -55,30 +61,33 @@ class ViewModel {
         showLoader: store.state.loadingDataState.loadingProcesses > 0,
         canQueryMore: false,
         getFilms: () {
-          var list_id = store.state.listState.selectedList;
-          store.dispatch(getUserListRequest(list_id));
+          var listId = store.state.listState.selectedList;
+          store.dispatch(getUserListRequest(listId));
         },
-        getMoreFilms: () {
-        },
+        getMoreFilms: () {},
         resetList: () {
-          store.dispatch(ResetListAction());
+          store.dispatch(ResetUserListAction());
         },
         selectFilm: (filmId) {
           store.dispatch(SetSelectedFilmIdStateAction(filmId));
         },
-        filmList: store.state.listState.list.films,
-        loadingData: store.state.listState.loading);
+        filmList: store.state.listState.list != null ? store.state.listState.list.films : [],
+        loadingData: store.state.listState.loading,
+        dismissable: true,
+        onDismiss: (filmId) {
+          var listId = store.state.listState.list.id;
+          store.dispatch(removeFilmFromListRequest(filmId, listId));
+        });
   }
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is ViewModel &&
-              runtimeType == other.runtimeType &&
-              showLoader == other.showLoader &&
-              filmList == other.filmList;
+      other is ViewModel &&
+          runtimeType == other.runtimeType &&
+          showLoader == other.showLoader &&
+          filmList == other.filmList;
 
   @override
-  int get hashCode =>
-      showLoader.hashCode ^ filmList.hashCode;
+  int get hashCode => showLoader.hashCode ^ filmList.hashCode;
 }

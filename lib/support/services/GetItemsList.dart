@@ -84,7 +84,6 @@ class GetFilmRequestSuccessAction
 class GetFilmRequestFailureAction
     extends ServicesMiddlewareRequestFailureAction {}
 
-
 ServicesMiddlewareRequest getRandomFilmFilteredRequest(FilmFilter filter,
     {onSuccess}) {
   final String listUrl = BASE_URL + "/film/random";
@@ -94,14 +93,14 @@ ServicesMiddlewareRequest getRandomFilmFilteredRequest(FilmFilter filter,
   final transformFunc = (responseBody) {
     return NetResponse.fromResponseFilmString(responseBody).items;
   };
-    return new ServicesMiddlewareRequest.post(
-        listUrl,
-        body,
-        transformFunc,
-        GetRandomFilmFilteredRequestStartAction(),
-        GetRandomFilmFilteredRequestSuccessAction(),
-        GetRandomFilmFilteredRequestFailureAction(),
-        onSuccess: onSuccess);
+  return new ServicesMiddlewareRequest.post(
+      listUrl,
+      body,
+      transformFunc,
+      GetRandomFilmFilteredRequestStartAction(),
+      GetRandomFilmFilteredRequestSuccessAction(),
+      GetRandomFilmFilteredRequestFailureAction(),
+      onSuccess: onSuccess);
 }
 
 class GetRandomFilmFilteredRequestStartAction
@@ -187,6 +186,7 @@ ServicesMiddlewareRequest updateFilmRequest(EditFilm filmData, {onSuccess}) {
   final String itemUrl = "$BASE_URL/film/update?withRefs=true";
   print(itemUrl);
   final body = json.encode(filmData.toMap());
+  print(body);
   return new ServicesMiddlewareRequest.post(
       itemUrl,
       body,

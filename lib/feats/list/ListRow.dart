@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:pelis_busta/components/dialogs/ConfirmDialog.dart';
 import 'package:pelis_busta/models/UserList.dart';
 import 'package:pelis_busta/navigation/OnNavigateRouteCustom/CustomNavigator.dart';
 import 'package:pelis_busta/support/constants/DesignConstants.dart';
 
 class ListRow extends StatelessWidget {
-  final Function(int) setListId;
   final UserList list;
+  final Function(int) setListId;
+  final Function(int, String) shareList;
+  final Function(int) deleteList;
 
-  ListRow(this.list, this.setListId);
+  ListRow(this.list, this.setListId, this.shareList, this.deleteList);
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +39,7 @@ class ListRow extends StatelessWidget {
               fit: BoxFit.cover,
             ),
             new Container(
+              margin: EdgeInsets.all(28.0),
               child: new Text(title,
                   textAlign: TextAlign.center,
                   style: new TextStyle(
@@ -47,7 +52,31 @@ class ListRow extends StatelessWidget {
           ],
         ));
 
-    return new GestureDetector(
+    var deleteSlideAction = new IconSlideAction(
+      caption: 'Delete',
+      color: Colors.blue,
+      icon: Icons.delete,
+      onTap: () {
+        ConfirmDialog.showConfirmDialog(
+            context, "You're going to delete the list. Are you sure??", () {
+          this.deleteList(list.id);
+        });
+      },
+    );
+
+    var shareSlideAction = new IconSlideAction(
+      caption: 'Share',
+      color: Colors.indigo,
+      icon: Icons.share,
+      onTap: () {
+//        ConfirmDialog.showShareDialog(
+//            context, "You're going to delete the list. Are you sure??", () {
+//          //this.shareList(list.id, name);
+//        });
+      },
+    );
+
+    var mainBody = new GestureDetector(
         onTap: () {
           this.setListId(list.id);
           Navigator.of(context).pushNamed(UserListRouteName);
@@ -61,6 +90,41 @@ class ListRow extends StatelessWidget {
                 //rightSideContainer,
               ],
             )));
+
+//    return new Dismissible(
+//        key: Key(list.id.toString()),
+//        onDismissed: (dismissDirection) {
+//          if (dismissDirection == DismissDirection.endToStart) {
+//            this.shareList(list.id);
+//          } else if (dismissDirection == DismissDirection.startToEnd) {
+//            ConfirmDialog.showConfirmDialog(
+//                context, "You're going to delete the list. Are you sure??", () {
+//              this.deleteList(list.id);
+//            });
+//          }
+//        },
+//        direction: DismissDirection.horizontal,
+//        dismissThresholds: {
+//          DismissDirection.endToStart: 0.5,
+//          DismissDirection.startToEnd: 0.5
+//        },
+//        child: mainBody);
+
+    return new Slidable(
+        delegate: new SlidableBehindDelegate(),
+        actionExtentRatio: 0.30,
+        child: new Container(
+          color: Colors.white,
+          child: mainBody,
+        ),
+        actions: <Widget>[
+          shareSlideAction,
+          deleteSlideAction,
+        ],
+        secondaryActions: <Widget>[
+          deleteSlideAction,
+          shareSlideAction,
+        ]);
   }
 }
 

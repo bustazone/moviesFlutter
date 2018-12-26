@@ -3,10 +3,10 @@ import 'package:pelis_busta/reducers/FilmDetailReducer.dart';
 import 'package:pelis_busta/reducers/FilmListReducer.dart';
 import 'package:pelis_busta/reducers/FilterReducer.dart';
 import 'package:pelis_busta/reducers/LanguagesReducer.dart';
+import 'package:pelis_busta/reducers/ListReducer.dart';
 import 'package:pelis_busta/reducers/LoadingDataReducer.dart';
 import 'package:pelis_busta/reducers/SubGenresReducer.dart';
 import 'package:pelis_busta/reducers/UserReducer.dart';
-import 'package:pelis_busta/reducers/ListReducer.dart';
 import 'package:pelis_busta/state/AppState.dart';
 
 AppState appReducer(AppState state, action) {

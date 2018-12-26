@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:pelis_busta/feats/detail/DetailFilmScreenContainer.dart';
 import 'package:pelis_busta/feats/edit/EditFilmScreenContainer.dart';
+import 'package:pelis_busta/feats/filmList/FilmListScreenContainer.dart';
 import 'package:pelis_busta/feats/filmList/UserFilmListScreenContainer.dart';
 import 'package:pelis_busta/feats/filter/FilterScreen.dart';
 import 'package:pelis_busta/feats/filter/FilterScreenContainer.dart';
-import 'package:pelis_busta/feats/filmList/FilmListScreenContainer.dart';
 import 'package:pelis_busta/feats/list/ListScreenContainer.dart';
 import 'package:pelis_busta/navigation/OnNavigateRouteCustom/CustomRoute.dart';
 
@@ -24,7 +24,6 @@ const String DetailRouteName = "/detail";
 const String EditRouteName = "/detail/edit";
 const String ListRouteName = "/list";
 const String UserListRouteName = "/list/filmList";
-
 
 class CustomNavigator extends StatelessWidget {
   Widget build(BuildContext context) {

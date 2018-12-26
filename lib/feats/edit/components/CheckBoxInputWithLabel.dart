@@ -8,8 +8,8 @@ class CheckBoxInputWithLabel extends StatefulWidget {
   final bool value;
   final Function(bool) setValue;
 
-  CheckBoxInputWithLabel(this.label, this.setValue,
-      {Key key, this.value = false})
+  CheckBoxInputWithLabel(this.label, this.setValue, this.value ,
+      {Key key})
       : super(key: key);
 
   @override

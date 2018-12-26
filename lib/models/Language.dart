@@ -32,12 +32,10 @@ class Language {
   }
 
   bool equals(Language lang) {
-    if (this.name != null &&
-        (lang.name == null || this.name != lang.name)) {
+    if (this.name != null && (lang.name == null || this.name != lang.name)) {
       return false;
     }
-    if (this.code != null &&
-        (lang.code == null || this.code != lang.code)) {
+    if (this.code != null && (lang.code == null || this.code != lang.code)) {
       return false;
     }
     return true;

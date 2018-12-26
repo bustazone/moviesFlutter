@@ -1,14 +1,13 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:pelis_busta/components/dialogs/AddFilmToListDialog.dart';
+import 'package:pelis_busta/components/loading_screen_component/LoadingScaffoldWrapperWidget.dart';
 import 'package:pelis_busta/feats/detail/DetailFilmScreenContainer.dart';
 import 'package:pelis_busta/feats/detail/components/ImageListData.dart';
 import 'package:pelis_busta/feats/detail/components/TextData.dart';
-import 'package:pelis_busta/loading_screen_component/LoadingScaffoldWrapperWidget.dart';
 import 'package:pelis_busta/navigation/OnNavigateRouteCustom/CustomNavigator.dart';
 import 'package:pelis_busta/support/utils/Utils.dart';
-
-final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
 
 class DetailScreen extends StatefulWidget {
   final String title;
@@ -21,30 +20,11 @@ class DetailScreen extends StatefulWidget {
 }
 
 class DetailScreenState extends State<DetailScreen>
-    with TickerProviderStateMixin, RouteAware {
+    with TickerProviderStateMixin {
   double kExpandedHeight = 300.0;
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    routeObserver.subscribe(this, ModalRoute.of(context));
-  }
-
-  @override
-  void didPush() {
-    // Route was pushed onto navigator and is now topmost route.
-    print("didPush");
-  }
-
-  @override
-  void didPopNext() {
-    // Covering route was popped off the navigator.
-    print("didPopNext");
-  }
-
-  @override
   dispose() {
-    routeObserver.unsubscribe(this);
     super.dispose();
   }
 
@@ -111,9 +91,9 @@ class DetailScreenState extends State<DetailScreen>
     }
   }
 
-  Function(String, int) get _getShortedTitle {
-    return (String title, int year) {
-      final kCharsInTitle = 10;
+  Function(String, String) get _getShortedTitle {
+    return (String title, String year) {
+      final kCharsInTitle = (widget.vm.randomFilmFilter) ? 4 : 10;
       if (title.length > kCharsInTitle && _scrollController.hasClients) {
         var minValue = (kExpandedHeight / 2);
         var maxValue = kExpandedHeight - kToolbarHeight;
@@ -185,51 +165,64 @@ class DetailScreenState extends State<DetailScreen>
             }));
   }
 
+  Widget _getAddToListButton() {
+    return new Container(
+        margin: new EdgeInsets.symmetric(horizontal: 4.0),
+        child: new IconButton(
+            color: _appBarTextColor,
+            icon: new Icon(Icons.playlist_add),
+            onPressed: () {
+              AddFilmToListDialogContainer.showAddFilmToListDialog(
+                  context, widget.vm.film.filmId);
+            }));
+  }
+
   List<Widget> _getDataWidgetList() {
     List<Widget> listOutput = <Widget>[];
-
-    if (widget.vm.film.duration != null) {
-      listOutput.add(TextData("Time", widget.vm.film.duration.toString()));
-    }
-    if (widget.vm.film.punctuation != null) {
-      listOutput.add(TextData("Rate", widget.vm.film.punctuation.toString()));
-    }
-    if (widget.vm.film.location != null) {
-      listOutput.add(TextData("Location", widget.vm.film.location));
-    }
-    if (!isNullOrEmpty(widget.vm.film.languages)) {
-      List<String> h = widget.vm.film.languages.map((lang) {
-        return lang.code;
-      }).toList();
-      listOutput.add(ImageListData("Languages", h, 'assets/languages/'));
-    }
-    if (!isNullOrEmpty(widget.vm.film.subtitles)) {
-      List<String> h = widget.vm.film.subtitles.map((lang) {
-        return lang.code;
-      }).toList();
-      listOutput.add(ImageListData("Subtitles", h, 'assets/languages/'));
-    }
-    if (!isNullOrEmpty(widget.vm.film.genres)) {
-      List<String> h = widget.vm.film.genres.where((genre) {
-        return genre.type == 'principal';
-      }).map((genre) {
-        return genre.id.toString();
-      }).toList();
-      listOutput.add(ImageListData(
-        "Genres",
-        h,
-        'assets/genderIcon/genderIcon_',
-        sizeItem: 48.0,
-      ));
-    }
-    if (widget.vm.film.director != null) {
-      listOutput.add(TextData("Director", widget.vm.film.director));
-    }
-    if (widget.vm.film.director != null) {
-      listOutput.add(TextData("Cast", widget.vm.film.mainCast));
-    }
-    if (widget.vm.film.plot != null) {
-      listOutput.add(TextData("Plot", widget.vm.film.plot));
+    if (widget.vm.film != null) {
+      if (widget.vm.film.duration != null) {
+        listOutput.add(TextData("Time", widget.vm.film.duration.toString()));
+      }
+      if (widget.vm.film.punctuation != null) {
+        listOutput.add(TextData("Rate", widget.vm.film.punctuation.toString()));
+      }
+      if (widget.vm.film.location != null) {
+        listOutput.add(TextData("Location", widget.vm.film.location));
+      }
+      if (!isNullOrEmpty(widget.vm.film.languages)) {
+        List<String> h = widget.vm.film.languages.map((lang) {
+          return lang.code;
+        }).toList();
+        listOutput.add(ImageListData("Languages", h, 'assets/languages/'));
+      }
+      if (!isNullOrEmpty(widget.vm.film.subtitles)) {
+        List<String> h = widget.vm.film.subtitles.map((lang) {
+          return lang.code;
+        }).toList();
+        listOutput.add(ImageListData("Subtitles", h, 'assets/languages/'));
+      }
+      if (!isNullOrEmpty(widget.vm.film.genres)) {
+        List<String> h = widget.vm.film.genres.where((genre) {
+          return genre.type == 'principal';
+        }).map((genre) {
+          return genre.id.toString();
+        }).toList();
+        listOutput.add(ImageListData(
+          "Genres",
+          h,
+          'assets/genderIcon/genderIcon_',
+          sizeItem: 48.0,
+        ));
+      }
+      if (widget.vm.film.director != null) {
+        listOutput.add(TextData("Director", widget.vm.film.director));
+      }
+      if (widget.vm.film.director != null) {
+        listOutput.add(TextData("Cast", widget.vm.film.mainCast));
+      }
+      if (widget.vm.film.plot != null) {
+        listOutput.add(TextData("Plot", widget.vm.film.plot));
+      }
     }
     return listOutput;
   }
@@ -252,7 +245,11 @@ class DetailScreenState extends State<DetailScreen>
                         goBack();
                       }),
                 ),
-                actions: <Widget>[_getEditButton(), _getReloadButton()],
+                actions: <Widget>[
+                  _getAddToListButton(),
+                  _getEditButton(),
+                  _getReloadButton()
+                ],
                 flexibleSpace: FlexibleSpaceBar(
                     title: ConstrainedBox(
                       constraints: BoxConstraints(
@@ -261,7 +258,9 @@ class DetailScreenState extends State<DetailScreen>
                       ),
                       child: Text(
                         _getShortedTitle(
-                            widget.vm.film.title, widget.vm.film.year),
+                          widget.vm.film != null ? widget.vm.film.title : "",
+                          widget.vm.film != null ? widget.vm.film.year.toString() : "",
+                        ),
                         style: new TextStyle(color: _appBarTextColor),
                       ),
                     ),

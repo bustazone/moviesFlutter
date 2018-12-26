@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:pelis_busta/components/dialogs/ConfirmDialog.dart';
 import 'package:pelis_busta/models/Film.dart';
 import 'package:pelis_busta/navigation/OnNavigateRouteCustom/CustomNavigator.dart';
 import 'package:pelis_busta/support/constants/DesignConstants.dart';
@@ -6,11 +8,14 @@ import 'package:pelis_busta/support/custom_widgets/HorizontalmageList.dart';
 import 'package:pelis_busta/support/utils/Utils.dart';
 
 class FilmRow extends StatelessWidget {
-  final Function(int) setFilmId;
+  final Function(int) selectFilm;
   final int itemNum;
   final Film film;
+  final Function(int) deleteFilmFromList;
+  final bool withOptions;
 
-  FilmRow(this.itemNum, this.film, this.setFilmId);
+  FilmRow(this.itemNum, this.film, this.selectFilm, this.withOptions,
+      this.deleteFilmFromList);
 
   @override
   Widget build(BuildContext context) {
@@ -272,20 +277,46 @@ class FilmRow extends StatelessWidget {
       ),
     );
 
+    Widget body = new Container(
+        height: DesignConstants.filmRowHeight * transformProportion,
+        width: screenWidth,
+        child: new Stack(children: [
+          background,
+          dataContainer,
+        ]));
+
+    var deleteSlideAction = new IconSlideAction(
+      caption: 'Delete',
+      color: Colors.blue,
+      icon: Icons.delete,
+      onTap: () {
+        ConfirmDialog.showConfirmDialog(context,
+            "You're going to delete the film from the list. Are you sure??",
+            () {
+          this.deleteFilmFromList(film.filmId);
+        });
+      },
+    );
+
     return new GestureDetector(
         onTap: () {
-          this.setFilmId(film.filmId);
-          Navigator.of(context).pushNamed(DetailRouteName);
+          this.selectFilm(film.filmId);
         },
-        child: new Container(
-            height: DesignConstants.filmRowHeight * transformProportion,
-            width: screenWidth,
-            child: new Stack(
-              children: [
-                background,
-                dataContainer,
-              ],
-            )));
+        child: this.withOptions
+            ? new Slidable(
+                delegate: new SlidableBehindDelegate(),
+                actionExtentRatio: 0.30,
+                child: new Container(
+                  color: Colors.white,
+                  child: body,
+                ),
+                actions: <Widget>[
+                    deleteSlideAction,
+                  ],
+                secondaryActions: <Widget>[
+                    deleteSlideAction,
+                  ])
+            : body);
   }
 }
 
@@ -294,13 +325,15 @@ class FirstRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
 
-    return new Container(
-      width: screenWidth,
-      color: const Color(0xFFEAEAEA),
-      child: new Image.asset(
-        'assets/imgs/backFilmFirstRow.png',
-        color: new Color(0xFFCC9900),
-        fit: BoxFit.cover,
+    return SliverToBoxAdapter(
+      child: Container(
+        width: screenWidth,
+        color: const Color(0xFFEAEAEA),
+        child: new Image.asset(
+          'assets/imgs/backFilmFirstRow.png',
+          color: new Color(0xFFCC9900),
+          fit: BoxFit.cover,
+        ),
       ),
     );
   }
@@ -312,13 +345,16 @@ class LastRow extends StatelessWidget {
     final double screenWidth = MediaQuery.of(context).size.width;
     final transformProportion = (screenWidth / DesignConstants.filmRowWidth);
 
-    return new Container(
-      height: ((DesignConstants.filmRowHeight * transformProportion) / 2) - 1.0,
-      color: const Color(0xFFEAEAEA),
-      child: new Image.asset(
-        'assets/imgs/backFilmLastRow.png',
-        color: new Color(0xFFCC9900),
-        fit: BoxFit.cover,
+    return SliverToBoxAdapter(
+      child: Container(
+        height:
+            ((DesignConstants.filmRowHeight * transformProportion) / 2) - 1.0,
+        color: const Color(0xFFEAEAEA),
+        child: new Image.asset(
+          'assets/imgs/backFilmLastRow.png',
+          color: new Color(0xFFCC9900),
+          fit: BoxFit.cover,
+        ),
       ),
     );
   }
@@ -330,7 +366,8 @@ class NoResultsRow extends StatelessWidget {
     final double screenWidth = MediaQuery.of(context).size.width;
     final transformProportion = (screenWidth / DesignConstants.filmRowWidth);
 
-    return new Container(
+    return SliverToBoxAdapter(
+      child: Container(
         color: const Color(0xFFEAEAEA),
         child: new Stack(
           alignment: AlignmentDirectional.center,
@@ -352,6 +389,8 @@ class NoResultsRow extends StatelessWidget {
                       decoration: TextDecoration.none)),
             )
           ],
-        ));
+        ),
+      ),
+    );
   }
 }

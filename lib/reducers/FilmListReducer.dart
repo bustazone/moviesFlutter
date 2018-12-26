@@ -7,23 +7,25 @@ import 'package:redux/redux.dart';
 final filmListReducer = combineReducers<FilmListState>([
   TypedReducer<FilmListState, GetFilteredListRequestStartAction>(
       _setLoadingData),
-  TypedReducer<FilmListState, GetFilteredListNextPageRequestStartAction>(
-      _setLoadingData),
   TypedReducer<FilmListState, GetFilteredListRequestSuccessAction>(_setFilms),
   TypedReducer<FilmListState, GetFilteredListRequestSuccessAction>(
       _setNotLoadingData),
+  TypedReducer<FilmListState, GetFilteredListRequestFailureAction>(
+      _setNotLoadingData),
+
+  TypedReducer<FilmListState, GetFilteredListNextPageRequestStartAction>(
+      _setLoadingData),
   TypedReducer<FilmListState, GetFilteredListNextPageRequestSuccessAction>(
       _addFilms),
   TypedReducer<FilmListState, GetFilteredListNextPageRequestSuccessAction>(
       _setPage),
   TypedReducer<FilmListState, GetFilteredListNextPageRequestSuccessAction>(
       _setNotLoadingData),
-  TypedReducer<FilmListState, GetFilteredListRequestFailureAction>(
-      _setNotLoadingData),
   TypedReducer<FilmListState, GetFilteredListNextPageRequestFailureAction>(
       _setNotLoadingData),
   TypedReducer<FilmListState, GetFilteredListNextPageRequestFailureAction>(
       _setNotCouldQueryMore),
+
   TypedReducer<FilmListState, ResetListAction>(_resetList)
 ]);
 

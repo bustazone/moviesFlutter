@@ -13,6 +13,7 @@ void servicesMiddleware(Store<AppState> store, action, NextDispatcher next) {
           castedAction.transformFunction(response.body);
       print(castedAction.actionSuccess.response);
     }
+    next(castedAction.actionSuccess);
     if (castedAction.onSuccess != null) {
       if (castedAction.actionSuccess.response != null) {
         castedAction.onSuccess(castedAction.actionSuccess.response);
@@ -20,7 +21,6 @@ void servicesMiddleware(Store<AppState> store, action, NextDispatcher next) {
         castedAction.onSuccess();
       }
     }
-    next(castedAction.actionSuccess);
   };
 
   final onFailure = (castedAction, onError) {

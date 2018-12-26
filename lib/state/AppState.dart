@@ -95,6 +95,6 @@ class AppState {
 
   @override
   String toString() {
-    return 'AppState{filter: $filter, filmList: $filmList, filmDetail: $filmDetail, editFilm: $editFilm, languages: $languages, subGenres: $subGenres, loadingDataState: $loadingDataState, userState: $userState, listState: $listState}';
+    return 'AppState{loadingDataState: $loadingDataState, filter: $filter, filmList: $filmList, filmDetail: $filmDetail, editFilm: $editFilm, languages: $languages, subGenres: $subGenres, userState: $userState, listState: $listState}';
   }
 }

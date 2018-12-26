@@ -36,14 +36,14 @@ class LoadingScaffoldWrapperWidgetState
   @override
   void didPush() {
     // Route was pushed onto navigator and is now topmost route.
-    print("didPush");
+    print("didPush Scaffold");
     if (widget.handlePush != null) widget.handlePush();
   }
 
   @override
   void didPopNext() {
     // Covering route was popped off the navigator.
-    print("didPop");
+    print("didPop Scaffold");
     if (widget.handlePop != null) widget.handlePop();
   }
 
@@ -53,20 +53,21 @@ class LoadingScaffoldWrapperWidgetState
     super.dispose();
   }
 
-  Widget _getMainWidget() {
+  _getMainWidget() {
+    List<Widget> l = List<Widget>();
+    l.add(Scaffold(
+      appBar: widget.appBar,
+      floatingActionButton: widget.fab == null ? null : widget.fab(),
+      body: widget.body(),
+    ));
     if (widget.showLoader) {
-      return Material(child: ProgressScreen());
-    } else {
-      return new Scaffold(
-        appBar: widget.appBar,
-        floatingActionButton: widget.fab == null ? null : widget.fab(),
-        body: widget.body(),
-      );
+      l.add(Material(child: ProgressScreen()));
     }
+    return l;
   }
 
   @override
   Widget build(BuildContext context) {
-    return _getMainWidget();
+    return Stack(children: _getMainWidget());
   }
 }

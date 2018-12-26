@@ -41,18 +41,10 @@ class ViewModel {
 
   static ViewModel fromStore(Store<AppState> store, bool randomFilm) {
     return ViewModel(
-      //showLoader: store.state.filmDetail.selectedFilm == null || store.state.filmDetail.selectedFilm == null,
-      showLoader: store.state.filmDetail.selectedFilm == null,
+      showLoader: store.state.loadingDataState.loadingProcesses > 0 || store.state.filmDetail.selectedFilm == null,
       film: store.state.filmDetail.selectedFilm,
       randomFilmFilter: randomFilm,
       getFilm: () {
-
-        final onSuccess = (response) {
-          final filmId = response[0].filmId;
-          store.dispatch(SetSelectedFilmIdStateAction(filmId));
-          store.dispatch(getFilmDetailRequest(filmId));
-        };
-
         var filmId = store.state.filmDetail.selectedFilmId;
         var film = store.state.filmDetail.selectedFilm;
         if (film == null || film.filmId != filmId || randomFilm) {

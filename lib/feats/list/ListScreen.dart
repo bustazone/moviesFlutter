@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:pelis_busta/components/dialogs/AddListDialog.dart';
 import 'package:pelis_busta/feats/list/ListRow.dart';
 import 'package:pelis_busta/feats/list/ListScreenContainer.dart';
-import 'package:pelis_busta/loading_screen_component/LoadingScaffoldWrapperWidget.dart';
+import 'package:pelis_busta/components/loading_screen_component/LoadingScaffoldWrapperWidget.dart';
 
 class ListScreen extends StatefulWidget {
   ListScreen(this.vm, {Key key}) : super(key: key);
@@ -20,6 +21,10 @@ class ListScreenState extends State<ListScreen> {
   initState() {
     super.initState();
     loadingData = widget.vm.loadingData;
+    getList();
+  }
+
+  getList() {
     widget.vm.getList();
   }
 
@@ -36,7 +41,7 @@ class ListScreenState extends State<ListScreen> {
       if (list[index] == null) {
         return new NoResultsRow();
       } else {
-        return new ListRow(list[index], selectItem);
+        return new ListRow(list[index], selectItem, widget.vm.shareList, widget.vm.deleteList);
       }
     }
   }
@@ -103,7 +108,9 @@ class ListScreenState extends State<ListScreen> {
 
   _getfab() {
     return FloatingActionButton(
-      onPressed: null,
+      onPressed: () {
+        AddListDialogContainer.showAddListDialog(context, onSuccess: this.getList);
+      },
       tooltip: 'Add',
       child: Icon(Icons.add),
     );

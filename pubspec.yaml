@@ -10,6 +10,7 @@ dependencies:
   cupertino_icons: ^0.1.0
   flutter_redux: ^0.5.2
   http: ^0.12.0
+  flutter_slidable: ^0.4.9
 
 dev_dependencies:
   flutter_test:
@@ -54,6 +55,8 @@ flutter:
    - assets/imgs/search_selected.png
    - assets/imgs/random.png
    - assets/imgs/random_selected.png
+   - assets/imgs/list.png
+   - assets/imgs/list_selected.png
    - assets/imgs/return.png
    - assets/imgs/return_selected.png
    - assets/imgs/foto_carnet_2012_2.jpg

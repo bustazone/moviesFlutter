@@ -6,18 +6,20 @@ import 'package:redux/redux.dart';
 final filmDetailReducer = combineReducers<FilmDetailState>([
   TypedReducer<FilmDetailState, SetSelectedFilmIdStateAction>(
       _setSelectedFilmId),
-
   TypedReducer<FilmDetailState, GetFilmRequestStartAction>(_setLoadingData),
   TypedReducer<FilmDetailState, GetFilmRequestSuccessAction>(
       _setNotLoadingData),
   TypedReducer<FilmDetailState, GetFilmRequestFailureAction>(
       _setNotLoadingData),
   TypedReducer<FilmDetailState, GetFilmRequestSuccessAction>(_setFilm),
-
-  TypedReducer<FilmDetailState, GetRandomFilmFilteredRequestStartAction>(_setLoadingData),
-  TypedReducer<FilmDetailState, GetRandomFilmFilteredRequestFailureAction>(_setNotLoadingData),
-  TypedReducer<FilmDetailState, GetRandomFilmFilteredRequestSuccessAction>(_setNotLoadingData),
-  TypedReducer<FilmDetailState, GetRandomFilmFilteredRequestSuccessAction>(_setFilm),
+  TypedReducer<FilmDetailState, GetRandomFilmFilteredRequestStartAction>(
+      _setLoadingData),
+  TypedReducer<FilmDetailState, GetRandomFilmFilteredRequestFailureAction>(
+      _setNotLoadingData),
+  TypedReducer<FilmDetailState, GetRandomFilmFilteredRequestSuccessAction>(
+      _setNotLoadingData),
+  TypedReducer<FilmDetailState, GetRandomFilmFilteredRequestSuccessAction>(
+      _setFilm),
 ]);
 
 FilmDetailState _setSelectedFilmId(
