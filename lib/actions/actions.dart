@@ -41,15 +41,15 @@ class SetFilterYearStateAction {
 }
 
 class SetFilterMinYearStateAction {
-  final int year;
+  final int minYear;
 
-  SetFilterMinYearStateAction(this.year);
+  SetFilterMinYearStateAction(this.minYear);
 }
 
 class SetFilterMaxYearStateAction {
-  final int year;
+  final int maxYear;
 
-  SetFilterMaxYearStateAction(this.year);
+  SetFilterMaxYearStateAction(this.maxYear);
 }
 
 class ResetFilterYearsStateAction {}

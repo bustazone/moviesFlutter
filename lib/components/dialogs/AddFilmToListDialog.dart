@@ -69,7 +69,8 @@ class AddFilmToListDialogContainer extends StatelessWidget {
                   slivers: <Widget>[
                     new SliverList(
                       delegate: new SliverChildBuilderDelegate(
-                        (context, index) => _getItem(vm.listUserList[index], vm),
+                        (context, index) =>
+                            _getItem(vm.listUserList[index], vm),
                         childCount: vm.listUserList.length,
                       ),
                     ),

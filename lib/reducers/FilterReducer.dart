@@ -65,11 +65,11 @@ FilterState _setYear(FilterState state, SetFilterYearStateAction action) {
 }
 
 FilterState _setMinYear(FilterState state, SetFilterMinYearStateAction action) {
-  return state.copyWith(minYear: action.year);
+  return state.copyWith(minYear: action.minYear);
 }
 
 FilterState _setMaxYear(FilterState state, SetFilterMaxYearStateAction action) {
-  return state.copyWith(maxYear: action.year);
+  return state.copyWith(maxYear: action.maxYear);
 }
 
 FilterState _resetYears(FilterState state, ResetFilterYearsStateAction action) {

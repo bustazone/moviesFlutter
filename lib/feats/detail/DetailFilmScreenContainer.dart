@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:pelis_busta/actions/actions.dart';
 import 'package:pelis_busta/feats/detail/DetailFilmScreen.dart';
 import 'package:pelis_busta/models/Film.dart';
 import 'package:pelis_busta/state/AppState.dart';
@@ -41,7 +40,8 @@ class ViewModel {
 
   static ViewModel fromStore(Store<AppState> store, bool randomFilm) {
     return ViewModel(
-      showLoader: store.state.loadingDataState.loadingProcesses > 0 || store.state.filmDetail.selectedFilm == null,
+      showLoader: store.state.loadingDataState.loadingProcesses > 0 ||
+          store.state.filmDetail.selectedFilm == null,
       film: store.state.filmDetail.selectedFilm,
       randomFilmFilter: randomFilm,
       getFilm: () {

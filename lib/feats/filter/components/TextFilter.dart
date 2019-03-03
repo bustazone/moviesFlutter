@@ -26,6 +26,7 @@ class TextFilterState extends State<TextFilter> with TickerProviderStateMixin {
   }
 
   void _initTextController() {
+//    _textController.text = widget.value == null ? "" : widget.value;
     _textController.value =
         new TextEditingValue(text: widget.value == null ? "" : widget.value);
   }
@@ -36,11 +37,15 @@ class TextFilterState extends State<TextFilter> with TickerProviderStateMixin {
 
   initState() {
     super.initState();
+    _initTextController();
+    _textController.addListener(() {
+      print(_textController.text);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    _initTextController();
+//    _initTextController();
     return new Positioned(
       child: new Container(
         width: 220.0 * (widget.gearWidth / DesignConstants.gearWidth),
@@ -77,6 +82,7 @@ class TextFilterState extends State<TextFilter> with TickerProviderStateMixin {
               child: new TextField(
                 controller: _textController,
                 onSubmitted: _handleSubmitted,
+                autofocus: true,
                 decoration: new InputDecoration.collapsed(
                   hintText: '_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _',
                 ),

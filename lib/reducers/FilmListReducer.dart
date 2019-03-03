@@ -12,7 +12,6 @@ final filmListReducer = combineReducers<FilmListState>([
       _setNotLoadingData),
   TypedReducer<FilmListState, GetFilteredListRequestFailureAction>(
       _setNotLoadingData),
-
   TypedReducer<FilmListState, GetFilteredListNextPageRequestStartAction>(
       _setLoadingData),
   TypedReducer<FilmListState, GetFilteredListNextPageRequestSuccessAction>(
@@ -25,7 +24,6 @@ final filmListReducer = combineReducers<FilmListState>([
       _setNotLoadingData),
   TypedReducer<FilmListState, GetFilteredListNextPageRequestFailureAction>(
       _setNotCouldQueryMore),
-
   TypedReducer<FilmListState, ResetListAction>(_resetList)
 ]);
 

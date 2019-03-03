@@ -31,9 +31,8 @@ class GetUserListRequestSuccessAction
 class GetUserListRequestFailureAction
     extends ServicesMiddlewareRequestFailureAction {}
 
-
-
-ServicesMiddlewareRequest addUserListRequest(int userId, String listName, {onSuccess}) {
+ServicesMiddlewareRequest addUserListRequest(int userId, String listName,
+    {onSuccess}) {
   final String listUrl = BASE_URL + "/list/create";
   final transformFunc = (responseBody) {
     return NetResponse.fromResponseUserListString(responseBody).items;
@@ -57,8 +56,8 @@ class AddUserToListRequestSuccessAction
 class AddUserToListRequestFailureAction
     extends ServicesMiddlewareRequestFailureAction {}
 
-
-ServicesMiddlewareRequest removeListFromUserRequest(int userId, int listId, {onSuccess}) {
+ServicesMiddlewareRequest removeListFromUserRequest(int userId, int listId,
+    {onSuccess}) {
   final String listUrl = BASE_URL + "/list/remove";
   final transformFunc = (responseBody) {
     return NetResponse.fromResponseUserString(responseBody).items;
@@ -82,8 +81,8 @@ class RemoveListFromUserRequestSuccessAction
 class RemoveListFromUserRequestFailureAction
     extends ServicesMiddlewareRequestFailureAction {}
 
-
-ServicesMiddlewareRequest addFilmToListRequest(int listId, int filmId, {onSuccess}) {
+ServicesMiddlewareRequest addFilmToListRequest(int listId, int filmId,
+    {onSuccess}) {
   final String listUrl = BASE_URL + "/list/add_film";
 //  final transformFunc = (responseBody) {
 //    return NetResponse.fromResponseUserString(responseBody).items;
@@ -107,9 +106,8 @@ class AddFilmToListRequestSuccessAction
 class AddFilmToListRequestFailureAction
     extends ServicesMiddlewareRequestFailureAction {}
 
-
-
-ServicesMiddlewareRequest removeFilmFromListRequest(int filmId, int listId, {onSuccess}) {
+ServicesMiddlewareRequest removeFilmFromListRequest(int filmId, int listId,
+    {onSuccess}) {
   final String listUrl = BASE_URL + "/list/remove_film";
   final transformFunc = (responseBody) {
     return NetResponse.fromResponseUserListString(responseBody).items;

@@ -66,7 +66,7 @@ class FilmFilter {
     if (!isNullOrEmpty(director)) {
       m.putIfAbsent('director', () => director);
     }
-    if (series != null) {
+    if (series != null && series == true) {
       m.putIfAbsent('series', () => series);
     }
     if (!isNullOrEmpty(countries)) {

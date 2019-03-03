@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:pelis_busta/components/dialogs/ConfirmDialog.dart';
 import 'package:pelis_busta/models/Film.dart';
-import 'package:pelis_busta/navigation/OnNavigateRouteCustom/CustomNavigator.dart';
 import 'package:pelis_busta/support/constants/DesignConstants.dart';
 import 'package:pelis_busta/support/custom_widgets/HorizontalmageList.dart';
 import 'package:pelis_busta/support/utils/Utils.dart';

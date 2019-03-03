@@ -67,7 +67,10 @@ class InviteUserToListDialogContainer extends StatelessWidget {
         return _ViewModel.fromStore(store, listId);
       },
       builder: (context, vm) {
-        return DialogWidget(title: "Write the User Email:", body: this._body, buttons: this._buttons);
+        return DialogWidget(
+            title: "Write the User Email:",
+            body: this._body,
+            buttons: this._buttons);
       },
     );
   }
@@ -77,22 +80,23 @@ class _ViewModel {
   final int listId;
   final Function(String) inviteUserToList;
 
-  _ViewModel({@required this.listId,@required this.inviteUserToList});
+  _ViewModel({@required this.listId, @required this.inviteUserToList});
 
   static _ViewModel fromStore(Store<AppState> store, int listId) {
     return _ViewModel(
         listId: listId,
         inviteUserToList: (String v) {
-      //store.dispatch(SetEditFilmLocation(v));
-    });
+          //store.dispatch(SetEditFilmLocation(v));
+        });
   }
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is _ViewModel && runtimeType == other.runtimeType && listId == other.listId;
+      other is _ViewModel &&
+          runtimeType == other.runtimeType &&
+          listId == other.listId;
 
   @override
   int get hashCode => listId.hashCode;
 }
-

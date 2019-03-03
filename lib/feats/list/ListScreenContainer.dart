@@ -60,7 +60,8 @@ class ViewModel {
 //            store.dispatch(getUserRequest());
           };
           int userId = store.state.userState.user.id;
-          store.dispatch(removeListFromUserRequest(userId, listId, onSuccess: ddd));
+          store.dispatch(
+              removeListFromUserRequest(userId, listId, onSuccess: ddd));
         },
         addList: () {
           var filter = store.state.filter.getFilmFilter();

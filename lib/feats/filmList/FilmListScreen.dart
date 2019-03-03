@@ -16,7 +16,6 @@ class FilmListScreen extends StatefulWidget {
 }
 
 class FilmListScreenState extends State<FilmListScreen> {
-
   BuildContext context;
 
   initState() {
@@ -41,20 +40,20 @@ class FilmListScreenState extends State<FilmListScreen> {
             children: <Widget>[
               FilmListWidget(
                   widget.vm.filmList,
-                      () {
+                  () {
                     if (widget.vm.loadingData) {
                       widget.vm.getFilms();
                     }
                   },
-                      () {
+                  () {
                     widget.vm.resetList();
                   },
-                      (id) {
+                  (id) {
                     widget.vm.selectFilm(id);
                     Navigator.of(context).pushNamed(DetailRouteName);
                   },
                   widget.vm.canQueryMore,
-                      () {
+                  () {
                     if (!widget.vm.loadingData) {
                       widget.vm.getMoreFilms();
                     }
@@ -67,8 +66,7 @@ class FilmListScreenState extends State<FilmListScreen> {
                     width: MediaQuery.of(context).size.width,
                     height: new AppBar().preferredSize.height,
                     child: new Row(
-                      mainAxisAlignment:
-                      MainAxisAlignment.spaceEvenly,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
                         new Container(
                           child: new IconButton(
@@ -90,9 +88,9 @@ class FilmListScreenState extends State<FilmListScreen> {
   Widget build(BuildContext context) {
     this.context = context;
     return new WillPopScope(
-        onWillPop: () {
-          _handleBack();
-        },
+      onWillPop: () {
+        _handleBack();
+      },
 //        child: Stack(
 //          children: <Widget>[
 //            _body()

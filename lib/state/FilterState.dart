@@ -66,9 +66,11 @@ class FilterState {
         titleFilter: titleFilter ?? this.titleFilter,
         location: location ?? this.location,
         format: format ?? this.format,
-        year: (year != null) ? ((year > 0) ? year : null) : this.minYear,
-        minYear: (minYear != null) ? ((minYear > 0) ? minYear : null) : this.minYear,
-        maxYear: (maxYear != null) ? ((maxYear > 0) ? maxYear : null) : this.minYear,
+        year: (year != null) ? ((year > 0) ? year : null) : this.year,
+        minYear:
+            (minYear != null) ? ((minYear > 0) ? minYear : null) : this.minYear,
+        maxYear:
+            (maxYear != null) ? ((maxYear > 0) ? maxYear : null) : this.maxYear,
         director: director ?? this.director,
         series: series ?? this.series,
         mainCast: mainCast ?? this.mainCast,

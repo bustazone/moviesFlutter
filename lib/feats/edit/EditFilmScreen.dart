@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:pelis_busta/components/loading_screen_component/LoadingScaffoldWrapperWidget.dart';
 import 'package:pelis_busta/feats/edit/EditFilmScreenContainer.dart';
 import 'package:pelis_busta/feats/edit/components/CheckBoxInputWithLabel.dart';
 import 'package:pelis_busta/feats/edit/components/TextInputWithLabel.dart';
 import 'package:pelis_busta/feats/filter/components/LanguagesMultiselectionList.dart';
-import 'package:pelis_busta/components/loading_screen_component/LoadingScaffoldWrapperWidget.dart';
 import 'package:pelis_busta/models/LanguageList.dart';
 
 class EditFilmScreen extends StatefulWidget {
@@ -47,9 +47,7 @@ class EditFilmScreenState extends State<EditFilmScreen>
                 }, widget.vm.formato),
                 new TextInputWithLabel("size", (amount) {
                   widget.vm.setSize(int.parse(amount));
-                }, widget.vm.size == null
-                        ? ""
-                        : widget.vm.size.toString()),
+                }, widget.vm.size == null ? "" : widget.vm.size.toString()),
                 new TextInputWithLabel("imdbId", (text) {
                   widget.vm.setImdbId(text);
                 }, widget.vm.imdbId),

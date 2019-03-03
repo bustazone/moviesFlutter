@@ -37,7 +37,6 @@ class AddListDialogContainer extends StatefulWidget {
 }
 
 class AddListDialogContainerState extends State<AddListDialogContainer> {
-
   var text = "";
 
   _body(context) {
@@ -102,20 +101,19 @@ class _ViewModel {
   _ViewModel({@required this.setName});
 
   static _ViewModel fromStore(Store<AppState> store, {Function() onSuccess}) {
-    return _ViewModel(
-        setName: (String v) {
-          final ddd = (response) {
-            store.dispatch(getUserRequest());
-          };
-          int userId = store.state.userState.user.id;
-          store.dispatch(addUserListRequest(userId, v, onSuccess: ddd));
-        });
+    return _ViewModel(setName: (String v) {
+      final ddd = (response) {
+        store.dispatch(getUserRequest());
+      };
+      int userId = store.state.userState.user.id;
+      store.dispatch(addUserListRequest(userId, v, onSuccess: ddd));
+    });
   }
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is _ViewModel && runtimeType == other.runtimeType;
+      other is _ViewModel && runtimeType == other.runtimeType;
 
   @override
   int get hashCode => 1;

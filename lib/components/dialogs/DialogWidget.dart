@@ -10,8 +10,7 @@ class DialogWidget extends StatelessWidget {
 
   _getTitle(context) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(
-          24.0, 24.0, 24.0, 0.0),
+      padding: EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 0.0),
       child: DefaultTextStyle(
         style: Theme.of(context).textTheme.title,
         child: Semantics(child: new Text(title), namesRoute: true),

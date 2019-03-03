@@ -71,7 +71,9 @@ class ViewModel {
         selectFilm: (filmId) {
           store.dispatch(SetSelectedFilmIdStateAction(filmId));
         },
-        filmList: store.state.listState.list != null ? store.state.listState.list.films : [],
+        filmList: store.state.listState.list != null
+            ? store.state.listState.list.films
+            : [],
         loadingData: store.state.listState.loading,
         dismissable: true,
         onDismiss: (filmId) {

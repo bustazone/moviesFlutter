@@ -28,8 +28,8 @@ class FilmListWidget extends StatelessWidget {
     if (canQueryMore && list.length > 3 && index > list.length - 10) {
       getMoreFilms();
     }
-    return new FilmRow(index, list[index], selectFilm,
-        withOptions, deleteFilmFromList);
+    return new FilmRow(
+        index, list[index], selectFilm, withOptions, deleteFilmFromList);
   }
 
   @override

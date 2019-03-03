@@ -259,7 +259,9 @@ class DetailScreenState extends State<DetailScreen>
                       child: Text(
                         _getShortedTitle(
                           widget.vm.film != null ? widget.vm.film.title : "",
-                          widget.vm.film != null ? widget.vm.film.year.toString() : "",
+                          widget.vm.film != null
+                              ? widget.vm.film.year.toString()
+                              : "",
                         ),
                         style: new TextStyle(color: _appBarTextColor),
                       ),
