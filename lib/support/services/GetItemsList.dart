@@ -11,7 +11,7 @@ import 'package:pelis_busta/support/services/middleware/ServicesMiddlewareReques
 import 'package:pelis_busta/support/services/middleware/ServicesMiddlewareRequestStartAction.dart';
 import 'package:pelis_busta/support/services/middleware/ServicesMiddlewareRequestSuccessAction.dart';
 
-const String BASE_URL = "http://bustazone.com:8080/pelisBustaWS";
+const String BASE_URL = "http://inanisdesign.com:8080/pelisBustaWS";
 
 ServicesMiddlewareRequest getFilteredListRequest(FilmFilter filter,
     {bool queryMore = false, onSuccess}) {

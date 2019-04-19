@@ -8,7 +8,7 @@ import 'package:pelis_busta/models/Genre.dart';
 import 'package:pelis_busta/models/Language.dart';
 import 'package:pelis_busta/models/NetResponse.dart';
 
-const String BASE_URL = "http://bustazone.com:8080/pelisBustaWS";
+const String BASE_URL = "http://inanisdesign.com:8080/pelisBustaWS";
 final String listUrl = BASE_URL + "/film";
 final String listSubGenre =
     BASE_URL + "/genre?everything=false&type=listas_filmaffinity";
